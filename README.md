@@ -21,7 +21,27 @@ PROFIN 이란?
 - 금융 상품 추천 알고리즘 (API/기존데이터)
 
 ### 구상
-
+![구상 틀](<구상 틀(최초).png>)
+#### API 관련
+1. 예금,적금 데이터 API
+        - https://finlife.fss.or.kr/finlife/main/contents.do?menuNo=700029
+        - 금융감독원 홈페이지
+        
+        - 전체조회
+            - 필터링
+        - 개별 상세조회
+            - 북마크(좋아요기능,가입하기)
+        - 관리자 기능
+            - 금리 수정 => 메일로 발송(email필수)
+            - (django.core.mail)  네이버, Twilio 등을 활용합니다
+    2. 환율 계산기
+        - https://www.koreaexim.go.kr/ir/HPHKIR020M01?apino=2&viewtype=C&searchselect=&searchword
+        - API활용 
+        - 계산하는 로직 넣기
+        - 나라선택(밑으로 내려가는 선택창?)
+    3. 근처 은행 검색
+        - https://apis.map.kakao.com/
+        - 카카오맵 API
 ### ERD(DB 관계도)
 - 유저관련
     1. 내용
@@ -74,30 +94,12 @@ PROFIN 이란?
     3. 
 
 - 예,적금 등 제공 데이터 관련(API)
-    1. 예금,적금 데이터 API
-        - https://finlife.fss.or.kr/finlife/main/contents.do?menuNo=700029
-        - 금융감독원 홈페이지
-        
-        - 전체조회
-            - 필터링
-        - 개별 상세조회
-            - 북마크(좋아요기능,가입하기)
-        - 관리자 기능
-            - 금리 수정 => 메일로 발송(email필수)
-            - (django.core.mail)  네이버, Twilio 등을 활용합니다
-    2. 환율 계산기
-        - https://www.koreaexim.go.kr/ir/HPHKIR020M01?apino=2&viewtype=C&searchselect=&searchword
-        - API활용 
-        - 계산하는 로직 넣기
-        - 나라선택(밑으로 내려가는 선택창?)
-    3. 근처 은행 검색
-        - https://apis.map.kakao.com/
-        - 카카오맵 API
-
+    
+=> ERD로 변경하기
 ### 계획(일자)
 
 
-
+SERFIN  => 이름 후보 (서핑 + FIN)
 I. 팀원 정보 및 업무 분담 내역
 II. 설계 내용(아키텍처 등) 및 실제 구현 정도
 III. 데이터베이스 모델링(ERD)
