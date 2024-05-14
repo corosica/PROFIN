@@ -301,3 +301,5 @@ npm-debug.log
 yarn-error.log
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,vuejs,vue,django,python
+
+secrets.json
