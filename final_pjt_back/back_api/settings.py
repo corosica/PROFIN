@@ -11,7 +11,9 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-
+import os
+import json
+from django.core.exceptions import ImproperlyConfigured
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,7 +22,21 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-i6b!c-p$)4#a=@d(3a6cwqt&263bqk#!t1%=!1ic3#p7$o@9(b'
+# SECRET_KEY = 'django-insecure-i6b!c-p$)4#a=@d(3a6cwqt&263bqk#!t1%=!1ic3#p7$o@9(b'
+secret_file = os.path.join(BASE_DIR,'secrets.json')
+with open(secret_file) as f:
+    secrets = json.loads(f.read())
+
+def get_secret(setting, secrets=secrets):
+    try:
+        return secrets[setting]
+    except KeyError:
+        error_msg = "Set the {} environment variable".format(setting)
+        raise ImproperlyConfigured(error_msg)
+
+SECRET_KEY = get_secret("SECRET_KEY")
+EXCHANGE_API_KEY = get_secret("EXCHANGE_API_KEY")
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -33,9 +49,11 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'accounts',
     'articles',
+    'outerapi',
 
     'rest_framework',
     'corsheaders',  # CORS 대비
+    'drf_spectacular',  # API 문서화
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -60,6 +78,11 @@ CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:5173',
     'http://localhost:5173',
 ]  # CORS 대비
+
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS':'drf_spectacular.openapi.AutoSchema',
+}
+
 
 ROOT_URLCONF = 'back_api.urls'
 
