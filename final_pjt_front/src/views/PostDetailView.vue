@@ -1,30 +1,35 @@
 <template>
   <div>
-    <h1>{{ post.title }}</h1>
-    <p>{{ post.content }}</p>
+    <h3>{{ counterStore.title }} </h3>
+    <p>글 번호 : {{ route.params.id  }}</p>
+    <p>유저 : {{ counterStore.username}}   업데이트 : {{ counterStore.updated_time }}  </p>
+    <p>내용</p>
+    <p>{{counterStore.content}}</p>
+    <button>삭제하기</button> I 
+    <button @click="goCommunity">뒤로가기</button>
+
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
+import axios from 'axios';
+import { ref, onMounted,computed  } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useCounterStore } from '@/stores/counter';
 
+const router = useRouter();
 const route = useRoute();
 const counterStore = useCounterStore();
 const post = ref({});
+const goCommunity = function () {
+  router.push({ name: 'Community'})
+}
 
 onMounted(() => {
-  const postId = route.params.id;
-  const article = counterStore.getArticleById(postId);
-
-  if (article) {
-    post.value = article;
-  } else {
-    // 필요한 경우, 게시글이 없는 경우의 처리를 추가합니다.
-    console.error('게시글을 찾을 수 없습니다.');
-  }
-});
+  counterStore.getArticleById(route.params.id)
+  console.log(route.params.id)
+// Community에 설정한 params:{id:post.id}}
+})
 </script>
 
 <style scoped>
