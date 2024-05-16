@@ -36,6 +36,7 @@ def get_secret(setting, secrets=secrets):
 
 SECRET_KEY = get_secret("SECRET_KEY")
 EXCHANGE_API_KEY = get_secret("EXCHANGE_API_KEY")
+BANK_API_KEY = get_secret("BANK_API_KEY")
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -52,6 +53,7 @@ INSTALLED_APPS = [
     'outerapi',
 
     'rest_framework',
+    'rest_framework.authtoken', # Token 인증
     'corsheaders',  # CORS 대비
     'drf_spectacular',  # API 문서화
 
@@ -81,6 +83,10 @@ CORS_ALLOWED_ORIGINS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS':'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        # 'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ]
 }
 
 
