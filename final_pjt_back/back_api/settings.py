@@ -36,6 +36,7 @@ def get_secret(setting, secrets=secrets):
 
 SECRET_KEY = get_secret("SECRET_KEY")
 EXCHANGE_API_KEY = get_secret("EXCHANGE_API_KEY")
+BANK_API_KEY = get_secret("BANK_API_KEY")
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -47,14 +48,27 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    #APP
     'accounts',
     'articles',
     'outerapi',
 
+    #DRF
     'rest_framework',
+    'rest_framework.authtoken', # Token 인증
     'corsheaders',  # CORS 대비
     'drf_spectacular',  # API 문서화
 
+    #REST_AUTH
+    'dj_rest_auth',
+    'allauth',
+    'allauth.account',
+    'dj_rest_auth.registration',
+    #소셜로그인
+    'django.contrib.sites',
+    'allauth.socialaccount',    
+
+    #settings
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -62,10 +76,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
-
+#소셜 로그인 필요시
+SITE_ID = 1
+#로그인 관련
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'allauth.account.middleware.AccountMiddleware', # 로그인관련
     'corsheaders.middleware.CorsMiddleware', # CORS 대비
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -81,6 +99,13 @@ CORS_ALLOWED_ORIGINS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS':'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        # 'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ]
 }
 
 
