@@ -17,22 +17,21 @@
   <script setup>
   import { ref } from 'vue';
   import { useRouter } from 'vue-router';
-  
+  import { useCounterStore } from '@/stores/counter';
+  const counterStore = useCounterStore()
   const title = ref('');
   const content = ref('');
   const router = useRouter();
   
   const submit = () => {
-  if (!title.value) {
-    alert('제목을 입력하세요.');
-  } else if (!content.value) {
-    alert('내용을 입력하세요.');
-  } else {
-    console.log('Title:', title.value);
-    console.log('Content:', content.value);
-    router.push('/community');
-  }
-};
+  if (counterStore.token == null) {
+  alert('로그인을 해주세요'); // 나중에 before enter로 처리
+  router.push('/login');    
+} else {
+  counterStore.createArticles(title.value, content.value);
+  router.push({name:'Community'});  
+}
+}
   
   const cancel = () => {
     router.push('/community');

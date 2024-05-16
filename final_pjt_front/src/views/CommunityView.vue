@@ -18,13 +18,14 @@
   
   <script setup>
   import { ref } from 'vue';
-  
-  const posts = ref([
-    { id: 1, title: '첫 번째 게시글', content: '첫 번째 게시글 내용' },
-    { id: 2, title: '두 번째 게시글', content: '두 번째 게시글 내용' },
-    // 추가 게시글 데이터를 여기에 작성할 수 있습니다.
-  ]);
-  
+  import { onMounted } from 'vue';
+  import { useCounterStore } from '@/stores/counter';
+  const counterStore = useCounterStore()
+  const posts = ref([]);
+  onMounted(() => {
+    counterStore.viewArticles()
+    posts.value = counterStore.articleList
+  })  
   // 게시물이 없는 경우를 테스트하려면 위의 배열을 빈 배열로 설정해보세요.
   // const posts = ref([]);
   </script>
