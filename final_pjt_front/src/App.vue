@@ -4,6 +4,7 @@
         <RouterLink :to="{name : 'Home'}">홈</RouterLink> I
         <RouterLink :to="{name : 'Deposit'}">금융 상품</RouterLink> I
         <RouterLink :to="{name : 'Community'}">커뮤니티</RouterLink>
+        <RouterLink :to="{name : 'Kakaomap'}">카카오맵</RouterLink>
         <br>
         <div v-if="islogin">
           <RouterLink :to="{name : 'Login'}"><button @click="Login">로그인</button></RouterLink> I

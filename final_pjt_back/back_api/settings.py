@@ -37,7 +37,8 @@ def get_secret(setting, secrets=secrets):
 SECRET_KEY = get_secret("SECRET_KEY")
 EXCHANGE_API_KEY = get_secret("EXCHANGE_API_KEY")
 BANK_API_KEY = get_secret("BANK_API_KEY")
-
+KAKAO_JAVA_SCRIPT_KEY = get_secret("KAKAO_JAVA_SCRIPT_KEY")
+KAKAO_REST_API_KEY = get_secret("KAKAO_REST_API_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
