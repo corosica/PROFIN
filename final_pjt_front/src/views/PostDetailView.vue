@@ -2,15 +2,25 @@
   <div>
       <h3>{{ counterStore.title }} </h3>
       <p>글 번호 : {{ route.params.id  }}</p>
-      <p>유저 : {{ counterStore.username}}   업데이트 : {{ counterStore.updated_time }}  </p>
+      <p>유저 : {{ counterStore.username }}   업데이트 : {{ counterStore.updated_time }}  </p>
       <p>내용</p>
       <p>{{counterStore.content}}</p>
+    <div class="buttons">
       <button @click="deletePost">삭제하기</button> |
       <button @click="goCommunity">뒤로가기</button> |
       <button @click="updatePost">수정하기</button>
-      
+    </div>
     <div class="comments">
-
+      <h3>댓글</h3>
+      <form @submit.prevent="addComment">
+        <input type="text" v-model="newComment" placeholder="댓글을 입력하세요" />
+        <button type="submit">등록</button>
+      </form>
+      <ul>
+        <li v-for="comment in comments" :key="comment.id">
+          <p> {{ comment.user }} : {{ comment.content }}</p>
+        </li>
+      </ul>
     </div>
 
   </div>
@@ -18,7 +28,7 @@
 
 <script setup>
 import axios from 'axios';
-import { ref, onMounted,computed  } from 'vue';
+import { ref, onMounted, computed  } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useCounterStore } from '@/stores/counter';
 
@@ -26,6 +36,8 @@ const router = useRouter();
 const route = useRoute();
 const counterStore = useCounterStore();
 
+const comments = ref([])
+const newComment = ref('')
 
 const goCommunity = function () {
   router.push({ name: 'Community'})
@@ -46,11 +58,32 @@ const updatePost = function () {
   router.push({ name: 'PostUpdate', params: { id: route.params.id } })
 }
 
-onMounted(() => {
-  counterStore.getArticleById(route.params.id)
-  console.log(route.params.id)
-// Community에 설정한 params:{id:post.id}}
-})
+const addComment = async () => {
+  try {
+    await counterStore.newComment(route.params.id,newComment.value)
+  } catch (error) {
+    console.error('Failed to add comment:', error)
+    alert('댓글 등록에 실패했습니다.')
+  }
+}
+
+
+
+
+onMounted(async () => {
+    try {
+      await counterStore.getArticleById(route.params.id)  
+      await counterStore.viewComment(route.params.id)
+      comments.value = counterStore.commentList
+    } catch (e) {
+      console.error('failed to view articles',e)
+    }
+    finally {
+      // loading.value = false;
+      // console.log(counterStore.articleList)
+    }
+  })  
+
 </script>
 
 <style scoped>

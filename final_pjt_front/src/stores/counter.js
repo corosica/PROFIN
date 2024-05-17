@@ -8,7 +8,7 @@ export const useCounterStore = defineStore('counter', () => {
   const content = ref('')
   const username = ref('')
   const updated_time = ref('')
-
+  const commentList = ref([])
   
   const login = function () {
     axios({
@@ -101,13 +101,47 @@ export const useCounterStore = defineStore('counter', () => {
         content: content,
       },
     })
-   .then(function(response) {
-   console.log('Article updated:', response.data)
-   })
-  .catch(function(error) {
-    console.log(error)
+    .then(function(response) {
+      console.log('Article updated:', response.data)
+    })
+    .catch(function(error) {
+      console.log(error)
     })
   }
+
+  const newComment = function (id, comment) {
+    axios({
+      method: 'POST',
+      url: `http://127.0.0.1:8000/api/v1/articles/${id}/comments/`, // URL 형식 확인
+      headers: {
+        Authorization: localStorage.getItem('token'),
+      },
+      data: {
+        "content": comment
+      },
+    })
+    .then(function (response) {
+      console.log('Comment created:', response.data)
+    })
+    .catch(function (error) {
+      console.log(error)
+    })
+  }
+
+  const viewComment = async function (id) {
+    try {
+      const response = await axios({
+        method: 'GET',
+        url: `http://127.0.0.1:8000/api/v1/articles/${id}/comments/`,
+      });
+      commentList.value = response.data;
+      console.log(commentList.value);
+    } catch (err) {
+      console.error('Failed to fetch articles:', err);
+    }
+  };
+
+
 
   return { 
     login,
@@ -121,5 +155,8 @@ export const useCounterStore = defineStore('counter', () => {
     updated_time,
     deleteArticle,
     updateArticle,
+    newComment,
+    viewComment,
+    commentList,
   }
 })

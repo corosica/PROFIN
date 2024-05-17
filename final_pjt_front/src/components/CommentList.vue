@@ -1,6 +1,6 @@
 <template>
     <div>
-
+        댓글 목록
     </div>
 </template>
 
