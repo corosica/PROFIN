@@ -23,6 +23,7 @@
   import { ref } from 'vue';
   import { useRouter } from 'vue-router';
   
+  const username = ref('');
   const email = ref('');
   const password = ref('');
   const confirmPassword = ref('');
