@@ -18,9 +18,11 @@
       </form>
       <ul>
         <li v-for="comment in comments" :key="comment.id">
-          <p> {{ comment.user }} : {{ comment.content }}</p>
+          <p> {{ comment.user }} : {{ comment.content }}</p> 
+          <button @click="deleteComments(comment.id)">삭제</button>
         </li>
       </ul>
+      
     </div>
 
   </div>
@@ -38,6 +40,7 @@ const counterStore = useCounterStore();
 
 const comments = ref([])
 const newComment = ref('')
+const commentId = ref('')
 
 const goCommunity = function () {
   router.push({ name: 'Community'})
@@ -60,13 +63,25 @@ const updatePost = function () {
 
 const addComment = async () => {
   try {
-    await counterStore.newComment(route.params.id,newComment.value)
+    counterStore.newComment(route.params.id, newComment.value)
+    await counterStore.viewComment(route.params.id)
+    router.go(0)
   } catch (error) {
     console.error('Failed to add comment:', error)
     alert('댓글 등록에 실패했습니다.')
   }
 }
 
+const deleteComments = async (parameter) => {
+  try {
+    await counterStore.deleteComment(route.params.id, parameter)
+    alert('댓글이 삭제되었습니다.')
+    router.go(0)
+  } catch (error) {
+    console.error('Failed to delete post:', error)
+    alert('댓글 삭제에 실패했습니다.')
+  }
+}
 
 
 
