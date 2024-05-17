@@ -1,7 +1,7 @@
 <template>
     <div>
       <h1>게시글 작성</h1>
-      <form @submit.prevent="submit">
+      <form @submit.prevent="createPost">
         <label for="title">제목</label>
         <input type="text" id="title" v-model="title" required>
         <br>
@@ -23,18 +23,19 @@
   const content = ref('');
   const router = useRouter();
   
-  const submit = () => {
-  if (counterStore.token == null) {
+  const createPost = () => {
+  if (localStorage.getItem('token') == null) {
   alert('로그인을 해주세요'); // 나중에 before enter로 처리
   router.push('/login');    
 } else {
+  counterStore.viewArticles()
   counterStore.createArticles(title.value, content.value);
   router.push({name:'Community'});  
 }
 }
   
   const cancel = () => {
-    router.push('/community');
+    router.push({name:'Community'});
   };
   </script>
   

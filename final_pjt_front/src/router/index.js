@@ -7,6 +7,8 @@ import DepositView from '@/views/DepositView.vue'
 import DepositDetailView from '@/views/DepositDetailView.vue'
 import LoginView from '@/views/LoginView.vue';
 import SignupView from '@/views/SignupView.vue';
+import PostUpdateView from '@/views/PostUpdateView.vue'
+
 
 
 
@@ -53,6 +55,11 @@ const router = createRouter({
       name: 'Signup',
       component: SignupView,
     },
+    {
+      path: '/community/post_update/:id',
+      name: 'PostUpdate',
+      component: PostUpdateView,
+    }
   
     // 기타 라우트 설정을 여기에 추가할 수 있습니다.
   ]
