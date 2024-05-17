@@ -105,7 +105,10 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
-    ]
+    ],
+    'REST_USE_JWT': True,  # JWT 토큰 사용 여부
+    'JWT_AUTH_COOKIE': 'JWT',  # JWT 쿠키 이름 설정
+    'BLACKLIST_AFTER_ROTATION': True,  # 토큰 회전 후 블랙리스트 추가
 }
 
 
