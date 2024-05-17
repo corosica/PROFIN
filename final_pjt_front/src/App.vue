@@ -1,4 +1,5 @@
 <template>
+
   <header>
       <nav>
         <RouterLink :to="{name : 'Home'}">홈</RouterLink> I
@@ -21,6 +22,7 @@
   </header>
 
   <RouterView />
+
 </template>
 
 <script setup>

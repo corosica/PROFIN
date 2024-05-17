@@ -141,7 +141,21 @@ export const useCounterStore = defineStore('counter', () => {
     }
   };
 
-
+  const deleteComment = function (id, commentId) {  
+    axios({
+      method: 'DELETE',
+      url: `http://127.0.0.1:8000/api/v1/articles/${id}/comments/${commentId}`,
+      headers: {
+        Authorization: localStorage.getItem('token'),
+      },
+    })
+    .then(function(response) {
+      console.log('Comment deleted:', response.data)
+    })
+    .catch(function(error) {
+      console.log(error)
+    })      
+  }
 
   return { 
     login,
@@ -158,5 +172,6 @@ export const useCounterStore = defineStore('counter', () => {
     newComment,
     viewComment,
     commentList,
+    deleteComment
   }
 })
