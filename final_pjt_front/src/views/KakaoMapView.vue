@@ -11,11 +11,15 @@
             <input type="text" name="bank" id="bank" placeholder="은행을 입력하세요">
             <input type="submit" value="Submit" />
         </form>
+
+        <KakaoMap />
     </div>
 </template>
 
+
 <script setup>
 import { ref,computed } from 'vue'
+import KakaoMap from '@/components/KakaoMap.vue'
 const findmap = function (res) {
     console.log(selectedCity.value, selectedGu.value, res.target.bank.value);
 }
