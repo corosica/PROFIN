@@ -9,7 +9,7 @@ export const useCounterStore = defineStore('counter', () => {
   const username = ref('')
   const updated_time = ref('')
   const commentList = ref([])
-  
+  const map_data = ref({})
   const login = function () {
     axios({
       method : 'POST',
@@ -157,6 +157,24 @@ export const useCounterStore = defineStore('counter', () => {
     })      
   }
 
+  const read_map = async function (city, gu,bank) {  
+    try {
+      const response = await axios({
+        method: 'POST',
+        url: `http://127.0.0.1:8000/api/v1/outerapi/kakaomaps/`,
+        data: {
+          city: city,
+          gu: gu,
+          bank: bank,
+        }
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Failed to fetch map data:', error);
+      throw error; // 에러를 던져 호출자가 처리하도록 합니다.
+    }
+  };
+
   return { 
     login,
     createArticles,
@@ -172,6 +190,8 @@ export const useCounterStore = defineStore('counter', () => {
     newComment,
     viewComment,
     commentList,
-    deleteComment
+    deleteComment,
+    read_map,
+    map_data,
   }
 })

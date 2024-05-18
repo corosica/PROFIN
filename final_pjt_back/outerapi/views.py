@@ -56,22 +56,31 @@ def deposit_detail(request,deposit_pk):
     serializer = DepositOptionsSerializer(options,many = True)
     return Response(serializer.data,status=status.HTTP_200_OK)
 
-@api_view(['GET']) 
+@api_view(['POST']) 
 def find_bank(request):
-    city = request.GET.get('city')
-    gu = request.GET.get('gu')
-    bank = request.GET.get('bank')
-    city = '서울특별시'
-    gu = '광진구'
-    bank = '국민은행'
+    city = request.data.get('city')
+    gu = request.data.get('gu')
+    bank = request.data.get('bank')
+    print('-------------------------------')
+    print(request)
+    print(request.method)
+    print(request.data)
+    print(city,gu,bank)
+    print('-------------------------------')
+
     api_key = f'KakaoAK {settings.KAKAO_REST_API_KEY}'
     api_url1 = f"https://dapi.kakao.com/v2/local/search/address.json?analyze_type=similar&page=1&size=10&query={city}+{gu}"
     data = requests.get(api_url1,headers={'Authorization' : api_key}).json()
     x = data['documents'][0]['address']['x']
     y = data['documents'][0]['address']['y']
 
-    api_url2 = f"https://dapi.kakao.com/v2/local/search/keyword.json?page=1&size=15&sort=accuracy&x={x}&y={y}&query={bank}&category_group_code=BK9"
+    api_url2 = f"https://dapi.kakao.com/v2/local/search/keyword.json?page=1&size=15&sort=accuracy&x={x}&y={y}&radius=4000&query={bank}&category_group_code=BK9"
+    api_url3 = f"https://dapi.kakao.com/v2/local/search/keyword.json?page=2&size=15&sort=accuracy&x={x}&y={y}&radius=4000&query={bank}&category_group_code=BK9"
+
     response = requests.get(api_url2,headers={'Authorization' : api_key}).json()
+    if len(response['documents']) >= 15:
+        response2 = requests.get(api_url3,headers={'Authorization' : api_key}).json()
+        response['documents'].extend(response2['documents'])
     response['meta']['x'] = x
     response['meta']['y'] = y
 
