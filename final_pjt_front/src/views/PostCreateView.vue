@@ -13,6 +13,7 @@
           <label for="content">내용</label>
           <textarea id="content" v-model="content" required></textarea>
         <br>
+        <input name="file" type="file">
         </div>
         <div class="text-center">
           <button type="submit">작성</button>
