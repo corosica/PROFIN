@@ -12,6 +12,7 @@ export const useCounterStore = defineStore('counter', () => {
   const commentList = ref([])
   const map_data = ref({})
   const userInfos = ref({})
+  const ExchangeInfos = ref({})
   const router = useRouter()
   const login = function (username,password) {
     axios({
@@ -219,9 +220,21 @@ export const useCounterStore = defineStore('counter', () => {
 
       }
     }
+    const getExchange = async function () {
+      try {
+        const response = await axios({
+          method:'GET',
+          url : 'http://127.0.0.1:8000/api/v1/outerapi/exchange/',
+        })
+        ExchangeInfos.value = response.data;
+    
+      } catch (err) {
+        console.error('Failed to fetch articles:', err);
+        throw err
+      }
+    }
 
   return { 
-    login,
     createArticles,
     viewArticles,
     articleList,
@@ -241,5 +254,7 @@ export const useCounterStore = defineStore('counter', () => {
     signup,
     getUserInfo,
     userInfos,
+    getExchange,
+    ExchangeInfos,
   }
 })

@@ -9,6 +9,7 @@ import LoginView from '@/views/LoginView.vue';
 import SignupView from '@/views/SignupView.vue';
 import PostUpdateView from '@/views/PostUpdateView.vue'
 import KakaomapView from '@/views/KakaoMapView.vue'
+import ExchangeView from '@/views/ExchangeView.vue'
 import UserProfileView from '@/views/UserProfileView.vue'
 
 const requireAuth = () => (to, from, next) => {
@@ -74,6 +75,10 @@ const router = createRouter({
       component: KakaomapView,
     },
     {
+      path: '/Exchange',
+      name: 'Exchange',
+      component: ExchangeView,
+    },
       path: '/UserProfile',
       name: 'UserProfile',
       component: UserProfileView,
