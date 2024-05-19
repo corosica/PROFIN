@@ -11,6 +11,7 @@ export const useCounterStore = defineStore('counter', () => {
   const updated_time = ref('')
   const commentList = ref([])
   const map_data = ref({})
+  const userInfos = ref({})
   const router = useRouter()
   const login = function (username,password) {
     axios({
@@ -199,6 +200,19 @@ export const useCounterStore = defineStore('counter', () => {
       throw error; // 에러를 던져 호출자가 처리하도록 합니다.
     }
   };
+    const getUserInfo = function () {
+      axios({
+        method:'GET',
+        url : 'http://127.0.0.1:8000/accounts/user/',
+        headers: {
+          Authorization: localStorage.getItem('token'),
+        },
+      }).then(function (response) {
+        userInfos.value = response.data;
+      }).catch(function (err) {
+        console.log(err)
+      })
+    }
 
   return { 
     login,
@@ -219,5 +233,7 @@ export const useCounterStore = defineStore('counter', () => {
     read_map,
     map_data,
     signup,
+    getUserInfo,
+    userInfos,
   }
 })
