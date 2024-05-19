@@ -1,221 +1,220 @@
 <template>
   <div class="map-container">
     <h2>카카오 맵 보기</h2>
-
-    <form @submit.prevent="findmap">
-          <select id="city" v-model="selectedCity">
-              <option v-for="city in cities" :key="city.city" :value="city.city">{{ city.city }}</option>
-          </select>
-          <select id="district" v-model="selectedGu">
-              <option v-for="district in filteredDistricts" :key="district" :value="district">{{ district }}</option>
-          </select>
-          <input type="text" name="bank" id="bank" placeholder="은행을 입력하세요">
-          <input type="submit" value="Submit" />
-      </form>
-      
+    <hr>
+    <form @submit.prevent="findmap" class="map-form">
+      <select id="city" v-model="selectedCity">
+        <option v-for="city in cities" :key="city.city" :value="city.city">{{ city.city }}</option>
+      </select>
+      <select id="district" v-model="selectedGu">
+        <option v-for="district in filteredDistricts" :key="district" :value="district">{{ district }}</option>
+      </select>
+      <input type="text" name="bank" id="bank" placeholder="은행을 입력하세요">
+      <input type="submit" value="Submit" />
+    </form>
+    <hr>
     <div id="map"></div>
   </div>
 </template>
 
-
-
 <script setup>
-import { ref, onMounted ,computed} from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useCounterStore } from '@/stores/counter';
 import { useRouter } from 'vue-router';
+
 let map = null;
 let markers = []; // 마커를 저장할 배열
-const counterStore = useCounterStore()
-const router = useRouter()
+const counterStore = useCounterStore();
+const router = useRouter();
+
 onMounted(() => {
-if (window.kakao && window.kakao.maps) {
-  initMap();
-} else {
-  const script = document.createElement('script');
-  /* global kakao */
-  script.onload = () => kakao.maps.load(initMap);
-  script.src = `//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=490c0990c3905dc39aa9378068b4ae70&libraries=services`;
-  document.head.appendChild(script);
-  
-}
+  if (window.kakao && window.kakao.maps) {
+    initMap();
+  } else {
+    const script = document.createElement('script');
+    /* global kakao */
+    script.onload = () => kakao.maps.load(initMap);
+    script.src = `//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=490c0990c3905dc39aa9378068b4ae70&libraries=services`;
+    document.head.appendChild(script);
+  }
 });
 
 const initMap = () => {
-const container = document.getElementById('map'); // 어디에 담을건지고르는것(div등)
-const options = { //옵션
-  center: new kakao.maps.LatLng(35.093655296844,128.85567741474),
-  level: 7,
-};
+  const container = document.getElementById('map'); // 어디에 담을건지 고르는것(div등)
+  const options = { //옵션
+    center: new kakao.maps.LatLng(35.093655296844,128.85567741474),
+    level: 7,
+  };
 
+  // 지도 객체를 등록합니다.
+  // 지도 객체는 반응형 관리 대상이 아니므로 initMap에서 선언합니다.
+  map = new kakao.maps.Map(container, options);
 
-// 지도 객체를 등록합니다.
-// 지도 객체는 반응형 관리 대상이 아니므로 initMap에서 선언합니다.
-map = new kakao.maps.Map(container, options);
+  // 초기 마커 관련
+  var position = new kakao.maps.LatLng(35.093655296844, 128.85567741474);
 
+  // 마커를 생성합니다
+  var marker = new kakao.maps.Marker({
+    position: position
+  });
 
-//초기 마커 관련
-var position =  new kakao.maps.LatLng(35.093655296844,128.85567741474);
+  // 마커를 지도에 표시합니다.
+  marker.setMap(map);
+  markers.push(marker);
+  // 마커에 커서가 오버됐을 때 마커 위에 표시할 인포윈도우를 생성합니다
+  var iwContent = '<div style="padding:5px;">SSAFY 부울경!</div>'; // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
 
-// 마커를 생성합니다
-var marker = new kakao.maps.Marker({
-  position: position
-});
+  // 인포윈도우를 생성합니다
+  var infowindow = new kakao.maps.InfoWindow({
+    content: iwContent
+  });
 
-// 마커를 지도에 표시합니다.
-marker.setMap(map);
-markers.push(marker)
-// 마커에 커서가 오버됐을 때 마커 위에 표시할 인포윈도우를 생성합니다
-var iwContent = '<div style="padding:5px;">SSAFY 부울경!</div>'; // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-
-// 인포윈도우를 생성합니다
-var infowindow = new kakao.maps.InfoWindow({
-    content : iwContent
-});
-
-// 마커에 마우스오버 이벤트를 등록합니다
-kakao.maps.event.addListener(marker, 'mouseover', function() {
-  // 마커에 마우스오버 이벤트가 발생하면 인포윈도우를 마커위에 표시합니다
+  // 마커에 마우스오버 이벤트를 등록합니다
+  kakao.maps.event.addListener(marker, 'mouseover', function() {
+    // 마커에 마우스오버 이벤트가 발생하면 인포윈도우를 마커위에 표시합니다
     infowindow.open(map, marker);
-});
+  });
 
-// 마커에 마우스아웃 이벤트를 등록합니다
-kakao.maps.event.addListener(marker, 'mouseout', function() {
+  // 마커에 마우스아웃 이벤트를 등록합니다
+  kakao.maps.event.addListener(marker, 'mouseout', function() {
     // 마커에 마우스아웃 이벤트가 발생하면 인포윈도우를 제거합니다
     infowindow.close();
-});
-
-
+  });
 };
 
-//지도 검색 api 요청
-const findmap = async  function (res) {
-  try{
+// 지도 검색 API 요청
+const findmap = async function(res) {
+  try {
     clearMarkers();
     const map_data = await counterStore.read_map(selectedCity.value, selectedGu.value, res.target.bank.value);
     console.log(map_data);
-    panTo(map_data.meta.x,map_data.meta.y) // 이동
-    makeMarker(map_data.documents)
+    panTo(map_data.meta.x, map_data.meta.y); // 이동
+    makeMarker(map_data.documents);
   } catch (error) {
-       console.log(error);
-    }
-
+    console.log(error);
+  }
 }
+
 // 입력받은 좌표 정보를 받아오는것
 const selectedCity = ref('');
 const selectedGu = ref('');
 
-const filteredDistricts = computed(() => { //첫번째 선택항목 변경시 두번째 선택항목도 바뀌게 하는 코드
-    const city = cities.value.find(city => city.city === selectedCity.value);
-    return city ? city.gu : [];
-  });
-
+const filteredDistricts = computed(() => { // 첫번째 선택항목 변경시 두번째 선택항목도 바뀌게 하는 코드
+  const city = cities.value.find(city => city.city === selectedCity.value);
+  return city ? city.gu : [];
+});
 
 const cities = ref([
-  
-  //시군구 지역코드
-{
-  "city": "서울특별시",
-  "gu": ['용산구','성동구','성북구','강북구','도봉구','노원구','광진구','동대문구','구로구','동작구','중구','중랑구','관악구','영등포구','은평구','서대문구','마포구','강남구','양천구','금천구','강서구','종로구','서초구','송파구','강동구']
-},
-{
-  "city": "부산광역시",
-  "gu": ['강서구','연제구','수영구','사상구','기장군','서구','중구','동래구','남구','북구','해운대구','사하구','금정구','동구','영도구','부산진구']
-},
+  // 시군구 지역코드
   {
-  "city": "제주특별자치도",
-  "gu": ['제주시','서귀포시']
-},
-{
-  "city": "인천광역시",
-  "gu": ['옹진군','부평구','계양구','서구','강화군','중구','남동구','북구','동구','남구','연수구','미추홀구']
-},
-{
-  "city": "울산광역시",
-  "gu": ['울주군','중구','남구','동구','북구']
-},
-{
-  "city": "세종특별자치시",
-  "gu": ['세종시']
-},
-{
-  "city": "대전광역시",
-  "gu": ['서구','유성구','대덕구','동구','중구']
-},
-{
-  "city": "대전광역시",
-  "gu": ['중구','동구','수성구','달성군','서구','남구','북구','달서구']
-},
-{
-  "city": "광주광역시",
-  "gu": ['동구','서구','북구','남구','광산구']
-}])
+    "city": "서울특별시",
+    "gu": ['용산구', '성동구', '성북구', '강북구', '도봉구', '노원구', '광진구', '동대문구', '구로구', '동작구', '중구', '중랑구', '관악구', '영등포구', '은평구', '서대문구', '마포구', '강남구', '양천구', '금천구', '강서구', '종로구', '서초구', '송파구', '강동구']
+  },
+  {
+    "city": "부산광역시",
+    "gu": ['강서구', '연제구', '수영구', '사상구', '기장군', '서구', '중구', '동래구', '남구', '북구', '해운대구', '사하구', '금정구', '동구', '영도구', '부산진구']
+  },
+  {
+    "city": "제주특별자치도",
+    "gu": ['제주시', '서귀포시']
+  },
+  {
+    "city": "인천광역시",
+    "gu": ['옹진군', '부평구', '계양구', '서구', '강화군', '중구', '남동구', '북구', '동구', '남구', '연수구', '미추홀구']
+  },
+  {
+    "city": "울산광역시",
+    "gu": ['울주군', '중구', '남구', '동구', '북구']
+  },
+  {
+    "city": "세종특별자치시",
+    "gu": ['세종시']
+  },
+  {
+    "city": "대전광역시",
+    "gu": ['서구', '유성구', '대덕구', '동구', '중구']
+  },
+  {
+    "city": "대전광역시",
+    "gu": ['중구', '동구', '수성구', '달성군', '서구', '남구', '북구', '달서구']
+  },
+  {
+    "city": "광주광역시",
+    "gu": ['동구', '서구', '북구', '남구', '광산구']
+  }
+]);
 
+function panTo(center_x, center_y) {
+  // 이동할 위도 경도 위치를 생성합니다
+  var moveLatLon = new kakao.maps.LatLng(center_y, center_x);
 
+  // 지도 중심을 부드럽게 이동시킵니다
+  // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
+  map.panTo(moveLatLon);
+}
 
-function panTo(center_x,center_y) {
-    // 이동할 위도 경도 위치를 생성합니다 
-    var moveLatLon = new kakao.maps.LatLng(center_y,center_x);
-    
-    // 지도 중심을 부드럽게 이동시킵니다
-    // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
-    map.panTo(moveLatLon);            
-}    
-// 인포윈도우입니다
+var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png";
 
-// 마커 이미지의 이미지 주소입니다
-var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png"; 
 function makeMarker(data) {
-    // 마커 이미지의 이미지 크기 입니다
-    var imageSize = new kakao.maps.Size(27, 28);
-    var imgOptions =  {
-            spriteSize : new kakao.maps.Size(72, 208), // 스프라이트 이미지의 크기
-            spriteOrigin : new kakao.maps.Point(46, 0), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
-            offset: new kakao.maps.Point(11, 28) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
-        };
-    var infowindow = new kakao.maps.InfoWindow({
-        zIndex: 1
-    });
-    // 마커 이미지를 생성합니다    
-    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions); 
+  var imageSize = new kakao.maps.Size(27, 28);
+  var imgOptions = {
+    spriteSize: new kakao.maps.Size(72, 208),
+    spriteOrigin: new kakao.maps.Point(46, 0),
+    offset: new kakao.maps.Point(11, 28)
+  };
+  var infowindow = new kakao.maps.InfoWindow({
+    zIndex: 1
+  });
+  var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions);
   for (const info of data) {
-        // 마커를 생성합니다
-        var marker = new kakao.maps.Marker({
-        map: map, // 마커를 표시할 지도
-        position: new kakao.maps.LatLng(info.y,info.x), // 마커를 표시할 위치
-        title : info.place_name, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-        image : markerImage // 마커 이미지 
+    var marker = new kakao.maps.Marker({
+      map: map,
+      position: new kakao.maps.LatLng(info.y, info.x),
+      title: info.place_name,
+      image: markerImage
     });
-    //마커 삭제위해 마커배열에 추가
     markers.push(marker);
     (function(marker, title) {
-            kakao.maps.event.addListener(marker, 'mouseover', function() {
-              infowindow.setContent('<div style="padding:5px; max-width: 150px; word-wrap: break-word; white-space: normal; overflow: hidden;">' + title + '</div>')
-              infowindow.open(map, marker);
-            });
+      kakao.maps.event.addListener(marker, 'mouseover', function() {
+        infowindow.setContent('<div style="padding:5px; max-width: 150px; word-wrap: break-word; white-space: normal; overflow: hidden;">' + title + '</div>')
+        infowindow.open(map, marker);
+      });
 
-            kakao.maps.event.addListener(marker, 'mouseout', function() {
-                infowindow.close();
-            });
-        })(marker, info.place_name);
+      kakao.maps.event.addListener(marker, 'mouseout', function() {
+        infowindow.close();
+      });
+    })(marker, info.place_name);
   }
 }
+
 function clearMarkers() {
-  // 기존 마커를 지도에서 제거하고 배열을 초기화합니다
   markers.forEach(marker => marker.setMap(null));
   markers = [];
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .map-container {
-  text-align: center;
-  justify-content: center;
   display: flex;
-}
-#map {
-width: 400px;
-height: 400px;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
 }
 
+h2 {
+  margin-bottom: 10px;
+}
+
+form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+#map {
+  width: 80%;
+  max-width: 600px;
+  height: 500px;
+  margin-top: 10px;
+}
 </style>
