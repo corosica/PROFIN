@@ -19,7 +19,7 @@
         <RouterLink :to="{name : 'Signup'}"><button @click="Signup">회원가입</button></RouterLink>
       </div>
       <div v-else>
-        <button>회원 정보</button>
+        <button @click="profile">회원 정보</button>
         <button @click="logout">로그아웃</button>
 
           <!-- 회원정보 -> routerlink로 바꾸기 -->
@@ -72,6 +72,9 @@
   }
   const store = useCounterStore();
 
+const profile = function () {
+  router.push({name:'UserProfile'})
+}
 </script>
 
 <style scoped>

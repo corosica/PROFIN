@@ -36,7 +36,7 @@ export const useCounterStore = defineStore('counter', () => {
   }
 
 
-  const signup = function (username,password1,password2,email) {
+  const signup = function (username,password1,password2,email,nickname,age) {
     axios({
       method:'POST',
       url : 'http://127.0.0.1:8000/accounts/signup/',
@@ -44,7 +44,9 @@ export const useCounterStore = defineStore('counter', () => {
         username : username,
         password1 : password1,
         password2 : password2,
-        email : email
+        email : email,
+        nickname : nickname,
+        age : age,
       }
     }).then(function (response) {
       login(username,password1)
@@ -201,18 +203,22 @@ export const useCounterStore = defineStore('counter', () => {
       throw error; // 에러를 던져 호출자가 처리하도록 합니다.
     }
   };
-    const getUserInfo = function () {
-      axios({
-        method:'GET',
-        url : 'http://127.0.0.1:8000/accounts/user/',
-        headers: {
-          Authorization: localStorage.getItem('token'),
-        },
-      }).then(function (response) {
-        userInfos.value = response.data;
-      }).catch(function (err) {
-        console.log(err)
-      })
+    const getUserInfo = async function () {
+       // 회원정보 조회
+      try {
+
+        const response = await axios({
+          method:'GET',
+          url : 'http://127.0.0.1:8000/accounts/user/',
+          headers: {
+            Authorization: localStorage.getItem('token'),
+          },
+        })
+        userInfos.value = response.data; //userInfos => 데이터 받아온거 posts역할
+      } catch(err) {
+        console.error('Failed to fetch userInfo:', err);
+
+      }
     }
     const getExchange = async function () {
       try {
