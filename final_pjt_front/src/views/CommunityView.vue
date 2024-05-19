@@ -17,7 +17,10 @@
           </ul>
         </div>
         <div class="text-center mt-4">
-          <RouterLink :to="{ name: 'PostCreate' }">게시글 작성</RouterLink>
+          <button @click.prevent="writePost" class="write-btn">
+            글쓰기
+          <!-- <RouterLink :to="{ name: 'PostCreate' }">게시글 작성</RouterLink> -->
+          </button>
         </div>
       </div>
     </div>
@@ -27,11 +30,13 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useCounterStore } from '@/stores/counter';
+import { useRouter } from 'vue-router';
 
 const counterStore = useCounterStore();
 const posts = ref([]);
 const loading = ref(true);
 
+const router = useRouter()
 onMounted(async () => {
   try {
     await counterStore.viewArticles();
@@ -43,6 +48,10 @@ onMounted(async () => {
     console.log(counterStore.articleList);
   }
 });
+
+const writePost = function () {
+  router.push({ name: 'PostCreate' })
+}
 </script>
 
 <style scoped>
@@ -83,4 +92,21 @@ onMounted(async () => {
   background-color: #004d40; /* 버튼 호버 색상 */
   border-color: #004d40;
 }
+
+.write-btn {
+    display: block;
+    margin-left: auto;
+    padding: 10px 20px;
+    border: none;
+    background-color: #1abc9c;
+    color: #ffffff;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.write-btn:hover {
+    background-color: #16a085;
+}
+
 </style>

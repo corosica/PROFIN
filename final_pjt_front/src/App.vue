@@ -2,6 +2,9 @@
 
   <header class="header-container">
     <nav class="navbar">
+      <div>
+      <img src="/PROFIN.png" alt="Logo" class="logo">
+      </div>
       <div class="nav-links-wrapper">
         <div class="nav-links">
           <RouterLink class="nav-link-box" :to="{ name: 'Home' }">PROFIN</RouterLink>
@@ -73,7 +76,7 @@
 
 <style scoped>
 .header-container {
-  background-color: #e7e6e6; /* 흰색 배경 */
+  background-color: #fffdfd; /* 흰색 배경 */
   border: 1px solid #dcdcdc; /* 회색 선 */
   border-radius: 8px; /* 둥근 모서리 */
   padding: 20px;
@@ -98,11 +101,14 @@
   text-decoration: none;
   color: #ffffff; /* 링크 색상 */
   font-weight: bold;
+  border: 2px solid #1abc9c;
 }
 
 .nav-link-box:hover {
   background-color: #ffffff; /* 링크 호버 배경색 */
-  color: #000000; /* 링크 호버 색상 */
+  color: #1abc9c; /* 링크 호버 색상 */
+  border-color: #1abc9c;
+  border: 2px solid
 }
 
 .btn-outline-success, .btn-outline-primary, .btn-outline-danger, .btn-outline-info {
@@ -120,6 +126,7 @@
   flex-grow: 1;
   display: flex;
   justify-content: center;
+
 }
 .nav-links {
   display: flex;
@@ -129,6 +136,17 @@
   border: 1px solid #dcdcdc; /* 회색 선 */
   border-radius: 8px; /* 둥근 모서리 */
 }
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  max-height: 100px;
+  margin-right: 0px;
+}
+
 
 
 </style>
