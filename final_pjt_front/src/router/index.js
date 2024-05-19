@@ -75,10 +75,11 @@ const router = createRouter({
       component: KakaomapView,
     },
     {
-      path: '/Exchange',
+      path: '/exchange',
       name: 'Exchange',
       component: ExchangeView,
     },
+    {
       path: '/UserProfile',
       name: 'UserProfile',
       component: UserProfileView,

@@ -1,25 +1,25 @@
 <template>
     <div class="profile-container">
       <h1>회원정보</h1>
-      <form @submit.prevent="updateProfile" class="profile-form">
-        <div class="form-group">
+      <div class="profile">
+        <div class="profile-group">
           <label for="username">아이디</label>
           <input type="text" id="username" v-model="username" disabled>
         </div>
-        <div class="form-group">
+        <div class="profile-group">
           <label for="nickname">닉네임</label>
           <input type="text" id="nickname" v-model="nickname" disabled>
         </div>
-        <div class="form-group">
+        <div class="profile-group">
           <label for="email">이메일</label>
           <input type="email" id="email" v-model="email" disabled>
         </div>
-        <div class="form-group">
+        <div class="profile-group">
           <label for="age">나이</label>
           <input type="number" id="age" v-model="age" disabled>
         </div>
         <button type="submit" class="update-button">정보 수정</button>
-      </form>
+        </div>
     </div>
   </template>
   
@@ -70,18 +70,18 @@
     font-size: 3em; /* 폰트 크기 증가 */
     }
 
-    .profile-form {
+    .profile {
         display: flex;
         flex-direction: column;
         align-items: center;
     }
   
-    .form-group {
+    .profile-group {
     width: 100%;
     margin-bottom: 30px; /* 2배로 증가 */
     }
 
-    .form-group label {
+    .profile-group label {
     display: block;
     margin-bottom: 10px; /* 2배로 증가 */
     font-weight: bold;
@@ -89,7 +89,7 @@
     font-size: 1.2em; /* 폰트 크기 증가 */
     }
 
-    .form-group input {
+    .profile-group input {
     width: 100%;
     padding: 16px; /* 2배로 증가 */
     border: 1px solid #dcdcdc;
