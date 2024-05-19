@@ -1,18 +1,28 @@
 <template>
-    <div>
-      <h1>게시글 작성</h1>
-      <form @submit.prevent="createPost">
-        <label for="title">제목</label>
-        <input type="text" id="title" v-model="title" required>
+  <div class="container mt-4">
+    <div class="card">
+      <div class="card-body">
+        <h1 class="card-title text-center mb-4">게시글 작성</h1>
+        <form @submit.prevent="createPost">
+        <div class="form-group mb-3">
+          <label for="title">제목</label>
+          <input type="text" id="title" v-model="title" required>
+        </div>
         <br>
-        <label for="content">내용</label>
-        <textarea id="content" v-model="content" required></textarea>
+        <div class="form-group mb-3">
+          <label for="content">내용</label>
+          <textarea id="content" v-model="content" required></textarea>
         <br>
-        <button type="submit">작성</button>
-        <button type="button" @click="cancel">취소</button>
+        </div>
+        <div class="text-center">
+          <button type="submit">작성</button>
+          <button type="button" @click="cancel">취소</button>
+        </div>
       </form>
+      </div>
     </div>
-  </template>
+  </div>
+</template>
   
   <script setup>
   import { ref } from 'vue';
@@ -39,6 +49,45 @@
   };
   </script>
   
-  <style scoped>
-  </style>
+<style scoped>
+.container {
+  max-width: 800px;
+}
+
+.card {
+  background-color: #ffffff; /* 흰색 배경 */
+  border: 1px solid #dcdcdc; /* 회색 선 */
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.card-title {
+  color: #333333; /* 제목 색상 */
+}
+
+.form-control {
+  border: 1px solid #dcdcdc; /* 회색 선 */
+}
+
+.btn-primary {
+  background-color: #00796b; /* 민트색 버튼 */
+  border-color: #00796b;
+}
+
+.btn-primary:hover {
+  background-color: #004d40; /* 버튼 호버 색상 */
+  border-color: #004d40;
+}
+
+.btn-secondary {
+  background-color: #6c757d; /* secondary 버튼 색상 */
+  border-color: #6c757d;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268; /* secondary 버튼 호버 색상 */
+  border-color: #545b62;
+}
+
+</style>
   
