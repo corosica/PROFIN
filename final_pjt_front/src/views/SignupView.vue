@@ -61,7 +61,7 @@ const signup = () => {
 
 <style scoped>
 .signup-container {
-  max-width: 400px;
+  max-width: 600px;
   margin: 50px auto;
   padding: 20px;
   border: 1px solid #dcdcdc;
