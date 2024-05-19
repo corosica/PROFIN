@@ -8,6 +8,8 @@
         <label for="content">내용:</label>
         <textarea id="content" v-model="content"></textarea>
         <br>
+        <input name="file" type="file">
+        <br>
         <button type="submit">수정하기</button>
         I
         <button type="button" @click="cancel">취소</button>
