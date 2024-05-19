@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="map-container">
     <h2>카카오 맵 보기</h2>
 
     <form @submit.prevent="findmap">
@@ -208,8 +208,14 @@ function clearMarkers() {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.map-container {
+  text-align: center;
+  justify-content: center;
+  display: flex;
+}
 #map {
 width: 400px;
 height: 400px;
 }
+
 </style>
