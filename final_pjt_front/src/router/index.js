@@ -9,6 +9,7 @@ import LoginView from '@/views/LoginView.vue';
 import SignupView from '@/views/SignupView.vue';
 import PostUpdateView from '@/views/PostUpdateView.vue'
 import KakaomapView from '@/views/KakaoMapView.vue'
+import UserProfileView from '@/views/UserProfileView.vue'
 
 const requireAuth = () => (to, from, next) => {
   if (localStorage.getItem('token') !== null) {
@@ -68,11 +69,15 @@ const router = createRouter({
       component: PostUpdateView,
     },
     {
-      path: '/kakaomap/',
+      path: '/kakaomap',
       name: 'Kakaomap',
       component: KakaomapView,
-    }
-
+    },
+    {
+      path: '/UserProfile',
+      name: 'UserProfile',
+      component: UserProfileView,
+    },
   
     // 기타 라우트 설정을 여기에 추가할 수 있습니다.
   ]
