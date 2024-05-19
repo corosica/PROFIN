@@ -1,25 +1,47 @@
 <template>
     <div class="profile-container">
       <h1>회원정보</h1>
-      <div class="profile">
-        <div class="profile-group">
-          <label for="username">아이디</label>
-          <input type="text" id="username" v-model="username" disabled>
-        </div>
-        <div class="profile-group">
-          <label for="nickname">닉네임</label>
-          <input type="text" id="nickname" v-model="nickname" disabled>
-        </div>
-        <div class="profile-group">
-          <label for="email">이메일</label>
-          <input type="email" id="email" v-model="email" disabled>
-        </div>
-        <div class="profile-group">
-          <label for="age">나이</label>
-          <input type="number" id="age" v-model="age" disabled>
-        </div>
-        <button type="submit" class="update-button">정보 수정</button>
-        </div>
+      <table class="profile-table">
+        <tr>
+          <th>프로필</th>
+          <td>
+            <div class="profile-header">
+              <div class="profile-img">
+                <img src="/user.png" alt="profile-image" class="profile-image">
+              </div>
+              <div>
+                <p>{{ nickname }}님 환영합니다</p>
+                <p>보유 포인트: <span class="points">100,000 p</span> <button class="btn-recharge">충전하기</button></p>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <th>이메일</th>
+          <td>{{ email }}</td>
+        </tr>
+        <tr>
+          <th>성별</th>
+          <td>{{ gender }}</td>
+        </tr>
+        <tr>
+          <th>자산</th>
+          <td>{{ asset }}</td>
+        </tr>
+        <tr>
+          <th>직업</th>
+          <td>{{ job }}</td>
+        </tr>
+        <tr>
+          <th>성향 / 목적</th>
+          <td>{{ goal }}</td>
+        </tr>
+      </table>
+      <div class="button-group">
+        <button class="btn btn-secondary" @click="changePassword">비밀번호 변경</button>
+        <button class="btn btn-primary" @click="editProfile">회원정보 수정</button>
+        <button class="btn btn-outline-dark" @click="goBack">뒤로가기</button>
+      </div>
     </div>
   </template>
   
@@ -31,85 +53,163 @@
   const username = ref('');
   const email = ref('');
   const nickname = ref('');
-  const age = ref('');
+  const gender = ref('');
+  const asset = ref('');
+  const job = ref('');
+  const goal = ref('');
   const router = useRouter();
   const counterStore = useCounterStore();
   
   onMounted(async () => {
     try {
-      await counterStore.getUserInfo(); // 비동기 호출을 기다림
+      await counterStore.getUserInfo();
       const userData = counterStore.userInfos;
       if (userData) {
         username.value = userData.username;
         email.value = userData.email;
         nickname.value = userData.nickname;
-        age.value = userData.age;
+        gender.value = userData.gender;
+        asset.value = userData.asset;
+        job.value = userData.job;
+        goal.value = userData.goal;
       }
     } catch (error) {
       console.error('Failed to load user data:', error);
     }
   });
   
+  const changePassword = () => {
+    // 비밀번호 변경 로직
+  };
+  
+  const editProfile = () => {
+    // 정보 수정 로직
+  };
+  
+  const goBack = () => {
+    router.go(-1);
+  };
   </script>
   
   <style scoped>
-    .profile-container {
-    max-width: 800px; /* 2배로 증가 */
+  .profile-container {
+    max-width: 800px;
     margin: 50px auto;
-    padding: 40px; /* 2배로 증가 */
+    padding: 40px;
     border: 1px solid #dcdcdc;
     border-radius: 8px;
     background-color: #f9f9f9;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 2배로 증가 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
-    }
-  
-    h1 {
-    color: #333;
-    margin-bottom: 40px; /* 2배로 증가 */
-    font-size: 3em; /* 폰트 크기 증가 */
-    }
-
-    .profile {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-  
-    .profile-group {
-    width: 100%;
-    margin-bottom: 30px; /* 2배로 증가 */
-    }
-
-    .profile-group label {
-    display: block;
-    margin-bottom: 10px; /* 2배로 증가 */
-    font-weight: bold;
-    color: #555;
-    font-size: 1.2em; /* 폰트 크기 증가 */
-    }
-
-    .profile-group input {
-    width: 100%;
-    padding: 16px; /* 2배로 증가 */
-    border: 1px solid #dcdcdc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    font-size: 1.2em; /* 폰트 크기 증가 */
-    }
-  
-  .update-button {
-    padding: 10px 20px;
-    border: none;
-    background-color: #1abc9c;
-    color: #ffffff;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
   }
   
-  .update-button:hover {
-    background-color: #16a085;
+  h1 {
+    color: #333;
+    margin-bottom: 40px;
+    font-size: 2em;
+  }
+  
+  .profile-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+  }
+  
+  .profile-table th,
+  .profile-table td {
+    border: 1px solid #dcdcdc;
+    padding: 15px;
+    text-align: left;
+  }
+  
+  .profile-table th {
+    background-color: #f0f0f0;
+    width: 150px;
+  }
+  
+  .profile-header {
+    display: flex;
+    align-items: center;
+  }
+  
+  .profile-img {
+    width: 70px;
+    height: 70px;
+    margin-right: 20px;
+  }
+  
+  .profile-image {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+  }
+  
+  .points {
+    color: #1abc9c;
+    font-weight: bold;
+  }
+  
+  .btn-recharge {
+    background-color: #dcdcdc;
+    border: none;
+    padding: 5px 10px;
+    margin-left: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .btn-recharge:hover {
+    background-color: #c0c0c0;
+  }
+  
+  .button-group {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+  }
+  
+  .btn {
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .btn-secondary {
+    background-color: #6c757d;
+    border: 1px solid #6c757d;
+    color: #ffffff;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #5a6268;
+    color: #ffffff;
+  }
+  
+  .btn-primary {
+    background-color: #007bff;
+    border: 1px solid #007bff;
+    color: #ffffff;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+    color: #ffffff;
+  }
+  
+  .btn-outline-dark {
+    background-color: transparent;
+    border: 1px solid #343a40;
+    color: #343a40;
+  }
+  
+  .btn-outline-dark:hover {
+    background-color: #a8a8a8;
+    color: #ffffff;
+    border: 1px solid #a8a8a8;
   }
   </style>
   

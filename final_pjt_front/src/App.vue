@@ -15,8 +15,8 @@
         </div>
       </div>
       <div v-if="!islogin">
-        <RouterLink :to="{ name: 'Login' }"><button class="nav-button">로그인</button></RouterLink>
-        <RouterLink :to="{ name: 'Signup' }"><button class="nav-button">회원가입</button></RouterLink>
+        <RouterLink :to="{ name: 'Login' }"><button class="btn-profile">로그인</button></RouterLink> I
+        <RouterLink :to="{ name: 'Signup' }"><button class="btn-logout">회원가입</button></RouterLink>
       </div>
       <div v-else>
         <button type="button" class="btn-profile" @click="profile">회원 정보</button> I
@@ -119,6 +119,8 @@ const profile = () => {
   background-color: #ffffff;
   color: #1abc9c;
   border-color: #1abc9c;
+  transition: background-color 0.3s, color 0.3s;
+
 }
 
 .logo-container {
@@ -131,22 +133,22 @@ const profile = () => {
   margin-left: 200px;
 }
 
-.nav-button {
+/* .nav-button {
   padding: 10px 20px;
-  background-color: #1abc9c;
+  background-color: #ffffff;
   border-radius: 8px;
   border: 2px solid #1abc9c;
-  color: #ffffff;
+  color: #1abc9c;
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
 }
 
 .nav-button:hover {
-  background-color: #ffffff;
-  color: #1abc9c;
+  background-color: #1abc9c;
+  color: #ffffff;
   border-color: #1abc9c;
-}
+} */
 
 /* Custom styles for Bootstrap-like buttons */
 .btn-profile {
