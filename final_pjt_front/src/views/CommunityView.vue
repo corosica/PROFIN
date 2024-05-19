@@ -16,10 +16,10 @@
           <table class="board-table">
             <thead>
               <tr>
-                <th>번호</th>
-                <th>제목</th>
-                <th>글쓴이</th>
-                <th>날짜</th>
+                <th class="col-number">번호</th>
+                <th class="col-title">제목</th>
+                <th class="col-author">글쓴이</th>
+                <th class="col-date">날짜</th>
               </tr>
             </thead>
             <tbody>
@@ -44,7 +44,8 @@
           <button>4</button>
           <button>&gt;</button>
         </div>
-        <div class="text-center mt-4">
+        
+        <div class="text-center mt-4 write-btn-container">
           <button @click.prevent="writePost" class="write-btn">
             글쓰기
           </button>
@@ -81,14 +82,15 @@ const writePost = function () {
 }
 
 const formatDate = (datetime) => {
-  return datetime.split('T')[0];
+  const datePart = datetime.split('T')[0];
+  const [year, month, day] = datePart.split('-');
+  return `${month}-${day}`;
 };
-
 </script>
 
 <style scoped>
 .container {
-  max-width: 1000px;
+  max-width: 1100px;
 }
 
 .card {
@@ -137,13 +139,20 @@ const formatDate = (datetime) => {
 }
 
 .text-decoration-none {
-  color: #058677; /* 민트색 링크 */
+  color: #000000; /* 민트색 링크 */
   text-decoration: none;
 }
 
 .text-decoration-none:hover {
-  color: #034e35; /* 링크 호버 색상 */
+  color: #1abc9c; /* 링크 호버 색상 */
 }
+
+.write-btn-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+
 
 .write-btn {
   display: inline-block;
@@ -181,4 +190,24 @@ const formatDate = (datetime) => {
   background-color: #1abc9c;
   color: #ffffff;
 }
+
+.col-number {
+  width: 10%;
+  text-align: center;
+}
+
+.col-title {
+  width: 65%;
+}
+
+.col-author {
+  width: 15%;
+  text-align: center;
+}
+
+.col-date {
+  width: 10%;
+  text-align: center;
+}
+
 </style>

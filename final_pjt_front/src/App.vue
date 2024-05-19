@@ -1,9 +1,10 @@
 <template>
-
   <header class="header-container">
     <nav class="navbar">
-      <div>
-      <img src="/PROFIN.png" alt="Logo" class="logo">
+      <div class="logo-container">
+        <router-link :to="{ name: 'Home' }">
+          <img src="/PROFIN.png" alt="Logo" class="logo">
+        </router-link>
       </div>
       <div class="nav-links-wrapper">
         <div class="nav-links">
@@ -13,75 +14,69 @@
           <RouterLink class="nav-link-box" :to="{ name: 'Kakaomap' }">카카오맵</RouterLink>
         </div>
       </div>
-
-      <div v-if="islogin">
-        <RouterLink :to="{name : 'Login'}"><button @click="Login">로그인</button></RouterLink> I
-        <RouterLink :to="{name : 'Signup'}"><button @click="Signup">회원가입</button></RouterLink>
+      <div v-if="!islogin">
+        <RouterLink :to="{ name: 'Login' }"><button class="nav-button">로그인</button></RouterLink>
+        <RouterLink :to="{ name: 'Signup' }"><button class="nav-button">회원가입</button></RouterLink>
       </div>
       <div v-else>
-        <button @click="profile">회원 정보</button>
-        <button @click="logout">로그아웃</button>
-
-          <!-- 회원정보 -> routerlink로 바꾸기 -->
+        <button type="button" class="btn-profile" @click="profile">회원 정보</button> I
+        <button type="button" class="btn-logout" @click="logout">로그아웃</button>
       </div>
     </nav>
   </header>
-
   <RouterView />
-
 </template>
 
 <script setup>
-  import { useCounterStore } from '@/stores/counter';
-  import { useRouter,RouterLink, RouterView } from 'vue-router'
-  import axios from 'axios'
-  import { ref ,onMounted} from 'vue'
-  const router = useRouter()
-  // import HelloWorld from './components/HelloWorld.vue'
-  const islogin = ref(true)
-  const isLoggedIn = function () {
-    islogin.value = (localStorage.getItem('token')== null)
-  }
+import { useCounterStore } from '@/stores/counter';
+import { useRouter, RouterLink, RouterView } from 'vue-router';
+import axios from 'axios';
+import { ref, onMounted } from 'vue';
 
-  
-  console.log(localStorage.getItem('token'))
-  isLoggedIn()
-  console.log(localStorage.getItem('token')== null)
-  const logout = function () {
-    axios({
-      method : 'POST',
-      url : 'http://127.0.0.1:8000/accounts/logout/',
-      headers : {
-        Authorization : localStorage.getItem('token'),
-      },
-      data : {}
-    })
-    .then(function(response) {
+const router = useRouter();
+const islogin = ref(false);
+
+const isLoggedIn = () => {
+  islogin.value = localStorage.getItem('token') !== null;
+};
+
+console.log(localStorage.getItem('token'));
+isLoggedIn();
+console.log(localStorage.getItem('token') === null);
+
+const logout = () => {
+  axios({
+    method: 'POST',
+    url: 'http://127.0.0.1:8000/accounts/logout/',
+    headers: {
+      Authorization: localStorage.getItem('token'),
+    },
+    data: {},
+  })
+    .then((response) => {
       localStorage.removeItem('token');
       console.log(response.data);
-      router.push({name:'Login'}).then(() => {
-        // router.push가 완료된 후 새로고침을 수행
-          router.go(0);
-        });
+      router.push({ name: 'Login' }).then(() => {
+        router.go(0);
+      });
     })
-    .then(function(error) {
+    .catch((error) => {
       console.log(error);
-    })
-    
+    });
+};
 
-  }
-  const store = useCounterStore();
+const store = useCounterStore();
 
-const profile = function () {
-  router.push({name:'UserProfile'})
-}
+const profile = () => {
+  router.push({ name: 'UserProfile' });
+};
 </script>
 
 <style scoped>
 .header-container {
-  background-color: #fffdfd; /* 흰색 배경 */
-  border: 1px solid #dcdcdc; /* 회색 선 */
-  border-radius: 8px; /* 둥근 모서리 */
+  background-color: #fffdfd;
+  border: 1px solid #dcdcdc;
+  border-radius: 20px;
   padding: 20px;
   margin-bottom: 20px;
 }
@@ -92,52 +87,38 @@ const profile = function () {
   align-items: center;
 }
 
-.nav-links {
-  display: flex;
-  gap: 10px;
-}
-
-.nav-link-box {
-  padding: 10px 20px;
-  background-color: #1abc9c; /* 민트색 배경 */
-  border-radius: 8px; /* 둥근 모서리 */
-  text-decoration: none;
-  color: #ffffff; /* 링크 색상 */
-  font-weight: bold;
-  border: 2px solid #1abc9c;
-}
-
-.nav-link-box:hover {
-  background-color: #ffffff; /* 링크 호버 배경색 */
-  color: #1abc9c; /* 링크 호버 색상 */
-  border-color: #1abc9c;
-  border: 2px solid
-}
-
-.btn-outline-success, .btn-outline-primary, .btn-outline-danger, .btn-outline-info {
-  border-color: #00796b; /* 버튼 테두리 색상 */
-  color: #00796b; /* 버튼 텍스트 색상 */
-}
-
-.btn-outline-success:hover, .btn-outline-primary:hover, .btn-outline-danger:hover, .btn-outline-info:hover {
-  background-color: #004d40; /* 버튼 호버 배경색 */
-  border-color: #004d40; /* 버튼 호버 테두리 색상 */
-  color: #ffffff !important; /* 버튼 호버 텍스트 색상 */
-}
-
 .nav-links-wrapper {
   flex-grow: 1;
   display: flex;
   justify-content: center;
-
 }
+
 .nav-links {
   display: flex;
-  gap: 200px;
+  justify-content: space-around; /* 링크 사이의 간격을 균등하게 조정 */
+  width: 100%;
+  max-width: 1300px; /* 링크 컨테이너의 최대 너비를 설정 */
   padding: 10px;
-  background-color: #dcdcdc; /* 연한 회색 배경 */
-  border: 1px solid #dcdcdc; /* 회색 선 */
-  border-radius: 8px; /* 둥근 모서리 */
+  background-color: #ebeaea;
+  border: 1px solid #ebeaea;
+  border-radius: 8px;
+  margin-right: 100px;
+}
+
+.nav-link-box {
+  padding: 8px 30px;
+  background-color: #1fcba9;
+  border-radius: 20px;
+  text-decoration: none;
+  color: #ffffff;
+  font-weight: bold;
+  border: 2px solid #1fcba9;
+}
+
+.nav-link-box:hover {
+  background-color: #ffffff;
+  color: #1abc9c;
+  border-color: #1abc9c;
 }
 
 .logo-container {
@@ -147,9 +128,57 @@ const profile = function () {
 
 .logo {
   max-height: 100px;
-  margin-right: 0px;
+  margin-left: 200px;
 }
 
+.nav-button {
+  padding: 10px 20px;
+  background-color: #1abc9c;
+  border-radius: 8px;
+  border: 2px solid #1abc9c;
+  color: #ffffff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
 
+.nav-button:hover {
+  background-color: #ffffff;
+  color: #1abc9c;
+  border-color: #1abc9c;
+}
 
+/* Custom styles for Bootstrap-like buttons */
+.btn-profile {
+  padding:  8px 12px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  border: 2px solid #6c6b6b;
+  color: #6c6b6b;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-profile:hover {
+  background-color: #b1b1b1;
+  border-color: #b1b1b1;
+  color: #ffffff;
+}
+
+.btn-logout {
+  padding: 8px 12px;
+  background-color: transparent;
+  border-radius: 8px;
+  border: 2px solid #1abc9c;
+  color: #1abc9c;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-logout:hover {
+  background-color: #1abc9c;
+  color: #ffffff;
+}
 </style>
