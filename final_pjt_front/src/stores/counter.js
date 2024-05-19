@@ -24,7 +24,7 @@ export const useCounterStore = defineStore('counter', () => {
       console.log(response.data)
       localStorage.setItem('token','Token '+response.data.key)
       router.push({name:'Home'})
-      router.go(1)
+
     }).catch(function (err) {
       alert('아이디 비밀번호를 다시 확인해보세요')
       console.log(err)
