@@ -9,6 +9,7 @@ import LoginView from '@/views/LoginView.vue';
 import SignupView from '@/views/SignupView.vue';
 import PostUpdateView from '@/views/PostUpdateView.vue'
 import KakaomapView from '@/views/KakaoMapView.vue'
+import ExchangeView from '@/views/ExchangeView.vue'
 
 const requireAuth = () => (to, from, next) => {
   if (localStorage.getItem('token') !== null) {
@@ -68,9 +69,14 @@ const router = createRouter({
       component: PostUpdateView,
     },
     {
-      path: '/kakaomap/',
+      path: '/kakaomap',
       name: 'Kakaomap',
       component: KakaomapView,
+    },
+    {
+      path: '/Exchange',
+      name: 'Exchange',
+      component: ExchangeView,
     }
 
   
