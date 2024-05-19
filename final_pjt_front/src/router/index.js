@@ -10,7 +10,13 @@ import SignupView from '@/views/SignupView.vue';
 import PostUpdateView from '@/views/PostUpdateView.vue'
 import KakaomapView from '@/views/KakaoMapView.vue'
 
-
+const requireAuth = () => (to, from, next) => {
+  if (localStorage.getItem('token') !== null) {
+    return next();
+  }
+  alert('로그인을 해주세요'); // 나중에 before enter로 처리
+  next('/login');
+};
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -29,6 +35,7 @@ const router = createRouter({
       path: '/community/post_create',
       name: 'PostCreate',
       component: PostCreateView,
+      beforeEnter : requireAuth()
     },
     {
       path: '/community/:id',

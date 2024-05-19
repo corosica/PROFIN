@@ -6,7 +6,11 @@
   </template>
   
   <script setup>
-  </script>
+  import { onMounted } from 'vue';
+  import { useRouter } from 'vue-router';
+  const router = useRouter()
+
+</script>
   
   <style scoped>
   /* 최소한의 스타일링만 추가 */

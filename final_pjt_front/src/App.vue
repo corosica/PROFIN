@@ -27,9 +27,10 @@
 
 <script setup>
   import { useCounterStore } from '@/stores/counter';
-  import { RouterLink, RouterView } from 'vue-router'
+  import { useRouter,RouterLink, RouterView } from 'vue-router'
   import axios from 'axios'
   import { ref ,onMounted} from 'vue'
+  const router = useRouter()
   // import HelloWorld from './components/HelloWorld.vue'
   const islogin = ref(true)
   const isLoggedIn = function () {
@@ -41,14 +42,21 @@
   isLoggedIn()
   console.log(localStorage.getItem('token')== null)
   const logout = function () {
-    localStorage.removeItem('token');
     axios({
       method : 'POST',
-      url : 'http://127.0.0.1:8000/accounts/logout',
+      url : 'http://127.0.0.1:8000/accounts/logout/',
+      headers : {
+        Authorization : localStorage.getItem('token'),
+      },
+      data : {}
     })
     .then(function(response) {
+      localStorage.removeItem('token');
       console.log(response.data);
-      location.reload();
+      router.push({name:'Login'}).then(() => {
+        // router.push가 완료된 후 새로고침을 수행
+          router.go(0);
+        });
     })
     .then(function(error) {
       console.log(error);

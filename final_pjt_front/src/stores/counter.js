@@ -1,6 +1,7 @@
 
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
+import { useRouter } from 'vue-router'
 import axios from 'axios'
 export const useCounterStore = defineStore('counter', () => {
   const articleList = ref([])
@@ -10,22 +11,46 @@ export const useCounterStore = defineStore('counter', () => {
   const updated_time = ref('')
   const commentList = ref([])
   const map_data = ref({})
-  const login = function () {
+  const router = useRouter()
+  const login = function (username,password) {
     axios({
       method : 'POST',
       url : 'http://127.0.0.1:8000/accounts/login/', //주소
       data : {
-        username : 'testuser',
-        password : 'ssafy11!'
+        username : username,
+        password : password
       }
     }).then(function (response) {
       console.log(response.data)
       localStorage.setItem('token','Token '+response.data.key)
+      router.push({name:'Home'}).then(() => {
+        // router.push가 완료된 후 새로고침을 수행
+          router.go(0);
+        });
     }).catch(function (err) {
+      alert('아이디 비밀번호를 다시 확인해보세요')
       console.log(err)
     })
   }
 
+
+  const signup = function (username,password1,password2,email) {
+    axios({
+      method:'POST',
+      url : 'http://127.0.0.1:8000/accounts/signup/',
+      data : {
+        username : username,
+        password1 : password1,
+        password2 : password2,
+        email : email
+      }
+    }).then(function (response) {
+      login(username,password1)
+      console.log(response.data)
+    }).catch(function (err) {
+      console.log(err)
+    })
+  }
   const viewArticles = async function () {
     try {
       const response = await axios({
@@ -193,5 +218,6 @@ export const useCounterStore = defineStore('counter', () => {
     deleteComment,
     read_map,
     map_data,
+    signup,
   }
 })

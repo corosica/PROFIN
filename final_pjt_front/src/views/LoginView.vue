@@ -23,7 +23,7 @@
   const password = ref('');
   const router = useRouter();
   const login = () => {
-    counterStore.login()
+    counterStore.login(username.value,password.value)
   };
   </script>
   

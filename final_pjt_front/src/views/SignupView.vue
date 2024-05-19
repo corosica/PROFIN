@@ -22,13 +22,13 @@
   <script setup>
   import { ref } from 'vue';
   import { useRouter } from 'vue-router';
-  
+  import { useCounterStore } from '@/stores/counter';
   const username = ref('');
   const email = ref('');
   const password = ref('');
   const confirmPassword = ref('');
   const router = useRouter();
-  
+  const counterStore = useCounterStore()
   const signup = () => {
     if (password.value !== confirmPassword.value) {
       alert('비밀번호가 일치하지 않습니다.');
@@ -36,9 +36,8 @@
     }
     if (email.value && password.value) {
       // 실제 회원가입 로직을 여기에 추가하세요.
-      console.log('Email:', email.value);
-      console.log('Password:', password.value);
-      router.push('/login');
+      counterStore.signup(username.value,password.value,confirmPassword.value,email.value)
+      
     } else {
       alert('이메일과 비밀번호를 입력하세요.');
     }
