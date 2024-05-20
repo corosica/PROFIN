@@ -27,6 +27,37 @@
         <label for="age">나이: </label>
         <input type="number" id="age" v-model="age" required>
       </div>
+      <div class="form-group">
+        <label>성별: </label>
+        <div class="gender-options">
+          <label class="gender-option">
+            <input name="gender" value="male" type="radio" v-model="gender">
+            남성
+          </label>
+          <label class="gender-option">
+            <input name="gender" value="female" type="radio" v-model="gender">
+            여성
+          </label>
+          <label class="gender-option">
+            <input name="gender" value="none" type="radio" v-model="gender">
+            비공개
+          </label>
+        </div>
+      
+      </div>
+      <div class="form-group">
+        <label for="asset">자산: </label>
+        <input type="number" id="asset" v-model="asset" required>
+      </div>      
+      <div class="form-group">
+        <label for="goal">목표: </label>
+        <input type="text" id="goal" v-model="goal" required>
+      </div>
+      <div class="form-group">
+        <label for="job">직업: </label>
+        <input type="text" id="job" v-model="job" required>
+      </div>
+      
       <br>
       <button type="submit" class="signup-button">회원가입</button>
     </form>
@@ -41,9 +72,13 @@ import { useCounterStore } from '@/stores/counter';
 const username = ref('');
 const email = ref('');
 const password = ref('');
+const confirmPassword = ref('');
 const nickname = ref('');
 const age = ref('');
-const confirmPassword = ref('');
+const gender = ref('male'); // 성별 선택을 위한 변수
+const asset = ref('');
+const goal = ref('');
+const job = ref('');
 const router = useRouter();
 const counterStore = useCounterStore();
 
@@ -56,7 +91,7 @@ const signup = () => {
     return;
   }
   else {
-    counterStore.signup(username.value, password.value, confirmPassword.value, email.value, nickname.value, age.value);
+    counterStore.signup(username.value, password.value, confirmPassword.value, email.value, nickname.value, age.value, gender.value, asset.value, goal.value, job.value);
     router.push('/login');
   }
 };
@@ -88,12 +123,25 @@ const signup = () => {
   font-weight: bold;
 }
 
-.form-group input {
+.form-group input,
+.form-group select {
   width: 100%;
   padding: 8px;
   border: 1px solid #dcdcdc;
   border-radius: 4px;
   box-sizing: border-box;
+}
+
+.gender-options {
+  display: flex;
+  gap: 20px;
+  margin-top: 5px;
+}
+
+.gender-option {
+  display: inline-flex; /* 라디오 버튼과 텍스트를 가로로 배치 */
+  align-items: center; /* 텍스트와 라디오 버튼을 세로로 중앙 정렬 */
+  gap: 5px;
 }
 
 .signup-button {
