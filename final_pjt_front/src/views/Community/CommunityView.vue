@@ -23,7 +23,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="post in posts" :key="post.id">
+              <tr v-for="post in currentPagePosts" :key="post.id">
                 <td>{{ post.id }}</td>
                 <td>
                   <RouterLink :to="{ name: 'PostDetail', params: { id: post.id } }" class="text-decoration-none">
@@ -37,12 +37,9 @@
           </table>
         </div>
         <div class="pagination">
-          <button>&lt;</button>
-          <button class="active">1</button>
-          <button>2</button>
-          <button>3</button>
-          <button>4</button>
-          <button>&gt;</button>
+          <button @click="prevPage" :disabled="currentPage === 1">&lt;</button>
+          <button v-for="page in totalPages" :key="page" @click="changePage(page)" :class="{ 'active': page === currentPage }">{{ page }}</button>
+          <button @click="nextPage" :disabled="currentPage === totalPages">&gt;</button>
         </div>
         
         <div class="text-center mt-4 write-btn-container">
@@ -56,7 +53,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted,watch,computed } from 'vue';
 import { useCounterStore } from '@/stores/counter';
 import { useRouter } from 'vue-router';
 
@@ -86,6 +83,49 @@ const formatDate = (datetime) => {
   const [year, month, day] = datePart.split('-');
   return `${month}-${day}`;
 };
+
+const currentPagePosts = computed(() => {
+  const startIndex = (currentPage.value - 1) * perPage;
+  const endIndex = startIndex + perPage;
+  return posts.value.slice(startIndex, endIndex);
+});
+
+
+const perPage = 10; // 페이지당 게시글 수
+let currentPage = ref(1); // 현재 페이지
+const totalPages = ref(1); // 총 페이지 수
+
+// 현재 페이지의 게시글 목록을 반환하는 함수
+const getCurrentPagePosts = () => {
+  const startIndex = (currentPage.value - 1) * perPage;
+  const endIndex = startIndex + perPage;
+  return posts.value.slice(startIndex, endIndex);
+}
+
+// 페이지 변경 시 호출되는 함수
+const changePage = (page) => {
+  currentPage.value = page;
+}
+
+// 이전 페이지로 이동하는 함수
+const prevPage = () => {
+  if (currentPage.value > 1) {
+    currentPage.value--;
+  }
+}
+
+// 다음 페이지로 이동하는 함수
+const nextPage = () => {
+  if (currentPage.value < totalPages.value) {
+    currentPage.value++;
+  }
+}
+
+// 페이지별 게시글 목록을 계산하는 함수
+watch(posts, () => {
+  totalPages.value = Math.ceil(posts.value.length / perPage);
+  currentPage.value = 1;
+});
 </script>
 
 <style scoped>
