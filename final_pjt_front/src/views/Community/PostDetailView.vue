@@ -2,7 +2,7 @@
   <div>
       <h3>{{ counterStore.title }} </h3>
       <p>글 번호 : {{ route.params.id  }}</p>
-      <p>유저 : {{ counterStore.username }}   업데이트 : {{ counterStore.updated_time }}  </p>
+      <p>유저 : {{ counterStore.username.nickname }}   업데이트 : {{ counterStore.updated_time }}  </p>
       <p>내용</p>
       <p>{{counterStore.content}}</p>
     <div class="buttons">
@@ -18,7 +18,7 @@
       </form>
       <ul>
         <li v-for="comment in comments" :key="comment.id">
-          <p> {{ comment.user }} : {{ comment.content }}</p> 
+          <p> {{ comment.user.nickname }} : {{ comment.content }}</p> 
           <button @click="deleteComments(comment.id)">삭제</button>
         </li>
       </ul>
