@@ -33,7 +33,7 @@
           <td>{{ job }}</td>
         </tr>
         <tr>
-          <th>성향 / 목적</th>
+          <th>목적</th>
           <td>{{ goal }}</td>
         </tr>
       </table>

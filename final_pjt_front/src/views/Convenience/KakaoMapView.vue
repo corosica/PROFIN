@@ -1,21 +1,27 @@
 <template>
   <div class="map-container">
     <h2>카카오 맵 보기</h2>
-    <hr>
     <form @submit.prevent="findmap" class="map-form">
-      <select id="city" v-model="selectedCity">
-        <option v-for="city in cities" :key="city.city" :value="city.city">{{ city.city }}</option>
-      </select>
-      <select id="district" v-model="selectedGu">
-        <option v-for="district in filteredDistricts" :key="district" :value="district">{{ district }}</option>
-      </select>
-      <input type="text" name="bank" id="bank" placeholder="은행을 입력하세요">
-      <input type="submit" value="Submit" />
+      <div class="selectors">
+        <select id="city" v-model="selectedCity">
+          <option v-for="city in cities" :key="city.city" :value="city.city">{{ city.city }}</option>
+        </select>
+        <select id="district" v-model="selectedGu">
+          <option v-for="district in filteredDistricts" :key="district" :value="district">{{ district }}</option>
+        </select>
+      </div>
+      <div class="search">
+        <input type="text" id="bank" placeholder="은행을 입력하세요">
+        <div class="seacrh-btn">
+          <input type="submit" value="찾기">
+        </div>
+      </div>
     </form>
-    <hr>
     <div id="map"></div>
   </div>
 </template>
+
+
 
 <script setup>
 import { ref, onMounted, computed } from 'vue';
@@ -195,26 +201,79 @@ function clearMarkers() {
 
 <style scoped>
 .map-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 20px;
+  font-family: 'Arial', sans-serif;
+  max-width: 800px;
+  margin: 40px auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 h2 {
-  margin-bottom: 10px;
+  color: #4a4a4a;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
 form {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: 10px;
-  margin-bottom: 10px;
+  width: 100%;
+}
+
+form .selectors {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+select {
+  width: 49%; /* 각 select는 가용 공간의 약 50%를 차지하도록 설정 */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background: #f8f9fa;
+}
+
+.search {
+  width: 50%; /* search 부분이 전체 가용 공간의 50%를 차지하도록 설정 */
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: #f8f9fa;
+}
+
+input[type="text"], input[type="submit"] {
+  padding: 8px;
+  color: #ccc;
+  border: none;
+  flex: 1;
+}
+
+.search .seacrh-btn input[type="submit"] {
+  padding: 8px 25px; /* 패딩 증가 */
+  font-size: 16px; /* 폰트 크기 조정 */
+  background-color: #0266d1; /* 배경색 */
+  color: white; /* 글자색 */
+  border: none; /* 테두리 없음 */
+  cursor: pointer; /* 클릭 가능한 커서 스타일 */
+  transition: background-color 0.3s ease; /* 배경색 변경 시 애니메이션 효과 */
+  border-radius: 8px; /* 둥근 모서리 */
+}
+
+.search .seacrh-btn input[type="submit"]:hover {
+  background-color: #03458b; /* 호버 시 배경색 변경 */
 }
 
 #map {
-  width: 80%;
-  max-width: 600px;
+  width: 100%;
   height: 500px;
-  margin-top: 10px;
+  margin-top: 20px;
+  border-radius: 5px;
 }
 </style>
