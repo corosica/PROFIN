@@ -51,7 +51,8 @@ onMounted(async () => {
 
 const getExchangeRate = (currency) => {
   const foundCurrency = exchanges.value.find(c => c.cur_unit === currency);
-  return foundCurrency ? parseFloat(foundCurrency.deal_bas_r) : 1;
+  const rateString = foundCurrency.deal_bas_r.replace(/,/g, '')
+  return foundCurrency ? parseFloat(rateString) : 1;
 };
 
 const calculateExchangeRate = (source) => {
@@ -59,10 +60,13 @@ const calculateExchangeRate = (source) => {
     const rate1 = getExchangeRate(selectedCurrency1.value);
     const rate2 = getExchangeRate(selectedCurrency2.value);
     input2.value = (input1.value * rate2) / rate1;
+    console.log(rate1,rate2)
   } else if (source === "input2") {
     const rate1 = getExchangeRate(selectedCurrency1.value);
     const rate2 = getExchangeRate(selectedCurrency2.value);
     input1.value = (input2.value * rate1) / rate2;
+    console.log(rate1,rate2)
+
   }
 };
 </script>
