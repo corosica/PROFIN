@@ -8,6 +8,8 @@ from allauth.account.utils import user_email, user_field, user_username
 class User(AbstractUser):
     nickname = models.CharField(max_length=255,blank=True)
     age = models.IntegerField(null=True)
+
+
 class CustomAccountAdapter(DefaultAccountAdapter):
  def save_user(self, request, user, form, commit=True):
     data = form.cleaned_data
@@ -27,6 +29,8 @@ class CustomAccountAdapter(DefaultAccountAdapter):
         user_field(user, "last_name", last_name)
     if nickname:
         user_field(user, "nickname", nickname)
+    else:
+        user_field(user, "nickname", username)
     if age:
         user.age = age
     if "password1" in data:
