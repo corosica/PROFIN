@@ -9,12 +9,14 @@ import PostUpdateView from '@/views/Community/PostUpdateView.vue'
 import DepositView from '@/views/Deposit/DepositView.vue'
 import DepositDetailView from '@/views/Deposit/DepositDetailView.vue'
 
-import KakaomapView from '@/views/KakaoMapView.vue'
-import ExchangeView from '@/views/ExchangeView.vue'
+import KakaomapView from '@/views/Convenience/KakaoMapView.vue'
+import ExchangeView from '@/views/Convenience/ExchangeView.vue'
 
 import UserProfileView from '@/views/Users/UserProfileView.vue'
 import LoginView from '@/views/Users/LoginView.vue';
 import SignupView from '@/views/Users/SignupView.vue';
+
+
 
 const requireAuth = () => (to, from, next) => {
   if (localStorage.getItem('token') !== null) {
