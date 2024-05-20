@@ -31,7 +31,7 @@
           <li class="nav-item dropdown-container">
             <button class="nav-link-box">고객 센터</button>
             <ul class="dropdown">
-              <li><RouterLink class="dropdown-link" :to="{ name: 'Home' }">FAQ</RouterLink></li>
+              <li><RouterLink class="dropdown-link" :to="{ name: 'Question' }">FAQ</RouterLink></li>
             </ul>
           </li>
         </ul>
