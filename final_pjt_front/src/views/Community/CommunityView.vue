@@ -4,10 +4,12 @@
       <div class="card-body">
         <h1 class="card-title text-center mb-4">게시판</h1>
         <div class="board-header">
-          <select class="category">
-            <option>검색</option>
+          <select v-model="searchCriteria" class="category">
+            <option value="title">제목</option>
+            <option value="author">글쓴이</option>
           </select>
-          <input type="text" placeholder="검색어를 입력하세요" class="search-input">
+          <input type="text" v-model="searchQuery" placeholder="검색어를 입력하세요" class="search-input">
+          <button @click="searchPosts" class="search-button">검색</button>
         </div>
         <div v-if="loading" class="text-center">
           <p class="text-muted">Loading 중...</p>
@@ -41,7 +43,6 @@
           <button v-for="page in totalPages" :key="page" @click="changePage(page)" :class="{ 'active': page === currentPage }">{{ page }}</button>
           <button @click="nextPage" :disabled="currentPage === totalPages">&gt;</button>
         </div>
-        
         <div class="text-center mt-4 write-btn-container">
           <button @click.prevent="writePost" class="write-btn">
             글쓰기
@@ -53,19 +54,27 @@
 </template>
 
 <script setup>
-import { ref, onMounted,watch,computed } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useCounterStore } from '@/stores/counter';
 import { useRouter } from 'vue-router';
 
 const counterStore = useCounterStore();
 const posts = ref([]);
+const filteredPosts = ref([]);
 const loading = ref(true);
+const searchQuery = ref('');
+const searchCriteria = ref('title'); // 검색 기준 ('title' 또는 'author')
+const currentPage = ref(1);
+const perPage = 10;
+const totalPages = ref(1);
 
 const router = useRouter();
 onMounted(async () => {
   try {
     await counterStore.viewArticles();
     posts.value = counterStore.articleList;
+    filteredPosts.value = posts.value;
+    totalPages.value = Math.ceil(filteredPosts.value.length / perPage);
   } catch (error) {
     console.error('failed to view articles', error);
   } finally {
@@ -74,9 +83,9 @@ onMounted(async () => {
   }
 });
 
-const writePost = function () {
+const writePost = () => {
   router.push({ name: 'PostCreate' });
-}
+};
 
 const formatDate = (datetime) => {
   const datePart = datetime.split('T')[0];
@@ -87,45 +96,41 @@ const formatDate = (datetime) => {
 const currentPagePosts = computed(() => {
   const startIndex = (currentPage.value - 1) * perPage;
   const endIndex = startIndex + perPage;
-  return posts.value.slice(startIndex, endIndex);
+  return filteredPosts.value.slice(startIndex, endIndex);
 });
 
+const searchPosts = () => {
+  if (!searchQuery.value) {
+    filteredPosts.value = posts.value;
+  } else {
+    filteredPosts.value = posts.value.filter(post => {
+      if (searchCriteria.value === 'title') {
+        return post.title.toLowerCase().includes(searchQuery.value.toLowerCase());
+      } else if (searchCriteria.value === 'author') {
+        return post.user.nickname.toLowerCase().includes(searchQuery.value.toLowerCase());
+      }
+    });
+  }
+  currentPage.value = 1; // 검색 결과가 바뀌면 첫 페이지로 이동
+  totalPages.value = Math.ceil(filteredPosts.value.length / perPage);
+};
 
-const perPage = 10; // 페이지당 게시글 수
-let currentPage = ref(1); // 현재 페이지
-const totalPages = ref(1); // 총 페이지 수
-
-// 현재 페이지의 게시글 목록을 반환하는 함수
-const getCurrentPagePosts = () => {
-  const startIndex = (currentPage.value - 1) * perPage;
-  const endIndex = startIndex + perPage;
-  return posts.value.slice(startIndex, endIndex);
-}
-
-// 페이지 변경 시 호출되는 함수
 const changePage = (page) => {
   currentPage.value = page;
-}
+};
 
-// 이전 페이지로 이동하는 함수
 const prevPage = () => {
   if (currentPage.value > 1) {
     currentPage.value--;
   }
-}
+};
 
-// 다음 페이지로 이동하는 함수
 const nextPage = () => {
   if (currentPage.value < totalPages.value) {
     currentPage.value++;
   }
-}
+};
 
-// 페이지별 게시글 목록을 계산하는 함수
-watch(posts, () => {
-  totalPages.value = Math.ceil(posts.value.length / perPage);
-  currentPage.value = 1;
-});
 </script>
 
 <style scoped>
@@ -134,14 +139,14 @@ watch(posts, () => {
 }
 
 .card {
-  background-color: #ffffff; /* 흰색 배경 */
-  border: 1px solid #dcdcdc; /* 회색 선 */
+  background-color: #ffffff;
+  border: 1px solid #dcdcdc;
   border-radius: 8px;
   padding: 20px;
 }
 
 .card-title {
-  color: #333333; /* 제목 색상 */
+  color: #333333;
 }
 
 .board-header {
@@ -151,7 +156,7 @@ watch(posts, () => {
   margin-bottom: 20px;
 }
 
-.category, .search-input {
+.category, .search-input, .search-button {
   padding: 5px;
   border: 1px solid #dcdcdc;
   border-radius: 4px;
@@ -160,6 +165,13 @@ watch(posts, () => {
 .search-input {
   flex-grow: 1;
   margin-left: 10px;
+}
+
+.search-button {
+  margin-left: 10px;
+  background-color: #1abc9c;
+  color: #ffffff;
+  cursor: pointer;
 }
 
 .board-table {
@@ -179,20 +191,18 @@ watch(posts, () => {
 }
 
 .text-decoration-none {
-  color: #000000; /* 민트색 링크 */
+  color: #000000;
   text-decoration: none;
 }
 
 .text-decoration-none:hover {
-  color: #1abc9c; /* 링크 호버 색상 */
+  color: #1abc9c;
 }
 
 .write-btn-container {
   display: flex;
   justify-content: flex-end;
 }
-
-
 
 .write-btn {
   display: inline-block;
@@ -249,5 +259,4 @@ watch(posts, () => {
   width: 10%;
   text-align: center;
 }
-
 </style>
