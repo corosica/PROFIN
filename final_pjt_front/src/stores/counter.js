@@ -14,6 +14,8 @@ export const useCounterStore = defineStore('counter', () => {
   const userInfos = ref({})
   const ExchangeInfos = ref({})
   const DepositInfos = ref({})
+  const DepositDetails = ref({})
+
   const router = useRouter()
   const login = function (username,password) {
     axios({
@@ -249,6 +251,20 @@ export const useCounterStore = defineStore('counter', () => {
         throw err
       }
     }
+    const getDepositDetail = async function (id) {
+      try {
+        const response = await axios({
+          method:'GET',
+          url : `http://127.0.0.1:8000/api/v1/outerapi/deposit/${id}`,
+        })
+        DepositDetails.value = response.data;
+        console.log(DepositDetails.value)
+      }
+      catch (err) {
+        console.error('Failed to fetch articles:', err);
+        throw err
+      }
+    }
   return {
     login,
     createArticles,
@@ -274,5 +290,7 @@ export const useCounterStore = defineStore('counter', () => {
     ExchangeInfos,
     getDeposit,
     DepositInfos,
+    getDepositDetail,
+    DepositDetails,
   }
 })
