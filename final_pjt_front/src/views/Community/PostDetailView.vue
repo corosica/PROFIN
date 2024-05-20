@@ -1,42 +1,44 @@
 <template>
   <div class='articles'>
-  <div>
-      <h3>{{ counterStore.title }} </h3>
-      <p>글 번호 : {{ route.params.id  }}</p>
-      <p>유저 : {{ counterStore.username.nickname }}   업데이트 : {{ counterStore.updated_time }}  </p>
-      <p>내용</p>
-      <p>{{counterStore.content}}</p>
-    <div class="buttons">
-      <div class="back-button">
-        <button @click="goCommunity">뒤로가기</button> 
+    <div>
+      <h3>{{ counterStore.title }}</h3>
+      <div class="user-time-container">
+        <p class="user">유저 : {{ counterStore.username.nickname }}</p>
+        <p class="time">작성시간 : {{ counterStore.updated_time }}</p>
       </div>
-      <div class="update-button">
-        <button @click="updatePost">수정하기</button>
-      </div>
-      <div class="delete-button">
-        <button @click="deletePost">삭제하기</button> 
-      </div>
-    </div>
-    <div class="comments">
-      <h3>댓글</h3>
-      <form @submit.prevent="addComment">
-        <input type="text" v-model="newComment" placeholder="댓글을 입력하세요" />
-        <div class="click-button">
-          <button type="submit">등록</button>
+      <br>
+      <p>{{ counterStore.content }}</p>
+      <br>
+      <div class="buttons">
+        <div class="back-button">
+          <button @click="goCommunity">뒤로가기</button> 
         </div>
-      </form>
-      <ul>
-        <li v-for="comment in comments" :key="comment.id">
-          <p> {{ comment.user.nickname }} : {{ comment.content }}</p> 
-          <button @click="deleteComments(comment.id)">삭제</button>
-        </li>
-      </ul>
-      
+        <div class="update-button">
+          <button @click="updatePost">수정하기</button>
+        </div>
+        <div class="delete-button">
+          <button @click="deletePost">삭제하기</button> 
+        </div>
+      </div>
+      <div class="comments">
+        <h3>댓글</h3>
+        <form @submit.prevent="addComment">
+          <input type="text" v-model="newComment" placeholder="댓글을 입력하세요" />
+          <div class="click-button">
+            <button type="submit">등록</button>
+          </div>
+        </form>
+        <ul>
+          <li v-for="comment in comments" :key="comment.id">
+            <p>{{ comment.user.nickname }} : {{ comment.content }}</p>
+            <button @click="deleteComments(comment.id)">삭제</button>
+          </li>
+        </ul>
+      </div>
     </div>
-
-  </div>
   </div>
 </template>
+
 
 <script setup>
 import axios from 'axios';
@@ -147,7 +149,7 @@ p {
   background-color: #007bff;
   color: white;
   border: none;
-  padding: 5px 10px;
+  padding: 3px 6px;
   cursor: pointer;
   border-radius: 5px;
   transition: background-color 0.3s ease;
@@ -192,6 +194,21 @@ p {
   background-color: #6d6d6d; 
 }
 
+.user-time-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.time, .user {
+  flex: 1; /* 유저 이름과 작성시간을 같은 너비로 설정 */
+  text-align: right; /* 작성시간을 오른쪽 정렬 */
+}
+
+.user {
+  text-align: left; /* 유저 이름을 왼쪽 정렬 */
+}
 
 .comments {
   margin-top: 30px;
