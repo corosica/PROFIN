@@ -1,58 +1,58 @@
 <template>
   <div class="container mt-4">
-    <div class="card">
+    <div class="card shadow-sm">
       <div class="card-body">
-        <h1 class="card-title text-center mb-4">게시글 작성</h1>
+        <h3 class="card-title text-center mb-4">게시글 작성</h3>
         <form @submit.prevent="createPost">
-        <div class="form-group mb-3">
-          <label for="title">제목</label>
-          <input type="text" id="title" v-model="title" required>
-        </div>
-        <br>
-        <div class="form-group mb-3">
-          <label for="content">내용</label>
-          <textarea id="content" v-model="content" required></textarea>
-        <br>
-        <input name="file" type="file">
-        </div>
-        <div class="text-center">
-          <button type="submit">작성</button>
-          <button type="button" @click="cancel">취소</button>
-        </div>
-      </form>
+          <div class="form-group mb-3">
+            <label for="title">제목</label>
+            <input type="text" id="title" class="form-control" v-model="title" placeholder="제목을 입력해주세요" required>
+          </div>
+          <div class="form-group mb-3">
+            <label for="content">내용</label>
+            <textarea id="content" class="form-control" rows="5" v-model="content" placeholder="내용을 입력해주세요" required></textarea>
+          </div>
+
+          <div class="text-end">
+            <button type="submit" class="btn btn-primary me-2">작성</button>
+            <button type="button" class="btn btn-secondary" @click="cancel">취소</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
 </template>
-  
-  <script setup>
-  import { ref } from 'vue';
-  import { useRouter } from 'vue-router';
-  import { useCounterStore } from '@/stores/counter';
-  const counterStore = useCounterStore()
-  const title = ref('');
-  const content = ref('');
-  const router = useRouter();
-  
-  const createPost = () => {
-  if (localStorage.getItem('token') == null) {
-  alert('로그인을 해주세요'); // 나중에 before enter로 처리
-  router.push('/login');    
-} else {
-  counterStore.viewArticles()
-  counterStore.createArticles(title.value, content.value);
-  router.push({name:'Community'});  
-}
-}
-  
-  const cancel = () => {
-    router.push({name:'Community'});
-  };
-  </script>
-  
+
+<script setup>
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { useCounterStore } from '@/stores/counter';
+
+const counterStore = useCounterStore();
+const title = ref('');
+const content = ref('');
+const router = useRouter();
+
+const createPost = () => {
+  if (!localStorage.getItem('token')) {
+    alert('로그인을 해주세요'); // 나중에 before enter로 처리
+    router.push('/login');
+  } else {
+    counterStore.viewArticles();
+    counterStore.createArticles(title.value, content.value);
+    router.push({ name: 'Community' });
+  }
+};
+
+const cancel = () => {
+  router.push({ name: 'Community' });
+};
+</script>
+
 <style scoped>
 .container {
   max-width: 800px;
+  margin: auto;
 }
 
 .card {
@@ -60,35 +60,52 @@
   border: 1px solid #dcdcdc; /* 회색 선 */
   border-radius: 8px;
   padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
 }
 
 .card-title {
   color: #333333; /* 제목 색상 */
+  font-weight: bold;
+}
+
+.form-group label {
+  font-weight: bold;
+  color: #555555; /* 라벨 색상 */
 }
 
 .form-control {
   border: 1px solid #dcdcdc; /* 회색 선 */
+  border-radius: 4px;
+  padding: 10px;
+}
+
+.form-control-file {
+  border: none;
+}
+
+.btn {
+  padding: 10px 20px;
+  border-radius: 4px;
+  display: inline-flex;
 }
 
 .btn-primary {
-  background-color: #00796b; /* 민트색 버튼 */
-  border-color: #00796b;
+  background-color: #04bea8; /* 민트색 버튼 */
+  border-color: #04bea8;
 }
 
 .btn-primary:hover {
-  background-color: #004d40; /* 버튼 호버 색상 */
-  border-color: #004d40;
+  background-color: #02a78b; /* 버튼 호버 색상 */
+  border-color: #02a78b;
 }
 
 .btn-secondary {
-  background-color: #6c757d; /* secondary 버튼 색상 */
-  border-color: #6c757d;
+  background-color: #bcc1c5; /* secondary 버튼 색상 */
+  border-color: #bcc1c5;
 }
 
 .btn-secondary:hover {
-  background-color: #5a6268; /* secondary 버튼 호버 색상 */
-  border-color: #545b62;
+  background-color: #a3a7a9; /* secondary 버튼 호버 색상 */
+  border-color: #a3a7a9;
 }
-
 </style>
-  
