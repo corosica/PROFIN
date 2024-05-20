@@ -13,6 +13,7 @@ import KakaomapView from '@/views/Convenience/KakaoMapView.vue'
 import ExchangeView from '@/views/Convenience/ExchangeView.vue'
 import QuestionView from '@/views/Convenience/QuestionView.vue'
 
+import UserProfileUpdateView from '@/views/Users/UserProfileUpdateView.vue'
 import UserProfileView from '@/views/Users/UserProfileView.vue'
 import LoginView from '@/views/Users/LoginView.vue';
 import SignupView from '@/views/Users/SignupView.vue';
@@ -87,9 +88,14 @@ const router = createRouter({
       component: ExchangeView,
     },
     {
-      path: '/UserProfile',
+      path: '/userprofile',
       name: 'UserProfile',
       component: UserProfileView,
+    },
+    {
+      path:'/userprofileupdate',
+      name: 'UserProfileUpdate',
+      component: UserProfileUpdateView,
     },
     {
       path: '/question',

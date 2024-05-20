@@ -62,9 +62,7 @@ const isLoggedIn = () => {
   islogin.value = localStorage.getItem('token') !== null;
 };
 
-console.log(localStorage.getItem('token'));
 isLoggedIn();
-console.log(localStorage.getItem('token') === null);
 
 const logout = () => {
   axios({
@@ -77,7 +75,6 @@ const logout = () => {
   })
     .then((response) => {
       localStorage.removeItem('token');
-      console.log(response.data);
       router.push({ name: 'Login' }).then(() => {
         router.go(0);
       });
@@ -156,6 +153,7 @@ const profile = () => {
   margin-left: 200px;
 }
 
+
 /* 드롭다운 메뉴 스타일 */
 .dropdown-container {
   position: relative;
@@ -231,6 +229,4 @@ const profile = () => {
   background-color: #1abc9c;
   color: #ffffff;
 }
-
-
 </style>
