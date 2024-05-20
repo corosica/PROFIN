@@ -1,6 +1,7 @@
 <template>
   <div class="signup-container">
     <h1>회원가입</h1>
+    <br>
     <form @submit.prevent="signup" class="signup-form">
       <div class="form-group">
         <label for="username">아이디: </label>
@@ -26,6 +27,7 @@
         <label for="age">나이: </label>
         <input type="number" id="age" v-model="age" required>
       </div>
+      <br>
       <button type="submit" class="signup-button">회원가입</button>
     </form>
   </div>
