@@ -7,12 +7,34 @@
         </router-link>
       </div>
       <div class="nav-links-wrapper">
-        <div class="nav-links">
-          <RouterLink class="nav-link-box" :to="{ name: 'Home' }">PROFIN</RouterLink>
-          <RouterLink class="nav-link-box" :to="{ name: 'Deposit' }">금융 상품</RouterLink>
-          <RouterLink class="nav-link-box" :to="{ name: 'Community' }">커뮤니티</RouterLink>
-          <RouterLink class="nav-link-box" :to="{ name: 'Kakaomap' }">카카오맵</RouterLink>
-        </div>
+        <ul class="nav-links">
+          <li class="nav-item dropdown-container">
+            <button class="nav-link-box">PROFIN</button>
+            <ul class="dropdown">
+              <li><RouterLink class="dropdown-link" :to="{ name: 'Home' }">인삿말</RouterLink></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown-container">
+            <button class="nav-link-box">금융 상품</button>
+            <ul class="dropdown">
+              <li><RouterLink class="dropdown-link" :to="{ name: 'Deposit' }">예적금 상품</RouterLink></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown-container">
+            <button class="nav-link-box">이용자 서비스</button>
+            <ul class="dropdown">
+              <li><RouterLink class="dropdown-link" :to="{ name: 'Exchange' }">환율 계산기</RouterLink></li>
+              <li><RouterLink class="dropdown-link" :to="{ name: 'Kakaomap' }">근처 은행 검색</RouterLink></li>
+              <li><RouterLink class="dropdown-link" :to="{ name: 'Community' }">커뮤니티</RouterLink></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown-container">
+            <button class="nav-link-box">고객 센터</button>
+            <ul class="dropdown">
+              <li><RouterLink class="dropdown-link" :to="{ name: 'Home' }">FAQ</RouterLink></li>
+            </ul>
+          </li>
+        </ul>
       </div>
       <div v-if="!islogin">
         <RouterLink :to="{ name: 'Login' }"><button class="btn-profile">로그인</button></RouterLink> I
@@ -94,10 +116,11 @@ const profile = () => {
 }
 
 .nav-links {
+  list-style: none; /* 기본 리스트 스타일 제거 */
   display: flex;
-  justify-content: space-around; /* 링크 사이의 간격을 균등하게 조정 */
+  justify-content: space-around;
   width: 100%;
-  max-width: 1300px; /* 링크 컨테이너의 최대 너비를 설정 */
+  max-width: 1300px;
   padding: 10px;
   background-color: #ebeaea;
   border: 1px solid #ebeaea;
@@ -113,6 +136,7 @@ const profile = () => {
   color: #ffffff;
   font-weight: bold;
   border: 2px solid #1fcba9;
+  cursor: pointer; /* 버튼 스타일 일관성 */
 }
 
 .nav-link-box:hover {
@@ -120,7 +144,6 @@ const profile = () => {
   color: #1abc9c;
   border-color: #1abc9c;
   transition: background-color 0.3s, color 0.3s;
-
 }
 
 .logo-container {
@@ -133,26 +156,50 @@ const profile = () => {
   margin-left: 200px;
 }
 
-/* .nav-button {
-  padding: 10px 20px;
-  background-color: #ffffff;
-  border-radius: 8px;
-  border: 2px solid #1abc9c;
-  color: #1abc9c;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
+/* 드롭다운 메뉴 스타일 */
+.dropdown-container {
+  position: relative;
+  display: inline-block;
 }
 
-.nav-button:hover {
-  background-color: #1abc9c;
-  color: #ffffff;
-  border-color: #1abc9c;
-} */
+.dropdown-container:hover .dropdown {
+  display: block;
+}
 
-/* Custom styles for Bootstrap-like buttons */
+.dropdown {
+  display: none;
+  position: absolute;
+  background-color: #ffffff; /* 드롭다운 배경색 통일 */
+  width: 100%;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  border-radius: 8px;
+  padding: 0;
+  list-style: none; /* 기본 리스트 스타일 제거 */
+}
+
+.dropdown li {
+  list-style: none; /* 리스트 스타일 제거 */
+}
+
+.dropdown li a {
+  color: #1abc9c; /* 드롭다운 링크 색상 통일 */
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  border-bottom: 1px solid #1abc9c;
+}
+
+.dropdown li a:hover {
+  background-color: #1fcba9; /* 드롭다운 호버 색상 통일 */
+  color: #ffffff; /* 호버 시 글자 색상 통일 */
+  border-radius: 8px;
+
+}
+
+/* 버튼 스타일 */
 .btn-profile {
-  padding:  8px 12px;
+  padding: 8px 12px;
   background-color: #ffffff;
   border-radius: 8px;
   border: 2px solid #6c6b6b;
@@ -183,4 +230,6 @@ const profile = () => {
   background-color: #1abc9c;
   color: #ffffff;
 }
+
+
 </style>

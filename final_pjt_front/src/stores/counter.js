@@ -203,36 +203,36 @@ export const useCounterStore = defineStore('counter', () => {
       throw error; // 에러를 던져 호출자가 처리하도록 합니다.
     }
   };
-    const getUserInfo = async function () {
-       // 회원정보 조회
-      try {
+  const getUserInfo = async function () {
+      // 회원정보 조회
+    try {
 
-        const response = await axios({
-          method:'GET',
-          url : 'http://127.0.0.1:8000/accounts/user/',
-          headers: {
-            Authorization: localStorage.getItem('token'),
-          },
-        })
-        userInfos.value = response.data; //userInfos => 데이터 받아온거 posts역할
-      } catch(err) {
-        console.error('Failed to fetch userInfo:', err);
+      const response = await axios({
+        method:'GET',
+        url : 'http://127.0.0.1:8000/accounts/user/',
+        headers: {
+          Authorization: localStorage.getItem('token'),
+        },
+      })
+      userInfos.value = response.data; //userInfos => 데이터 받아온거 posts역할
+    } catch(err) {
+      console.error('Failed to fetch userInfo:', err);
 
-      }
     }
-    const getExchange = async function () {
-      try {
-        const response = await axios({
-          method:'GET',
-          url : 'http://127.0.0.1:8000/api/v1/outerapi/exchange/',
-        })
-        ExchangeInfos.value = response.data;
-    
-      } catch (err) {
-        console.error('Failed to fetch articles:', err);
-        throw err
-      }
+  }
+  const getExchange = async function () {
+    try {
+      const response = await axios({
+        method:'GET',
+        url : 'http://127.0.0.1:8000/api/v1/outerapi/exchange/',
+      })
+      ExchangeInfos.value = response.data;
+  
+    } catch (err) {
+      console.error('Failed to fetch articles:', err);
+      throw err
     }
+  }
 
   return {
     login,
