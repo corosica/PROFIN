@@ -1,16 +1,20 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
-import CommunityView from '@/views/CommunityView.vue'
-import PostCreateView from '@/views/PostCreateView.vue'
-import PostDetailView from '@/views/PostDetailView.vue'
-import DepositView from '@/views/DepositView.vue'
-import DepositDetailView from '@/views/DepositDetailView.vue'
-import LoginView from '@/views/LoginView.vue';
-import SignupView from '@/views/SignupView.vue';
-import PostUpdateView from '@/views/PostUpdateView.vue'
+
+import CommunityView from '@/views/Community/CommunityView.vue'
+import PostCreateView from '@/views/Community/PostCreateView.vue'
+import PostDetailView from '@/views/Community/PostDetailView.vue'
+import PostUpdateView from '@/views/Community/PostUpdateView.vue'
+
+import DepositView from '@/views/Deposit/DepositView.vue'
+import DepositDetailView from '@/views/Deposit/DepositDetailView.vue'
+
 import KakaomapView from '@/views/KakaoMapView.vue'
 import ExchangeView from '@/views/ExchangeView.vue'
-import UserProfileView from '@/views/UserProfileView.vue'
+
+import UserProfileView from '@/views/Users/UserProfileView.vue'
+import LoginView from '@/views/Users/LoginView.vue';
+import SignupView from '@/views/Users/SignupView.vue';
 
 const requireAuth = () => (to, from, next) => {
   if (localStorage.getItem('token') !== null) {
