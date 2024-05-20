@@ -4,11 +4,7 @@
       <h1 class="title">환율 계산기</h1>
       <div class="currency-selector">
         <div class="currency-block">
-<<<<<<< HEAD
           <label for="currency1">나라1: </label>
-=======
-          <label for="currency1">Currency 1:</label>
->>>>>>> c98ed8846a6b7bf73e5bc5415ecbb8715f5cb958
           <select id="currency1" v-model="selectedCurrency1" @change="calculateExchangeRate('input1')">
             <option v-for="currency in exchanges" :key="currency.cur_unit" :value="currency.cur_unit">
               {{ currency.cur_nm }}
@@ -17,11 +13,7 @@
           <input type="number" v-model.number="input1" @input="calculateExchangeRate('input1')" />
         </div>
         <div class="currency-block">
-<<<<<<< HEAD
           <label for="currency2">나라2:</label>
-=======
-          <label for="currency2">Currency 2:</label>
->>>>>>> c98ed8846a6b7bf73e5bc5415ecbb8715f5cb958
           <select id="currency2" v-model="selectedCurrency2" @change="calculateExchangeRate('input2')">
             <option v-for="currency in exchanges" :key="currency.cur_unit" :value="currency.cur_unit">
               {{ currency.cur_nm }}
