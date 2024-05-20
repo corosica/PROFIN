@@ -175,7 +175,10 @@ const profile = () => {
   z-index: 1;
   border-radius: 8px;
   padding: 0;
+<<<<<<< HEAD
   text-align: center;
+=======
+>>>>>>> c98ed8846a6b7bf73e5bc5415ecbb8715f5cb958
   
   list-style: none; /* 기본 리스트 스타일 제거 */
 }
