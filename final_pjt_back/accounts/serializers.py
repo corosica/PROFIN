@@ -17,6 +17,30 @@ class CustomRegisterSerializer(RegisterSerializer):
  age = serializers.IntegerField(
     required=False,
  )
+ gender = serializers.ChoiceField(
+ choices = (
+    ('비공개','비공개'),
+    ('남성', '남성'),
+    ('여성','여성'),
+),
+ required=False,
+ allow_blank=True, )
+ asset = serializers.IntegerField(
+  required=False,
+ )
+ job = serializers.CharField(
+  required=False,
+  allow_blank=True,
+  max_length=255,
+ )
+ goal = serializers.ChoiceField(
+  choices=(
+     ('무계획','무계획'),
+    ('안전형', '안전형'),
+    ('수익형','수익형'),),
+    required=False,
+    allow_blank=True,)
+
  # 해당 필드도 저장 시 함께 사용하도록 설정합니다.
  def get_cleaned_data(self):
     return {
@@ -27,7 +51,10 @@ class CustomRegisterSerializer(RegisterSerializer):
     # nickname 필드 추가
     'nickname': self.validated_data.get('nickname', ''),
     'age': self.validated_data.get('age', 0),
-
+    'gender': self.validated_data.get('gender', ''),
+    'asset': self.validated_data.get('asset', 0),
+    'job': self.validated_data.get('job', ''),
+    'goal': self.validated_data.get('goal', ''),
     }
  
 # accounts/serailizers.py
@@ -52,6 +79,14 @@ class CustomUserDetailsSerializer(UserDetailsSerializer):
         extra_fields.append('nickname')
     if hasattr(UserModel, 'age'):
         extra_fields.append('age')
+    if hasattr(UserModel, 'gender'):
+       extra_fields.append('gender')
+    if hasattr(UserModel, 'asset'):
+       extra_fields.append('asset')
+    if hasattr(UserModel, 'job'):
+       extra_fields.append('job')
+    if hasattr(UserModel, 'goal'):
+       extra_fields.append('goal')
     model = UserModel
     fields = ('pk', *extra_fields)
     read_only_fields = ('email',)

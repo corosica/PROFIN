@@ -16,7 +16,7 @@
       </div>
       <div class="form-group">
         <label for="nickname">닉네임: </label>
-        <input type="text" id="nickname" v-model="nickname" required>
+        <input type="text" id="nickname" v-model="nickname">
       </div>
       <div class="form-group">
         <label for="email">이메일: </label>
@@ -46,15 +46,16 @@ const router = useRouter();
 const counterStore = useCounterStore();
 
 const signup = () => {
-  if (password.value !== confirmPassword.value) {
+  if (!(username.value && password.value && confirmPassword.value && email.value && age.value)) {
+    alert('필수 입력사항을 확인하세요.');
+  }
+  else if (password.value !== confirmPassword.value) {
     alert('비밀번호가 일치하지 않습니다.');
     return;
   }
-  if (email.value && password.value) {
+  else {
     counterStore.signup(username.value, password.value, confirmPassword.value, email.value, nickname.value, age.value);
     router.push('/login');
-  } else {
-    alert('이메일과 비밀번호를 입력하세요.');
   }
 };
 </script>

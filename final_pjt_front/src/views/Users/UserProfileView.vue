@@ -26,7 +26,7 @@
         </tr>
         <tr>
           <th>자산</th>
-          <td>{{ asset }}</td>
+          <td>{{ asset }} 만원</td>
         </tr>
         <tr>
           <th>직업</th>
