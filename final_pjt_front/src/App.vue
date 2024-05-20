@@ -175,6 +175,7 @@ const profile = () => {
   z-index: 1;
   border-radius: 8px;
   padding: 0;
+  text-align: center;
   
   list-style: none; /* 기본 리스트 스타일 제거 */
 }
