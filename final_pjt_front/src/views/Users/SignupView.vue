@@ -28,34 +28,38 @@
         <input type="number" id="age" v-model="age" required>
       </div>
       <div class="form-group">
-        <label>성별: </label>
-        <div class="gender-options">
-          <label class="gender-option">
-            <input name="gender" value="male" type="radio" v-model="gender">
-            남성
-          </label>
-          <label class="gender-option">
-            <input name="gender" value="female" type="radio" v-model="gender">
-            여성
-          </label>
-          <label class="gender-option">
-            <input name="gender" value="none" type="radio" v-model="gender">
-            비공개
-          </label>
+          <label>성별: </label>
+          <div class="gender-options no-wrap">
+            <label class="gender-option">
+              <input name="gender" value="남성" type="radio" v-model="gender">
+              남성
+            </label>
+            <label class="gender-option">
+              <input name="gender" value="여성" type="radio" v-model="gender">
+              여성
+            </label>
+            <label class="gender-option">
+              <input name="gender" value="비공개" type="radio" v-model="gender">
+              비공개
+            </label>
+          </div>
         </div>
-      
-      </div>
       <div class="form-group">
         <label for="asset">자산: </label>
-        <input type="number" id="asset" v-model="asset" required>
+        <input type="number" id="asset" v-model="asset">
       </div>      
       <div class="form-group">
-        <label for="goal">목표: </label>
-        <input type="text" id="goal" v-model="goal" required>
-      </div>
+          <label for="goal">목표: </label>
+          <select id="goal" v-model="goal" required>
+            <option value="" disabled selected>목표를 선택하세요</option>
+            <option value="무계획">무계획</option>
+            <option value="안정형">안정형</option>
+            <option value="수익형">수익형</option>
+          </select>
+        </div>
       <div class="form-group">
         <label for="job">직업: </label>
-        <input type="text" id="job" v-model="job" required>
+        <input type="text" id="job" v-model="job">
       </div>
       
       <br>
@@ -133,15 +137,12 @@ const signup = () => {
 }
 
 .gender-options {
-  display: flex;
-  gap: 20px;
-  margin-top: 5px;
-}
-
-.gender-option {
-  display: inline-flex; /* 라디오 버튼과 텍스트를 가로로 배치 */
-  align-items: center; /* 텍스트와 라디오 버튼을 세로로 중앙 정렬 */
-  gap: 5px;
+    display: flex;
+    gap: 50px;
+  }
+  
+.no-wrap {
+  white-space: nowrap;
 }
 
 .signup-button {
@@ -157,4 +158,9 @@ const signup = () => {
 .signup-button:hover {
   background-color: #16a085;
 }
+
+.no-wrap {
+  white-space: nowrap;
+}
+
 </style>

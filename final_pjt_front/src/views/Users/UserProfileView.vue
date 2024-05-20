@@ -83,7 +83,7 @@
   };
   
   const editProfile = () => {
-    // 정보 수정 로직
+    router.push({name:'UserProfileUpdate'})
   };
   
   const goBack = () => {
