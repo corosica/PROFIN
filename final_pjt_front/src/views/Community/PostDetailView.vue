@@ -1,4 +1,5 @@
 <template>
+  <div class='articles'>
   <div>
       <h3>{{ counterStore.title }} </h3>
       <p>글 번호 : {{ route.params.id  }}</p>
@@ -6,15 +7,23 @@
       <p>내용</p>
       <p>{{counterStore.content}}</p>
     <div class="buttons">
-      <button @click="deletePost">삭제하기</button> |
-      <button @click="goCommunity">뒤로가기</button> |
-      <button @click="updatePost">수정하기</button>
+      <div class="back-button">
+        <button @click="goCommunity">뒤로가기</button> 
+      </div>
+      <div class="update-button">
+        <button @click="updatePost">수정하기</button>
+      </div>
+      <div class="delete-button">
+        <button @click="deletePost">삭제하기</button> 
+      </div>
     </div>
     <div class="comments">
       <h3>댓글</h3>
       <form @submit.prevent="addComment">
         <input type="text" v-model="newComment" placeholder="댓글을 입력하세요" />
-        <button type="submit">등록</button>
+        <div class="click-button">
+          <button type="submit">등록</button>
+        </div>
       </form>
       <ul>
         <li v-for="comment in comments" :key="comment.id">
@@ -25,6 +34,7 @@
       
     </div>
 
+  </div>
   </div>
 </template>
 
@@ -101,6 +111,152 @@ onMounted(async () => {
 
 </script>
 
+
 <style scoped>
-/* 최소한의 스타일링만 추가 */
+.articles {
+  font-family: 'Arial', sans-serif;
+  max-width: 800px; /* 전체 게시판 너비 조정 */
+  margin: 0 auto; /* 가운데 정렬 */
+  background: #fff; /* 배경색 추가 */
+  padding: 20px; /* 패딩 추가 */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
+  border-radius: 10px; /* 모서리 둥글게 */
+}
+
+h3 {
+  color: #333;
+  font-size: 20px;
+  margin-top: 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+p {
+  color: #666;
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+.buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: right;
+}
+
+.buttons button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  display: flex;
+  margin-left: 10px;
+}
+
+.buttons button:hover {
+  background-color: #0056b3;
+}
+
+.comments .click-button button {
+  padding: 5px 10px;
+  background-color: #ffffff; /* 버튼 배경색을 하얀색으로 설정 */
+  color: #007bff; /* 버튼 텍스트 색상을 블루로 설정 */
+  border: 1px solid #ccc; /* 경계선 추가 */
+  cursor: pointer;
+  border-radius: 5px;
+  transition: all 0.3s ease; /* 부드러운 전환 효과 */
+}
+
+.comments .click-button button:hover {
+  background-color: #007bff; /* 호버 상태에서의 배경색 변경 */
+  color: white; 
+  border-color: #007bff; /* 호버 상태에서의 경계선 색 변경 */
+}
+
+.buttons .delete-button button {
+  background-color: #dc3545; /* 빨간색 */
+}
+
+.buttons .delete-button button:hover {
+  background-color: #bd2f3d; /* 빨간색 */
+}
+
+
+.buttons .back-button button {
+  background-color: #999999; 
+}
+
+.buttons .back-button button:hover {
+  background-color: #6d6d6d; 
+}
+
+
+.comments {
+  margin-top: 30px;
+}
+
+.comments h3 {
+  margin-bottom: 10px;
+}
+
+.comments form {
+  display: flex;
+  align-items: center;
+}
+
+.comments input[type="text"] {
+  flex: 1;
+  padding: 8px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.comments button {
+  padding: 8px 12px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.comments ul {
+  list-style: none;
+  padding: 0;
+}
+
+.comments li {
+  padding: 10px;
+  background-color: #f8f9fa;
+  border: 1px solid #ccc;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  border-radius: 5px;
+  position: relative;
+}
+
+.comments li p {
+  margin: 0;
+  color: #333;
+}
+
+.comments li button {
+  background-color: #b6b6b6;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 4px 8px;
+  position: absolute;
+  right: 10px;
+  top: 5px;
+}
+
+.comments li button:hover {
+  background-color: #9b9b9b;
+}
 </style>
+
