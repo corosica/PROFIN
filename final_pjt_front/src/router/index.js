@@ -54,7 +54,7 @@ const router = createRouter({
       component: DepositView,
     },
     {
-      path: '/deposit/deposit_detail', // 나중에 id로 경로 수정해야함
+      path: '/deposit/:id', // 나중에 id로 경로 수정해야함
       name: 'DepositDetail',
       component: DepositDetailView,
     },
