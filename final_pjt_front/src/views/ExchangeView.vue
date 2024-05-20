@@ -59,12 +59,12 @@ const calculateExchangeRate = (source) => {
   if (source === "input1") {
     const rate1 = getExchangeRate(selectedCurrency1.value);
     const rate2 = getExchangeRate(selectedCurrency2.value);
-    input2.value = (input1.value * rate2) / rate1;
+    input2.value = (input1.value * rate1) / rate2;
     console.log(rate1,rate2)
   } else if (source === "input2") {
     const rate1 = getExchangeRate(selectedCurrency1.value);
     const rate2 = getExchangeRate(selectedCurrency2.value);
-    input1.value = (input2.value * rate1) / rate2;
+    input1.value = (input2.value * rate2) / rate1;
     console.log(rate1,rate2)
 
   }
