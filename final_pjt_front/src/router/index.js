@@ -11,6 +11,7 @@ import DepositDetailView from '@/views/Deposit/DepositDetailView.vue'
 
 import KakaomapView from '@/views/Convenience/KakaoMapView.vue'
 import ExchangeView from '@/views/Convenience/ExchangeView.vue'
+import QuestionView from '@/views/Convenience/QuestionView.vue'
 
 import UserProfileView from '@/views/Users/UserProfileView.vue'
 import LoginView from '@/views/Users/LoginView.vue';
@@ -90,7 +91,12 @@ const router = createRouter({
       name: 'UserProfile',
       component: UserProfileView,
     },
-  
+    {
+      path: '/question',
+      name: 'Question',
+      component: QuestionView,
+    }
+
     // 기타 라우트 설정을 여기에 추가할 수 있습니다.
   ]
 })
