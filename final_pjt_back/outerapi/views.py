@@ -57,21 +57,13 @@ def save_deposit_list(request):
 @api_view(['GET']) 
 def deposit_detail(request,deposit_pk):
     product = get_object_or_404(DepositProducts,pk=deposit_pk)
-    options = DepositOptions.objects.filter(fin_prdt_cd = product.fin_prdt_cd)
-    serializer = DepositOptionsSerializer(options,many = True)
-    return Response(serializer.data,status=status.HTTP_200_OK)
+    return Response(DepositProductsSerializer(product).data,status=status.HTTP_200_OK)
 
 @api_view(['POST']) 
 def find_bank(request):
     city = request.data.get('city')
     gu = request.data.get('gu')
     bank = request.data.get('bank')
-    print('-------------------------------')
-    print(request)
-    print(request.method)
-    print(request.data)
-    print(city,gu,bank)
-    print('-------------------------------')
 
     api_key = f'KakaoAK {settings.KAKAO_REST_API_KEY}'
     api_url1 = f"https://dapi.kakao.com/v2/local/search/address.json?analyze_type=similar&page=1&size=10&query={city}+{gu}"
