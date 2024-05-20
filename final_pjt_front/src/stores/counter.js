@@ -234,7 +234,8 @@ export const useCounterStore = defineStore('counter', () => {
       }
     }
 
-  return { 
+  return {
+    login,
     createArticles,
     viewArticles,
     articleList,
