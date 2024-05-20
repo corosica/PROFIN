@@ -30,7 +30,7 @@
                     {{ post.title }}
                   </RouterLink>
                 </td>
-                <td>{{ post.user_id }}</td>
+                <td>{{ post.user.nickname }}</td>
                 <td>{{ formatDate(post.created_at) }}</td>
               </tr>
             </tbody>
