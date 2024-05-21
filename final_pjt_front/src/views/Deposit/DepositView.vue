@@ -2,8 +2,9 @@
   <div>
     <RouterLink :to="{ name: 'DepositList' }" >예금 상품</RouterLink>
     <RouterLink :to="{ name: 'SavingList' }" >적금 상품</RouterLink>
-
-    <RouterView />
+    <div class="container border">
+      <RouterView />
+    </div>
   </div>
 </template>
 
