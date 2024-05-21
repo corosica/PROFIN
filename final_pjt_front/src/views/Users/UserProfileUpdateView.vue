@@ -209,6 +209,7 @@ h1 {
 .btn-primary {
   background-color: #007bff;
   border: 1px solid #007bff;
+  font-weight: 500;
   color: #ffffff;
 }
 

@@ -224,6 +224,7 @@
     
     .btn-primary {
       background-color: #007bff;
+      font-weight: 500;
       border: none;
       color: #ffffff;
     }
