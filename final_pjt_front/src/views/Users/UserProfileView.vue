@@ -6,9 +6,6 @@
           <th>프로필</th>
           <td>
             <div class="profile-header">
-              <div class="profile-img">
-                <img src="/user.png" alt="profile-image" class="profile-image">
-              </div>
               <div>
                 <p>{{ nickname }}님 환영합니다</p>
                 <p>보유 포인트: <span class="points">100,000 p</span> <button class="btn-recharge">충전하기</button></p>
