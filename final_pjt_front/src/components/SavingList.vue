@@ -67,7 +67,7 @@
                     {{ prefer ? getPreferredRate(deposit, month) : getInterestRate(deposit, month) }}%
                   </template>
                   <template v-else>
-                    {{ sortDescending[month][prefer] ? '999' : '-' }}
+                    {{ sortDescending[month][prefer] ? '-' : '-' }}
                   </template>
                 </td>
               </template>
