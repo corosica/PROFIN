@@ -40,7 +40,7 @@ def deposit_list(request):
 @api_view(['GET']) 
 def save_deposit_list(request):
     api_key = settings.BANK_API_KEY
-    for page in range(1,10):
+    for page in range(1,2):
         api_url = f"https://finlife.fss.or.kr/finlifeapi/depositProductsSearch.json?auth={api_key}&topFinGrpNo=020000&pageNo={page}"
         response = requests.get(api_url).json()
         for data in response['result'].get('baseList'):

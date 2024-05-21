@@ -15,6 +15,8 @@ export const useCounterStore = defineStore('counter', () => {
   const ExchangeInfos = ref({})
   const DepositInfos = ref({})
   const DepositDetails = ref({})
+  const SavingDetails = ref({})
+  const SavingInfos = ref({})
 
   const router = useRouter()
   const login = function (username,password) {
@@ -266,6 +268,34 @@ export const useCounterStore = defineStore('counter', () => {
         throw err
       }
     }
+    const getSaving = async function () {
+      try {
+        const response = await axios({
+          method:'GET',
+          url : 'http://127.0.0.1:8000/api/v1/outerapi/saving/',
+        })
+        SavingInfos.value = response.data;
+        console.log(SavingInfos.value)
+      }
+      catch (err) {
+        console.error('Failed to fetch articles:', err);
+        throw err
+      }
+    }
+    const getSavingDetail = async function (id) {
+      try {
+        const response = await axios({
+          method:'GET',
+          url : `http://127.0.0.1:8000/api/v1/outerapi/saving/${id}`,
+        })
+        SavingDetails.value = response.data;
+        console.log(SavingDetails.value)
+      }
+      catch (err) {
+        console.error('Failed to fetch articles:', err);
+        throw err
+      }
+    }
   return {
     login,
     createArticles,
@@ -293,5 +323,9 @@ export const useCounterStore = defineStore('counter', () => {
     DepositInfos,
     getDepositDetail,
     DepositDetails,
+    SavingDetails,
+    SavingInfos,
+    getSaving,
+    getSavingDetail
   }
 })

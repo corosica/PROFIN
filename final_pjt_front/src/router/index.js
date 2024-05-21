@@ -8,6 +8,7 @@ import PostUpdateView from '@/views/Community/PostUpdateView.vue'
 
 import DepositView from '@/views/Deposit/DepositView.vue'
 import DepositDetailView from '@/views/Deposit/DepositDetailView.vue'
+import SavingDetailView from '@/views/Deposit/SavingDetailView.vue'
 
 import KakaomapView from '@/views/Convenience/KakaoMapView.vue'
 import ExchangeView from '@/views/Convenience/ExchangeView.vue'
@@ -18,6 +19,8 @@ import UserProfileView from '@/views/Users/UserProfileView.vue'
 import LoginView from '@/views/Users/LoginView.vue';
 import SignupView from '@/views/Users/SignupView.vue';
 
+import DepositList from '@/components/DepositList.vue'
+import SavingList from '@/components/SavingList.vue'
 
 
 const requireAuth = () => (to, from, next) => {
@@ -56,11 +59,28 @@ const router = createRouter({
       path: '/deposit',
       name: 'Deposit',
       component: DepositView,
+      children : [
+        {
+          path: 'deposit_list',
+          name: 'DepositList',
+          component: DepositList,
+        },
+        {
+          path:'saving_list',
+          name: 'SavingList',
+          component: SavingList,
+        }
+      ]
     },
     {
       path: '/deposit/:id', // 나중에 id로 경로 수정해야함
       name: 'DepositDetail',
       component: DepositDetailView,
+    },
+    {
+      path: '/saving/:id', // 나중에 id로 경로 수정해야함
+      name: 'SavingDetail',
+      component: SavingDetailView,
     },
     {
       path: '/login',
