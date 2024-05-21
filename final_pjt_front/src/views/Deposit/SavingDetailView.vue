@@ -18,6 +18,7 @@
             <p>{{ depositdata.etc_note }}</p>
         </div>
     </div>
+    <button class="back-button" @click="goBack">목록</button>
 </template>
 
 
@@ -42,6 +43,10 @@ onMounted(async () => {
         console.log(e)
     }
 })
+
+const goBack = () => {
+    router.go(-1);
+};
 </script>
 
 <style scoped>
@@ -113,5 +118,25 @@ h2 {
     font-size: 16px;
     font-weight: bold;
     color: #1abc9c;
+}
+
+.back-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #dfdfdf;
+    color: #333;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    display: block;
+    width: 100px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.back-button:hover {
+    background-color: #bbb;
 }
 </style>

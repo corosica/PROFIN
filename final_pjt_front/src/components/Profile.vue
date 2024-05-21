@@ -1,7 +1,7 @@
 <template>
     <div class="main-container">
       <div class="profile-container">
-        <h1><strong>회원정보</strong></h1>
+        <h1>회원정보</h1>
         <table class="profile-table">
           <tr>
             <th>프로필</th>
@@ -141,26 +141,25 @@
       flex: 1;
       display: flex;
       justify-content: center;
-      margin-right: 30%;
+      margin-right: 20%;
     }
     
     .profile-container {
       width: 100%;
       max-width: 800px;
+      margin: 20px auto;
       padding: 40px;
-      border: 1px solid #e0e0e0;
-      border-radius: 10px;
+      border: 1px solid #dcdcdc;
+      border-radius: 8px;
       background-color: #ffffff;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       text-align: center;
-      margin-bottom: 20px;
     }
     
     h1 {
       color: #333;
       margin-bottom: 30px;
       font-size: 2rem;
-      font-weight: bold;
     }
     
     .profile-table {
@@ -172,7 +171,7 @@
     .profile-table th,
     .profile-table td {
       border: 1px solid #e0e0e0;
-      padding: 12px 15px;
+      padding: 15px;
       text-align: left;
       font-size: 16px;
     }
@@ -239,8 +238,10 @@
     }
     
     .btn-outline-dark:hover {
-      background-color: #343a40;
+      background-color: #a8a8a8;
       color: #ffffff;
+      border: 1px solid #a8a8a8;
+
     }
     </style>
       

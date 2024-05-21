@@ -10,9 +10,6 @@
       <p>{{ counterStore.content }}</p>
       <br>
       <div class="buttons">
-        <div class="back-button">
-          <button @click="goCommunity">뒤로가기</button> 
-        </div>
         <div class="update-button" v-if=" counterStore.username.username === crt_user">
           <button @click="updatePost">수정하기</button>
         </div>
@@ -39,6 +36,9 @@
         </ul>
       </div>
     </div>
+  </div>
+  <div class="back-button">
+          <button @click="goCommunity">목록</button> 
   </div>
 </template>
 
@@ -147,13 +147,15 @@ p {
   margin-top: 20px;
   display: flex;
   justify-content: right;
+  
 }
 
 .buttons button {
-  background-color: #007bff;
+  background-color: #1abc9c;
+  border: 1px solid #1abc9c;
   color: white;
-  border: none;
-  padding: 3px 6px;
+  border: 1px solid #1abc9c;
+  padding: 4px 8px;
   cursor: pointer;
   border-radius: 5px;
   transition: background-color 0.3s ease;
@@ -162,7 +164,8 @@ p {
 }
 
 .buttons button:hover {
-  background-color: #0056b3;
+  border: 1px solid #1abc9c;
+  background-color: #169b81;
 }
 
 .comments .click-button button {
@@ -182,19 +185,32 @@ p {
 }
 
 .buttons .delete-button button {
-  background-color: #dc3545; /* 빨간색 */
+  background-color: #ffffff; /* 빨간색 */
+  color:#1abc9c;
+  border: 1px solid #1abc9c;
 }
 
 .buttons .delete-button button:hover {
-  background-color: #bd2f3d; /* 빨간색 */
+  background-color: #1abc9c; 
+  color: #ffffff;
 }
 
-
-.buttons .back-button button {
+.back-button button {
   background-color: #999999; 
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  margin-top: 30px;
+  display: block;
+  width: 100px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.buttons .back-button button:hover {
+.back-button button:hover {
   background-color: #6d6d6d; 
 }
 
