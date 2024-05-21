@@ -5,15 +5,15 @@
     <form @submit.prevent="signup" class="signup-form">
       <div class="form-group">
         <label for="username">아이디: </label>
-        <input type="text" id="username" v-model="username" required>
+        <input type="text" id="username" v-model="username" required placeholder="필수">
       </div>
       <div class="form-group">
         <label for="password">비밀번호: </label>
-        <input type="password" id="password" v-model="password" required>
+        <input type="password" id="password" v-model="password" required placeholder="필수">
       </div>
       <div class="form-group">
         <label for="confirmPassword">비밀번호 확인: </label>
-        <input type="password" id="confirmPassword" v-model="confirmPassword" required>
+        <input type="password" id="confirmPassword" v-model="confirmPassword" required placeholder="필수">
       </div>
       <div class="form-group">
         <label for="nickname">닉네임: </label>
@@ -21,11 +21,11 @@
       </div>
       <div class="form-group">
         <label for="email">이메일: </label>
-        <input type="email" id="email" v-model="email" required>
+        <input type="email" id="email" v-model="email" required placeholder="필수">
       </div>
       <div class="form-group">
         <label for="age">나이: </label>
-        <input type="number" id="age" v-model="age" required>
+        <input type="number" id="age" v-model="age" required placeholder="필수">
       </div>
       <div class="form-group">
           <label>성별: </label>
@@ -46,14 +46,14 @@
         </div>
       <div class="form-group">
         <label for="asset">자산: </label>
-        <input type="number" id="asset" v-model="asset">
+        <input type="number" id="asset" v-model="asset" placeholder="만원 단위입니다.">
       </div>      
       <div class="form-group">
           <label for="goal">목표: </label>
           <select id="goal" v-model="goal" required>
             <option value="" disabled selected>목표를 선택하세요</option>
             <option value="무계획">무계획</option>
-            <option value="안정형">안정형</option>
+            <option value="안전형">안전형</option>
             <option value="수익형">수익형</option>
           </select>
         </div>
@@ -85,7 +85,6 @@ const goal = ref('');
 const job = ref('');
 const router = useRouter();
 const counterStore = useCounterStore();
-
 const signup = () => {
   if (!(username.value && password.value && confirmPassword.value && email.value && age.value)) {
     alert('필수 입력사항을 확인하세요.');

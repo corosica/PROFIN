@@ -41,7 +41,7 @@ export const useCounterStore = defineStore('counter', () => {
   }
 
 
-  const signup = function (username,password1,password2,email,nickname,age) {
+  const signup = function (username,password1,password2,email,nickname,age, gender, asset, goal, job) {
     axios({
       method:'POST',
       url : 'http://127.0.0.1:8000/accounts/signup/',
@@ -52,6 +52,10 @@ export const useCounterStore = defineStore('counter', () => {
         email : email,
         nickname : nickname,
         age : age,
+        gender : gender,
+        asset : asset,
+        goal : goal,
+        job : job,
       }
     }).then(function (response) {
       login(username,password1)
@@ -226,6 +230,32 @@ export const useCounterStore = defineStore('counter', () => {
 
     }
   }
+
+  const changeUserInfo = async function (nickname, email, age, gender, asset, goal, job) {
+    // 회원정보 조회
+  await axios({
+      method:'PATCH',
+      url : 'http://127.0.0.1:8000/accounts/user/',
+      headers: {
+        Authorization: sessionStorage.getItem('token'),
+      },
+      data: {
+      nickname : nickname,
+      email : email,
+      age : age,
+      gender : gender,
+      asset : asset,
+      goal : goal,
+      job : job,
+      }
+    }).then((response) => {
+    
+      router.go(-1)
+      userInfos.value = response.data; //userInfos => 데이터 받아온거 posts역할
+    }). catch((err) => {
+    console.error('Failed to fetch userInfo:', err);
+  })
+}
   const getExchange = async function () {
     try {
       const response = await axios({
@@ -342,6 +372,7 @@ export const useCounterStore = defineStore('counter', () => {
     SavingDetails,
     SavingInfos,
     getSaving,
-    getSavingDetail
+    getSavingDetail,
+    changeUserInfo,
   }
 })
