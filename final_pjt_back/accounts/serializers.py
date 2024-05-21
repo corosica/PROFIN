@@ -40,7 +40,9 @@ class CustomRegisterSerializer(RegisterSerializer):
     ('수익형','수익형'),),
     required=False,
     allow_blank=True,)
-
+ points = serializers.IntegerField(
+   required=False,
+   )
  # 해당 필드도 저장 시 함께 사용하도록 설정합니다.
  def get_cleaned_data(self):
     return {
@@ -55,6 +57,7 @@ class CustomRegisterSerializer(RegisterSerializer):
     'asset': self.validated_data.get('asset', 0),
     'job': self.validated_data.get('job', ''),
     'goal': self.validated_data.get('goal', ''),
+    'points': self.validated_data.get('points', 500),
     }
  
 # accounts/serailizers.py
@@ -87,6 +90,8 @@ class CustomUserDetailsSerializer(UserDetailsSerializer):
        extra_fields.append('job')
     if hasattr(UserModel, 'goal'):
        extra_fields.append('goal')
+    if hasattr(UserModel, 'points'):
+       extra_fields.append('points')
     model = UserModel
     fields = ('pk', *extra_fields)
     read_only_fields = ('email',)

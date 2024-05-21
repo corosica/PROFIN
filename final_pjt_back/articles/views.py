@@ -21,6 +21,8 @@ def article_list(request):
             if serializer.is_valid(raise_exception=True):
                 # serializer.save()
                 serializer.save(user=request.user)
+                request.user.points = request.user.points + 30
+                request.user.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         else:
@@ -34,7 +36,9 @@ def article_detail(request, article_pk):
         serializer = ArticleSerializer(article)
         print(serializer.data)
         return Response(serializer.data)
-    elif request.method == 'DELETE':
+    elif request.method == 'DELETE' and request.user == article.user and request.user.points >= 30 :
+        request.user.points = request.user.points - 30
+        request.user.save()
         article.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     elif request.method == 'PUT':
@@ -42,7 +46,9 @@ def article_detail(request, article_pk):
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 
 @api_view(['GET','POST'])
 def comment_list(request,article_pk):
@@ -54,6 +60,8 @@ def comment_list(request,article_pk):
     elif request.method == 'POST':
         serializer = CommentSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
+            request.user.points = request.user.points + 5
+            request.user.save()
             serializer.save(article=article,user=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -64,12 +72,14 @@ def comment_detail(request,article_pk,comment_pk):
     if request.method == 'GET':
         serializer = CommentSerializer(comment)
         return Response(serializer.data)
-    elif request.method == 'DELETE':
+    elif request.method == 'DELETE' and request.user == comment.user and request.user.points >= 5:
         comment.delete()
+        request.user.points = request.user.points - 5
+        request.user.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
-    elif request.method == 'PUT':
+    elif request.method == 'PUT' and request.user == comment.user:
         serializer = CommentSerializer(comment, data=request.data,partial = True)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

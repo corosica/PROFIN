@@ -76,11 +76,13 @@ const router = createRouter({
       path: '/deposit/:id', // 나중에 id로 경로 수정해야함
       name: 'DepositDetail',
       component: DepositDetailView,
+      beforeEnter : requireAuth()
     },
     {
       path: '/saving/:id', // 나중에 id로 경로 수정해야함
       name: 'SavingDetail',
       component: SavingDetailView,
+      beforeEnter : requireAuth()
     },
     {
       path: '/login',
@@ -96,6 +98,7 @@ const router = createRouter({
       path: '/community/post_update/:id',
       name: 'PostUpdate',
       component: PostUpdateView,
+      beforeEnter : requireAuth()
     },
     {
       path: '/kakaomap',
@@ -111,11 +114,13 @@ const router = createRouter({
       path: '/userprofile',
       name: 'UserProfile',
       component: UserProfileView,
+      beforeEnter : requireAuth()
     },
     {
       path:'/userprofileupdate',
       name: 'UserProfileUpdate',
       component: UserProfileUpdateView,
+      beforeEnter : requireAuth()
     },
     {
       path: '/question',

@@ -8,7 +8,7 @@
             <div class="profile-header">
               <div>
                 <p>{{ nickname }}님 환영합니다</p>
-                <p>보유 포인트: <span class="points">100,000 p</span> <button class="btn-recharge">충전하기</button></p>
+                <p>보유 포인트: <span class="points">{{ formatPoints(points) }}  p</span> <button class="btn-recharge">충전하기</button></p>
               </div>
             </div>
           </td>
@@ -59,6 +59,7 @@
   const age = ref(0);
   const job = ref('');
   const goal = ref('');
+  const points = ref(0);
   const router = useRouter();
   const counterStore = useCounterStore();
   
@@ -75,6 +76,7 @@
         job.value = userData.job;
         goal.value = userData.goal;
         age.value = userData.age;
+        points.value = userData.points;
       }
     } catch (error) {
       console.error('Failed to load user data:', error);
@@ -84,7 +86,9 @@
   const changePassword = () => {
     // 비밀번호 변경 로직
   };
-  
+  function formatPoints(value) {
+      return value.toLocaleString();
+    }
   const editProfile = () => {
     router.push({name:'UserProfileUpdate'})
   };

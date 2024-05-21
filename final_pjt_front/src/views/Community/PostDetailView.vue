@@ -13,25 +13,28 @@
         <div class="back-button">
           <button @click="goCommunity">뒤로가기</button> 
         </div>
-        <div class="update-button">
+        <div class="update-button" v-if=" counterStore.username.username === crt_user">
           <button @click="updatePost">수정하기</button>
         </div>
-        <div class="delete-button">
+        <div class="delete-button" v-if=" counterStore.username.username === crt_user">
           <button @click="deletePost">삭제하기</button> 
         </div>
       </div>
       <div class="comments">
         <h3>댓글</h3>
-        <form @submit.prevent="addComment">
+        <form @submit.prevent="addComment" v-if="crt_user">
           <input type="text" v-model="newComment" placeholder="댓글을 입력하세요" />
           <div class="click-button">
             <button type="submit">등록</button>
           </div>
         </form>
+        <div @click.prevent="router.push({name:'Login'})" v-else>
+          <input type="text" placeholder="로그인 후 작성하실 수 있습니다." style="width: 100%;"/>
+        </div>
         <ul>
           <li v-for="comment in comments" :key="comment.id">
             <p>{{ comment.user.nickname }} : {{ comment.content }}</p>
-            <button @click="deleteComments(comment.id)">삭제</button>
+            <button @click="deleteComments(comment.id)" v-if="comment.user.username === crt_user">삭제</button>
           </li>
         </ul>
       </div>
@@ -53,7 +56,7 @@ const counterStore = useCounterStore();
 const comments = ref([])
 const newComment = ref('')
 const commentId = ref('')
-
+const crt_user = ref('')
 const goCommunity = function () {
   router.push({ name: 'Community'})
 }
@@ -102,6 +105,7 @@ onMounted(async () => {
       await counterStore.getArticleById(route.params.id)  
       await counterStore.viewComment(route.params.id)
       comments.value = counterStore.commentList
+      crt_user.value =   sessionStorage.getItem('username')
     } catch (e) {
       console.error('failed to view articles',e)
     }
