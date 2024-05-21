@@ -22,7 +22,7 @@ class User(AbstractUser):
     gender = models.fields.CharField(max_length=255,choices=GENDER_CHOICES,default='비공개')
     asset = models.IntegerField(null=True,default=0)
     job = models.CharField(max_length=255,blank=True,default='무직')
-    goal = models.CharField(max_length=255,choices=GENDER_CHOICES,default='무계획')
+    goal = models.CharField(max_length=255,choices=GOAL_CHOICES,default='무계획')
 
 class CustomAccountAdapter(DefaultAccountAdapter):
  def save_user(self, request, user, form, commit=True):

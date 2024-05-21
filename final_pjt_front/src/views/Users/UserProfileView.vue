@@ -21,6 +21,10 @@
           <td>{{ email }}</td>
         </tr>
         <tr>
+          <th>나이</th>
+          <td>{{ age }} 살</td>
+        </tr>
+        <tr>
           <th>성별</th>
           <td>{{ gender }}</td>
         </tr>
@@ -55,6 +59,7 @@
   const nickname = ref('');
   const gender = ref('');
   const asset = ref('');
+  const age = ref(0);
   const job = ref('');
   const goal = ref('');
   const router = useRouter();
@@ -72,6 +77,7 @@
         asset.value = userData.asset;
         job.value = userData.job;
         goal.value = userData.goal;
+        age.value = userData.age;
       }
     } catch (error) {
       console.error('Failed to load user data:', error);
