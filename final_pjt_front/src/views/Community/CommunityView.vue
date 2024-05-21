@@ -9,7 +9,13 @@
             <option value="content">내용</option>
             <option value="author">글쓴이</option>
           </select>
-          <input type="text" v-model="searchQuery" placeholder="검색어를 입력하세요" class="search-input">
+          <input
+            type="text"
+            v-model="searchQuery"
+            placeholder="검색어를 입력하세요"
+            class="search-input"
+            @keyup.enter="searchPosts"
+          />
           <button @click="searchPosts" class="search-button">검색</button>
         </div>
         <div v-if="loading" class="text-center">
@@ -41,7 +47,12 @@
         </div>
         <div class="pagination">
           <button @click="prevPage" :disabled="currentPage === 1">&lt;</button>
-          <button v-for="page in totalPages" :key="page" @click="changePage(page)" :class="{ 'active': page === currentPage }">{{ page }}</button>
+          <button
+            v-for="page in totalPages"
+            :key="page"
+            @click="changePage(page)"
+            :class="{ active: page === currentPage }"
+          >{{ page }}</button>
           <button @click="nextPage" :disabled="currentPage === totalPages">&gt;</button>
         </div>
         <div class="text-center mt-4 write-btn-container">
@@ -54,6 +65,7 @@
   </div>
 </template>
 
+
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import { useCounterStore } from '@/stores/counter';
@@ -64,16 +76,17 @@ const posts = ref([]);
 const filteredPosts = ref([]);
 const loading = ref(true);
 const searchQuery = ref('');
-const searchCriteria = ref('title'); // 검색 기준 ('title' 또는 'author')
+const searchCriteria = ref('title');
 const currentPage = ref(1);
 const perPage = 10;
 const totalPages = ref(1);
 
 const router = useRouter();
+
 onMounted(async () => {
   try {
     await counterStore.viewArticles('community');
-    posts.value = counterStore.articleList;
+    posts.value = counterStore.articleList.slice().reverse(); // 게시글을 역순으로 정렬
     filteredPosts.value = posts.value;
     totalPages.value = Math.ceil(filteredPosts.value.length / perPage);
   } catch (error) {
@@ -102,14 +115,14 @@ const currentPagePosts = computed(() => {
 
 const searchPosts = () => {
   if (!searchQuery.value) {
-    filteredPosts.value = posts.value;
+    filteredPosts.value = posts.value.slice().reverse(); // 원래 게시글 목록 역순으로 정렬
   } else {
     filteredPosts.value = posts.value.filter(post => {
       if (searchCriteria.value === 'title') {
         return post.title.toLowerCase().includes(searchQuery.value.toLowerCase());
       } else if (searchCriteria.value === 'content') {
         return post.content.toLowerCase().includes(searchQuery.value.toLowerCase());
-      } else if (searchCriteria.value === 'content') {
+      } else if (searchCriteria.value === 'author') {
         return post.user.nickname.toLowerCase().includes(searchQuery.value.toLowerCase());
       }
     });
@@ -133,8 +146,8 @@ const nextPage = () => {
     currentPage.value++;
   }
 };
-
 </script>
+
 
 <style scoped>
 .container {
