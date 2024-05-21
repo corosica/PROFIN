@@ -8,7 +8,7 @@
             <div class="profile-header">
               <div>
                 <p>{{ nickname }}님 환영합니다</p>
-                <p>보유 포인트: <span class="points">{{ formatPoints(points) }}  p</span> <button class="btn-recharge">충전하기</button></p>
+                <p>보유 포인트: <span class="points">{{ formatPoints(points) }}  p</span> <button class="btn-recharge" @click.prevent="AddPoint">충전하기</button></p>
               </div>
             </div>
           </td>
@@ -50,7 +50,7 @@
   import { ref, onMounted } from 'vue';
   import { useRouter } from 'vue-router';
   import { useCounterStore } from '@/stores/counter';
-  
+  import axios from 'axios';
   const username = ref('');
   const email = ref('');
   const nickname = ref('');
@@ -83,6 +83,23 @@
     }
   });
   
+  const AddPoint = async () => {
+    await axios ({
+      method : 'PATCH',
+      url : 'http://127.0.0.1:8000/accounts/user/',
+      headers: {
+        Authorization: sessionStorage.getItem('token'),
+      },
+      data: {
+      points : points.value + 10000,
+      }
+    }).then((response) => {
+      router.go(0);
+    }).catch((err) => {
+      console.error('Failed to fetch userInfo:', err);
+    })
+  };
+
   const changePassword = () => {
     // 비밀번호 변경 로직
   };
