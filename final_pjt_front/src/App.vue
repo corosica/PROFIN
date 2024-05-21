@@ -33,6 +33,7 @@
               <button class="nav-link-box">고객 센터</button>
               <ul class="dropdown">
                 <li><RouterLink class="dropdown-link" :to="{ name: 'Question' }">FAQ</RouterLink></li>
+                <li><RouterLink class="dropdown-link" :to="{ name: 'Answer' }">문의하기</RouterLink></li>
               </ul>
             </li>
           </ul>

@@ -6,6 +6,7 @@
         <div class="board-header">
           <select v-model="searchCriteria" class="category">
             <option value="title">제목</option>
+            <option value="content">내용</option>
             <option value="author">글쓴이</option>
           </select>
           <input type="text" v-model="searchQuery" placeholder="검색어를 입력하세요" class="search-input">
@@ -106,7 +107,9 @@ const searchPosts = () => {
     filteredPosts.value = posts.value.filter(post => {
       if (searchCriteria.value === 'title') {
         return post.title.toLowerCase().includes(searchQuery.value.toLowerCase());
-      } else if (searchCriteria.value === 'author') {
+      } else if (searchCriteria.value === 'content') {
+        return post.content.toLowerCase().includes(searchQuery.value.toLowerCase());
+      } else if (searchCriteria.value === 'content') {
         return post.user.nickname.toLowerCase().includes(searchQuery.value.toLowerCase());
       }
     });

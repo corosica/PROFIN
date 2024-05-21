@@ -2,9 +2,9 @@
   <footer class="footer">
     <div class="footer-top">
       <div class="footer-links">
-        <RouterLink to="/">소개</RouterLink>
-        <RouterLink to="/question">자주 묻는 질문</RouterLink>
-        <RouterLink to="/contact">문의하기</RouterLink>
+        <RouterLink :to="{ name: 'Home'}">소개</RouterLink>
+        <RouterLink :to="{ name: 'Question'}">자주 묻는 질문</RouterLink>
+        <RouterLink :to="{ name: 'Answer'}">문의하기</RouterLink>
       </div>
     </div>
     <div class="footer-bottom">

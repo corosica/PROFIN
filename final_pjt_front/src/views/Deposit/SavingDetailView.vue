@@ -1,7 +1,7 @@
 <template>
     <div class="container">
-        <div class="header">
-            <h2><strong>정기 예금 상세</strong></h2>
+        <h2><strong>정기 적금 상세</strong></h2>
+        <div class="info-header">
             <button class="join-button">가입하기</button>
         </div>
         <div class="info">
@@ -53,23 +53,24 @@ onMounted(async () => {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-}
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+    position: relative;
 }
 
 h2 {
     color: #1abc9c;
     text-align: center;
-    margin: 0;
-    flex-grow: 1; /* To make the title centered */
+    margin-bottom: 10px;
+}
+
+.info-header {
+    position: relative;
+    height: 40px; /* Adjust the height as needed */
 }
 
 .join-button {
+    position: absolute;
+    right: 0;
+    top: 0;
     padding: 8px 16px;
     background-color: #1abc9c;
     color: #fff;
@@ -78,7 +79,6 @@ h2 {
     cursor: pointer;
     font-size: 16px;
     font-weight: bold;
-    margin-left: 20px;
 }
 
 .join-button:hover {

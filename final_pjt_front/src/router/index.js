@@ -14,6 +14,13 @@ import KakaomapView from '@/views/Convenience/KakaoMapView.vue'
 import ExchangeView from '@/views/Convenience/ExchangeView.vue'
 import QuestionView from '@/views/Convenience/QuestionView.vue'
 
+import AnswerView from '@/views/Convenience/AnswerView.vue'
+import AnswerDetailView from '@/views/Convenience/AnswerDetailView.vue'
+import AnswerCreateView from '@/views/Convenience/AnswerCreateView.vue'
+
+
+
+
 import UserProfileUpdateView from '@/views/Users/UserProfileUpdateView.vue'
 import UserProfileView from '@/views/Users/UserProfileView.vue'
 import LoginView from '@/views/Users/LoginView.vue';
@@ -121,8 +128,22 @@ const router = createRouter({
       path: '/question',
       name: 'Question',
       component: QuestionView,
-    }
-
+    },
+    {
+      path: '/answer',
+      name: 'Answer',
+      component: AnswerView,
+    },
+    {
+      path: '/answer/:id',
+      name: 'AnswerDetail',
+      component: AnswerDetailView,
+    },
+    {
+      path: '/answer_create',
+      name: 'AnswerCreate',
+      component: AnswerCreateView,
+    },
     // 기타 라우트 설정을 여기에 추가할 수 있습니다.
   ]
 })
