@@ -25,6 +25,8 @@ import UserProfileUpdateView from '@/views/Users/UserProfileUpdateView.vue'
 import UserProfileView from '@/views/Users/UserProfileView.vue'
 import LoginView from '@/views/Users/LoginView.vue';
 import SignupView from '@/views/Users/SignupView.vue';
+import PortfolioView from '@/views/Users/PortfolioView.vue';
+
 
 import DepositList from '@/components/DepositList.vue'
 import SavingList from '@/components/SavingList.vue'
@@ -148,6 +150,11 @@ const router = createRouter({
       path: '/answer_create',
       name: 'AnswerCreate',
       component: AnswerCreateView,
+    },
+    {
+      path: '/portfolio',
+      name: 'Portfolio',
+      component: PortfolioView,
     },
     // 기타 라우트 설정을 여기에 추가할 수 있습니다.
   ]
