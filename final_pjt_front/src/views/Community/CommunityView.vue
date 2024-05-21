@@ -72,7 +72,7 @@ const totalPages = ref(1);
 const router = useRouter();
 onMounted(async () => {
   try {
-    await counterStore.viewArticles();
+    await counterStore.viewArticles('community');
     posts.value = counterStore.articleList;
     filteredPosts.value = posts.value;
     totalPages.value = Math.ceil(filteredPosts.value.length / perPage);

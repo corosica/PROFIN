@@ -46,7 +46,7 @@
           </div>
           <div class="text-center mt-4 write-btn-container">
             <button @click.prevent="writePost" class="write-btn">
-               글쓰기
+               문의하기
             </button>
           </div>
         </div>
@@ -72,7 +72,7 @@
   const router = useRouter();
   onMounted(async () => {
     try {
-      await counterStore.viewArticles();
+      await counterStore.viewArticles('qna');
       posts.value = counterStore.articleList;
       filteredPosts.value = posts.value;
       totalPages.value = Math.ceil(filteredPosts.value.length / perPage);

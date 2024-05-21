@@ -40,7 +40,7 @@
   
   const updatePost = async () => {
     try {
-      await counterStore.updateArticle(route.params.id,title.value,content.value)
+      await counterStore.updateArticle('community',route.params.id,title.value,content.value)
       alert('게시글이 수정되었습니다.')
       router.push({ name:'PostDetail', params: { id: route.params.id }})
     }  catch (error) {
