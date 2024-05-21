@@ -251,6 +251,14 @@ export const useCounterStore = defineStore('counter', () => {
       }
       catch (err) {
         console.error('Failed to fetch articles:', err);
+        if(err.message == 'Request failed with status code 404')
+        {
+          await axios({
+            method:'GET',
+            url : 'http://127.0.0.1:8000/api/v1/outerapi/deposit/saving',
+          })
+          router.go(0)
+        }
         throw err
       }
     }
@@ -279,6 +287,14 @@ export const useCounterStore = defineStore('counter', () => {
       }
       catch (err) {
         console.error('Failed to fetch articles:', err);
+        if(err.message == 'Request failed with status code 404')
+        {
+          await axios({
+            method:'GET',
+            url : 'http://127.0.0.1:8000/api/v1/outerapi/saving/saving',
+          })
+          router.go(0)
+        }
         throw err
       }
     }
