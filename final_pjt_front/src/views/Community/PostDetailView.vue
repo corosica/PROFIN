@@ -7,13 +7,14 @@
         <p class="time">작성시간 : {{ counterStore.updated_time }}</p>
       </div>
       <br>
-      <p>{{ counterStore.content }}</p>
+      <!-- 줄바꿈 처리된 콘텐츠를 v-html로 렌더링 -->
+      <div v-html="formattedContent"></div>
       <br>
       <div class="buttons">
-        <div class="update-button" v-if=" counterStore.username.username === crt_user">
+        <div class="update-button" v-if="counterStore.username.username === crt_user">
           <button @click="updatePost">수정하기</button>
         </div>
-        <div class="delete-button" v-if=" counterStore.username.username === crt_user">
+        <div class="delete-button" v-if="counterStore.username.username === crt_user">
           <button @click="deletePost">삭제하기</button> 
         </div>
       </div>
@@ -38,14 +39,13 @@
     </div>
   </div>
   <div class="back-button">
-          <button @click="goCommunity">목록</button> 
+    <button @click="goCommunity">목록</button> 
   </div>
 </template>
 
 
 <script setup>
-import axios from 'axios';
-import { ref, onMounted, computed  } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useCounterStore } from '@/stores/counter';
 
@@ -53,68 +53,64 @@ const router = useRouter();
 const route = useRoute();
 const counterStore = useCounterStore();
 
-const comments = ref([])
-const newComment = ref('')
-const commentId = ref('')
-const crt_user = ref('')
+const comments = ref([]);
+const newComment = ref('');
+const crt_user = ref('');
 const goCommunity = function () {
-  router.push({ name: 'Community'})
-}
+  router.push({ name: 'Community' });
+};
 
 const deletePost = async () => {
   try {
-    await counterStore.deleteArticle('community',route.params.id)
-    alert('게시글이 삭제되었습니다.')
-    router.push({ name: 'Community'})
+    await counterStore.deleteArticle('community', route.params.id);
+    alert('게시글이 삭제되었습니다.');
+    router.push({ name: 'Community' });
   } catch (error) {
-    console.error('Failed to delete post:', error)
-    alert('게시글 삭제에 실패했습니다.')
+    console.error('Failed to delete post:', error);
+    alert('게시글 삭제에 실패했습니다.');
   }
-}
+};
 
 const updatePost = function () {
-  router.push({ name: 'PostUpdate', params: { id: route.params.id } })
-}
+  router.push({ name: 'PostUpdate', params: { id: route.params.id } });
+};
 
 const addComment = async () => {
   try {
-    counterStore.newComment('community',route.params.id, newComment.value)
-    await counterStore.viewComment('community',route.params.id)
-    router.go(0)
+    await counterStore.newComment('community', route.params.id, newComment.value);
+    await counterStore.viewComment('community', route.params.id);
+    router.go(0);
   } catch (error) {
-    console.error('Failed to add comment:', error)
-    alert('댓글 등록에 실패했습니다.')
+    console.error('Failed to add comment:', error);
+    alert('댓글 등록에 실패했습니다.');
   }
-}
+};
 
 const deleteComments = async (parameter) => {
   try {
-    await counterStore.deleteComment('community',route.params.id, parameter)
-    alert('댓글이 삭제되었습니다.')
-    router.go(0)
+    await counterStore.deleteComment('community', route.params.id, parameter);
+    alert('댓글이 삭제되었습니다.');
+    router.go(0);
   } catch (error) {
-    console.error('Failed to delete post:', error)
-    alert('댓글 삭제에 실패했습니다.')
+    console.error('Failed to delete comment:', error);
+    alert('댓글 삭제에 실패했습니다.');
   }
-}
+};
 
-
+const formattedContent = computed(() => {
+  return counterStore.content.replace(/\n/g, '<br>');
+});
 
 onMounted(async () => {
-    try {
-      await counterStore.getArticleById('community',route.params.id)  
-      await counterStore.viewComment('community',route.params.id)
-      comments.value = counterStore.commentList
-      crt_user.value =   sessionStorage.getItem('username')
-    } catch (e) {
-      console.error('failed to view articles',e)
-    }
-    finally {
-      // loading.value = false;
-      // console.log(counterStore.articleList)
-    }
-  })  
-
+  try {
+    await counterStore.getArticleById('community', route.params.id);
+    await counterStore.viewComment('community', route.params.id);
+    comments.value = counterStore.commentList;
+    crt_user.value = sessionStorage.getItem('username');
+  } catch (e) {
+    console.error('failed to view articles', e);
+  }
+});
 </script>
 
 
