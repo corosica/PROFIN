@@ -1,27 +1,28 @@
 <template>
   <div>
-    <h1 class="text-center">금융 상품 조회</h1>
+    <h1 class="text-center">적금 상품 조회</h1>
     <!-- 필터링 섹션 시작 -->
     <div class="filter-container">
       <div class="filter-section">
-  <label for="banks">은행 명:</label>
-  <div class="dropdown">
-    <button class="dropdown-toggle" type="button" id="selectedBanks" data-bs-toggle="dropdown" aria-expanded="false">
-      선택
-    </button>
-    <ul class="dropdown-menu" aria-labelledby="selectedBanks">
-      <li>
-        <input type="checkbox" id="selectAllBanks" v-model="selectAllBanks" @change="selectAllBanksChanged">
-        <label for="selectAllBanks">전체 선택</label>
-      </li>
-      <li v-for="(bank, index) in banks" :key="index">
-        <input type="checkbox" :id="bank" :value="bank" v-model="selectedBanks">
-        <label :for="bank">{{ bank }}</label>
-      </li>
-    </ul>
-  </div>
-</div>
+        <div class="dropdown">
+          <label for="banks">은행:</label>
+          <button class="dropdown-toggle" type="button" id="selectedBanks" data-bs-toggle="dropdown" aria-expanded="false">
+            선택
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="selectedBanks">
+            <li>
+              <input type="checkbox" id="selectAllBanks" v-model="selectAllBanks" @change="selectAllBanksChanged">
+              <label for="selectAllBanks">전체 선택</label>
+            </li>
+            <li v-for="(bank, index) in banks" :key="index">
+              <input type="checkbox" :id="bank" :value="bank" v-model="selectedBanks">
+              <label :for="bank">{{ bank }}</label>
+            </li>
+          </ul>
+        </div>
+      </div>
       <div class="filter-section">
+        <div>
         <label for="term">예치 기간:</label>
         <select id="term" v-model="selectedTerm" @change="applyFilters">
           <option value="">전체</option>
@@ -29,6 +30,7 @@
         </select>
       </div>
     </div>
+  </div>
     <!-- 필터링 섹션 끝 -->
     <p>적금 상품</p>
     <table class="table">
@@ -36,17 +38,17 @@
         <tr>
           <th scope="col" @click="sortByDate">
             공시 제출일
-              <span v-if="!sortDescending.date">▲</span>
-              <span v-else>▼</span>
+            <span v-if="!sortDescending.date">▲</span>
+            <span v-else>▼</span>
           </th>
-          <th scope="col">은행 명</th>
+          <th scope="col">은행</th>
           <th scope="col">상품명</th>
           <template v-for="(month, index) in months" :key="`column_${month}`">
             <template v-if="shouldShowColumn(month)">
               <th scope="col" v-for="(prefer, preferIndex) in preferred" :key="`interest_${month}_${preferIndex}`" @click="sortBy(month, prefer)">
                 {{ month }}개월{{ prefer ? ' 우대금리' : '' }}
-                  <span v-if="!sortDescending[month][prefer]">▲</span>
-                  <span v-else>▼</span>
+                <span v-if="!sortDescending[month][prefer]">▲</span>
+                <span v-else>▼</span>
               </th>
             </template>
           </template>
@@ -76,6 +78,7 @@
     </table>
   </div>
 </template>
+
 
 <script setup>
 import { ref, onMounted, computed,watch } from 'vue';
