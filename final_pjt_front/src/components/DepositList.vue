@@ -69,7 +69,7 @@
                     {{ prefer ? getPreferredRate(deposit, month) : getInterestRate(deposit, month) }}%
                   </template>
                   <template v-else>
-                    {{ sortDescending[month][prefer] ? '999' : '-' }}
+                    {{ sortDescending[month][prefer] ? '-' : '-' }}
                   </template>
                 </td>
               </template>
@@ -167,8 +167,6 @@ const sortBy = (month, prefer) => {
     const rateA = prefer ? getPreferredRate(a, month) : getInterestRate(a, month);
     const rateB = prefer ? getPreferredRate(b, month) : getInterestRate(b, month);
     if (rateA === '-' && rateB === '-') return 0;
-    if (rateA === '-') return sortDescending[month][prefer] ? 999 : -1;
-    if (rateB === '-') return sortDescending[month][prefer] ? -1 : 999;
     return sortDescending[month][prefer] ? rateB - rateA : rateA - rateB;
   });
 };
