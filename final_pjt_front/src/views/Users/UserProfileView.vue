@@ -1,4 +1,5 @@
 <template>
+  <div>
   <div class="sidebar">
     <p @click="navigate('info')">내 정보</p>
     <p @click="navigate('products')">가입한 상품</p>
@@ -49,6 +50,8 @@
         <button class="btn btn-outline-dark" @click="goBack">뒤로가기</button>
       </div>
     </div>
+  </div>
+  </div>
   </template>
   
   <script setup>
