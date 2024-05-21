@@ -134,8 +134,8 @@ const profile = () => {
   width: 100%;
   max-width: 1300px;
   padding: 10px;
-  background-color: #ebeaea;
-  border: 1px solid #ebeaea;
+  background-color: #ffffff;
+  border: 1px solid #ffffff;
   border-radius: 8px;
   margin-right: 100px;
 }
