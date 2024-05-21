@@ -42,6 +42,8 @@ const createPost = () => {
 const cancel = () => {
   router.push({ name: 'Community' });
 };
+
+
 </script>
 
 <style scoped>
