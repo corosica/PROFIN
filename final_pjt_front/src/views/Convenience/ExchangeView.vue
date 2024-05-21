@@ -1,7 +1,10 @@
 <template>
   <div class="exchange-wrapper">
     <div class="exchange-container">
-      <h1 class="title">환율 계산기</h1>
+      <h1 class="title">
+        <img src="/calculator.png" alt="Calculator Icon" class="calculator-icon" />
+        환율 계산기
+      </h1>
       <div class="currency-selector">
         <div class="currency-block">
           <label for="currency1">나라1: </label>
@@ -11,6 +14,11 @@
             </option>
           </select>
           <input type="number" v-model.number="input1" @input="calculateExchangeRate('input1')" />
+        </div>
+        <div class="arrow-container">
+          <button @click="swapCurrencies" class="swap-button">
+            <img src="/교환.png" alt="Swap Arrow" class="arrow-image" />
+          </button>
         </div>
         <div class="currency-block">
           <label for="currency2">나라2:</label>
@@ -51,7 +59,7 @@ onMounted(async () => {
 
 const getExchangeRate = (currency) => {
   const foundCurrency = exchanges.value.find(c => c.cur_unit === currency);
-  const rateString = foundCurrency.deal_bas_r.replace(/,/g, '')
+  const rateString = foundCurrency.deal_bas_r.replace(/,/g, '');
   return foundCurrency ? parseFloat(rateString) : 1;
 };
 
@@ -59,15 +67,27 @@ const calculateExchangeRate = (source) => {
   if (source === "input1") {
     const rate1 = getExchangeRate(selectedCurrency1.value);
     const rate2 = getExchangeRate(selectedCurrency2.value);
-    input2.value = (input1.value * rate1) / rate2;
-    console.log(rate1,rate2)
+    input2.value = ((input1.value * rate1) / rate2).toFixed(2);
   } else if (source === "input2") {
     const rate1 = getExchangeRate(selectedCurrency1.value);
     const rate2 = getExchangeRate(selectedCurrency2.value);
-    input1.value = (input2.value * rate2) / rate1;
-    console.log(rate1,rate2)
-
+    input1.value = ((input2.value * rate2) / rate1).toFixed(2);
   }
+};
+
+const swapCurrencies = () => {
+  // Swap the selected currencies
+  const tempCurrency = selectedCurrency1.value;
+  selectedCurrency1.value = selectedCurrency2.value;
+  selectedCurrency2.value = tempCurrency;
+
+  // Swap the input values
+  const tempInput = input1.value;
+  input1.value = input2.value;
+  input2.value = tempInput;
+
+  // Recalculate the exchange rates after swapping
+  calculateExchangeRate('input1');
 };
 </script>
 
@@ -98,6 +118,14 @@ const calculateExchangeRate = (source) => {
   font-weight: 700;
   color: #333;
   margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.calculator-icon {
+  width: 40px; /* 필요에 따라 크기 조정 */
+  height: auto;
+  margin-right: 10px; /* 아이콘과 텍스트 사이의 간격 조정 */
 }
 
 .currency-selector {
@@ -114,6 +142,22 @@ const calculateExchangeRate = (source) => {
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.arrow-container {
+  display: flex;
+  align-items: center;
+}
+
+.arrow-image {
+  width: 50px; /* 필요에 따라 크기 조정 */
+  height: auto;
+}
+
+.swap-button {
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
 .currency-block label {

@@ -22,7 +22,7 @@ class DepositProducts(models.Model):
     dcls_strt_day = models.CharField(max_length=50)
 
 class DepositOptions(models.Model):
-    product = models.ForeignKey(DepositProducts, on_delete=models.CASCADE,related_name='options')
+    product = models.ForeignKey(DepositProducts, on_delete=models.CASCADE)
     fin_prdt_cd = models.TextField() 
     intr_rate_type_nm = models.CharField(max_length=100) 
     intr_rate = models.FloatField() 
