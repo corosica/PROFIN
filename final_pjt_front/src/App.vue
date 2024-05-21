@@ -1,52 +1,57 @@
 <template>
-  <header class="header-container">
-    <nav class="navbar">
-      <div class="logo-container">
-        <router-link :to="{ name: 'Home' }">
-          <img src="/PROFIN.png" alt="Logo" class="logo">
-        </router-link>
-      </div>
-      <div class="nav-links-wrapper">
-        <ul class="nav-links">
-          <li class="nav-item dropdown-container">
-            <button class="nav-link-box">PROFIN</button>
-            <ul class="dropdown">
-              <li><RouterLink class="dropdown-link" :to="{ name: 'Home' }">인삿말</RouterLink></li>
-            </ul>
-          </li>
-          <li class="nav-item dropdown-container">
-            <button class="nav-link-box">금융 상품</button>
-            <ul class="dropdown">
-              <li><RouterLink class="dropdown-link" :to="{ name: 'Deposit' }">예적금 상품</RouterLink></li>
-            </ul>
-          </li>
-          <li class="nav-item dropdown-container">
-            <button class="nav-link-box">이용자 서비스</button>
-            <ul class="dropdown">
-              <li><RouterLink class="dropdown-link" :to="{ name: 'Exchange' }">환율 계산기</RouterLink></li>
-              <li><RouterLink class="dropdown-link" :to="{ name: 'Kakaomap' }">근처 은행 검색</RouterLink></li>
-              <li><RouterLink class="dropdown-link" :to="{ name: 'Community' }">커뮤니티</RouterLink></li>
-            </ul>
-          </li>
-          <li class="nav-item dropdown-container">
-            <button class="nav-link-box">고객 센터</button>
-            <ul class="dropdown">
-              <li><RouterLink class="dropdown-link" :to="{ name: 'Question' }">FAQ</RouterLink></li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-      <div v-if="!islogin">
-        <RouterLink :to="{ name: 'Login' }"><button class="btn-profile">로그인</button></RouterLink> I
-        <RouterLink :to="{ name: 'Signup' }"><button class="btn-logout">회원가입</button></RouterLink>
-      </div>
-      <div v-else>
-        <button type="button" class="btn-profile" @click="profile">회원 정보</button> I
-        <button type="button" class="btn-logout" @click="logout">로그아웃</button>
-      </div>
-    </nav>
-  </header>
-  <RouterView />
+  <div class="app-container">
+    <header class="header-container">
+      <nav class="navbar">
+        <div class="logo-container">
+          <router-link :to="{ name: 'Home' }">
+            <img src="/PROFIN.png" alt="Logo" class="logo">
+          </router-link>
+        </div>
+        <div class="nav-links-wrapper">
+          <ul class="nav-links">
+            <li class="nav-item dropdown-container">
+              <button class="nav-link-box">PROFIN</button>
+              <ul class="dropdown">
+                <li><RouterLink class="dropdown-link" :to="{ name: 'Home' }">인삿말</RouterLink></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown-container">
+              <button class="nav-link-box">금융 상품</button>
+              <ul class="dropdown">
+                <li><RouterLink class="dropdown-link" :to="{ name: 'Deposit' }">예적금 상품</RouterLink></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown-container">
+              <button class="nav-link-box">이용자 서비스</button>
+              <ul class="dropdown">
+                <li><RouterLink class="dropdown-link" :to="{ name: 'Exchange' }">환율 계산기</RouterLink></li>
+                <li><RouterLink class="dropdown-link" :to="{ name: 'Kakaomap' }">근처 은행 검색</RouterLink></li>
+                <li><RouterLink class="dropdown-link" :to="{ name: 'Community' }">커뮤니티</RouterLink></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown-container">
+              <button class="nav-link-box">고객 센터</button>
+              <ul class="dropdown">
+                <li><RouterLink class="dropdown-link" :to="{ name: 'Question' }">FAQ</RouterLink></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <div v-if="!islogin">
+          <RouterLink :to="{ name: 'Login' }"><button class="btn-profile">로그인</button></RouterLink> I
+          <RouterLink :to="{ name: 'Signup' }"><button class="btn-logout">회원가입</button></RouterLink>
+        </div>
+        <div v-else>
+          <button type="button" class="btn-profile" @click="profile">회원 정보</button> I
+          <button type="button" class="btn-logout" @click="logout">로그아웃</button>
+        </div>
+      </nav>
+    </header>
+    <main class="main-content">
+      <RouterView />
+    </main>
+    <Footer />
+  </div>
 </template>
 
 <script setup>
@@ -54,6 +59,7 @@ import { useCounterStore } from '@/stores/counter';
 import { useRouter, RouterLink, RouterView } from 'vue-router';
 import axios from 'axios';
 import { ref, onMounted } from 'vue';
+import Footer from './components/Footer.vue'; // Footer 컴포넌트를 가져옵니다.
 
 const router = useRouter();
 const islogin = ref(false);
@@ -83,7 +89,6 @@ const logout = () => {
       console.log(error);
       sessionStorage.removeItem('token');
       router.go(0);
-
     });
 };
 
@@ -95,6 +100,12 @@ const profile = () => {
 </script>
 
 <style scoped>
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 .header-container {
   background-color: #fffdfd;
   border: 1px solid #dcdcdc;
@@ -149,13 +160,13 @@ const profile = () => {
 .logo-container {
   display: flex;
   align-items: center;
+  transition: 0.3s;
 }
 
 .logo {
   max-height: 100px;
   margin-left: 200px;
 }
-
 
 /* 드롭다운 메뉴 스타일 */
 .dropdown-container {
@@ -196,7 +207,6 @@ const profile = () => {
   background-color: #1fcba9; /* 드롭다운 호버 색상 통일 */
   color: #ffffff; /* 호버 시 글자 색상 통일 */
   border-radius: 8px;
-
 }
 
 /* 버튼 스타일 */
@@ -231,5 +241,9 @@ const profile = () => {
 .btn-logout:hover {
   background-color: #1abc9c;
   color: #ffffff;
+}
+
+.main-content {
+  flex-grow: 1;
 }
 </style>
