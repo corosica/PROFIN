@@ -34,8 +34,8 @@ const content = ref('');
 const router = useRouter();
 
 const createPost = () => {
-    counterStore.viewArticles();
-    counterStore.createArticles(title.value, content.value);
+    counterStore.viewArticles('community');
+    counterStore.createArticles('community',title.value, content.value);
     router.push({ name: 'Community' });
   }
 

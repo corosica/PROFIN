@@ -65,11 +65,11 @@ export const useCounterStore = defineStore('counter', () => {
       console.log(err)
     })
   }
-  const viewArticles = async function () {
+  const viewArticles = async function (item) {
     try {
       const response = await axios({
         method: 'GET',
-        url: 'http://127.0.0.1:8000/api/v1/articles/',
+        url: `http://127.0.0.1:8000/api/v1/articles/${item}/`,
       });
       articleList.value = response.data;
       console.log(articleList.value);
@@ -78,11 +78,11 @@ export const useCounterStore = defineStore('counter', () => {
     }
   };
 
-  const getArticleById = function (id) {
+  const getArticleById = function (item,id) {
     axios(
       {
       method : 'GET',
-      url : `http://127.0.0.1:8000/api/v1/articles/${id}/`,
+      url : `http://127.0.0.1:8000/api/v1/articles/${item}/${id}/`,
     }
     )
     .then(function (response) {
@@ -98,10 +98,10 @@ export const useCounterStore = defineStore('counter', () => {
   }
    
     
-  const createArticles = function(title,contents) {  
+  const createArticles = function(item,title,contents) {  
     axios({ 
       method : 'POST',
-      url : 'http://127.0.0.1:8000/api/v1/articles/',
+      url : `http://127.0.0.1:8000/api/v1/articles/${item}/`,
       headers : {
         Authorization : sessionStorage.getItem('token'),
       },
@@ -112,10 +112,10 @@ export const useCounterStore = defineStore('counter', () => {
     })
   }
 
-  const deleteArticle = function(id) {  
+  const deleteArticle = function(item,id) {  
     axios({
       method: 'DELETE',
-      url: `http://127.0.0.1:8000/api/v1/articles/${id}/`,
+      url: `http://127.0.0.1:8000/api/v1/articles/${item}/${id}/`,
       headers: {
         Authorization: sessionStorage.getItem('token'),
       },
@@ -128,10 +128,10 @@ export const useCounterStore = defineStore('counter', () => {
     })      
   }
 
-  const updateArticle = function(id, title, content) {
+  const updateArticle = function(item,id, title, content) {
     axios({
       method: 'PUT',
-      url: `http://127.0.0.1:8000/api/v1/articles/${id}/`,
+      url: `http://127.0.0.1:8000/api/v1/articles/${item}/${id}/`,
       headers: {
         Authorization: sessionStorage.getItem('token'),
       },
@@ -148,10 +148,10 @@ export const useCounterStore = defineStore('counter', () => {
     })
   }
 
-  const newComment = function (id, comment) {
+  const newComment = function (item,id, comment) {
     axios({
       method: 'POST',
-      url: `http://127.0.0.1:8000/api/v1/articles/${id}/comments/`, // URL 형식 확인
+      url: `http://127.0.0.1:8000/api/v1/articles/${item}/${id}/comments/`, // URL 형식 확인
       headers: {
         Authorization: sessionStorage.getItem('token'),
       },
@@ -167,11 +167,11 @@ export const useCounterStore = defineStore('counter', () => {
     })
   }
 
-  const viewComment = async function (id) {
+  const viewComment = async function (item,id) {
     try {
       const response = await axios({
         method: 'GET',
-        url: `http://127.0.0.1:8000/api/v1/articles/${id}/comments/`,
+        url: `http://127.0.0.1:8000/api/v1/articles/${item}/${id}/comments/`,
       });
       commentList.value = response.data;
       console.log(commentList.value);
@@ -180,10 +180,10 @@ export const useCounterStore = defineStore('counter', () => {
     }
   };
 
-  const deleteComment = function (id, commentId) {  
+  const deleteComment = function (item,id, commentId) {  
     axios({
       method: 'DELETE',
-      url: `http://127.0.0.1:8000/api/v1/articles/${id}/comments/${commentId}`,
+      url: `http://127.0.0.1:8000/api/v1/articles/${item}/${id}/comments/${commentId}`,
       headers: {
         Authorization: sessionStorage.getItem('token'),
       },

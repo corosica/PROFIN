@@ -63,7 +63,7 @@ const goCommunity = function () {
 
 const deletePost = async () => {
   try {
-    await counterStore.deleteArticle(route.params.id)
+    await counterStore.deleteArticle('community',route.params.id)
     alert('게시글이 삭제되었습니다.')
     router.push({ name: 'Community'})
   } catch (error) {
@@ -78,8 +78,8 @@ const updatePost = function () {
 
 const addComment = async () => {
   try {
-    counterStore.newComment(route.params.id, newComment.value)
-    await counterStore.viewComment(route.params.id)
+    counterStore.newComment('community',route.params.id, newComment.value)
+    await counterStore.viewComment('community',route.params.id)
     router.go(0)
   } catch (error) {
     console.error('Failed to add comment:', error)
@@ -89,7 +89,7 @@ const addComment = async () => {
 
 const deleteComments = async (parameter) => {
   try {
-    await counterStore.deleteComment(route.params.id, parameter)
+    await counterStore.deleteComment('community',route.params.id, parameter)
     alert('댓글이 삭제되었습니다.')
     router.go(0)
   } catch (error) {
@@ -102,8 +102,8 @@ const deleteComments = async (parameter) => {
 
 onMounted(async () => {
     try {
-      await counterStore.getArticleById(route.params.id)  
-      await counterStore.viewComment(route.params.id)
+      await counterStore.getArticleById('community',route.params.id)  
+      await counterStore.viewComment('community',route.params.id)
       comments.value = counterStore.commentList
       crt_user.value =   sessionStorage.getItem('username')
     } catch (e) {
