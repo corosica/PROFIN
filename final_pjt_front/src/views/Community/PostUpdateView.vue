@@ -14,7 +14,7 @@
           </div>
 
           <div class="text-end">
-            <button type="submit" class="btn btn-primary me-2">작성</button>
+            <button type="submit" class="btn btn-primary me-2" @click="updatePost">작성</button>
             <button type="button" class="btn btn-secondary" @click="cancel">취소</button>
           </div>
         </form>
