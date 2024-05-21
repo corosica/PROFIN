@@ -34,15 +34,10 @@ const content = ref('');
 const router = useRouter();
 
 const createPost = () => {
-  if (!localStorage.getItem('token')) {
-    alert('로그인을 해주세요'); // 나중에 before enter로 처리
-    router.push('/login');
-  } else {
     counterStore.viewArticles();
     counterStore.createArticles(title.value, content.value);
     router.push({ name: 'Community' });
   }
-};
 
 const cancel = () => {
   router.push({ name: 'Community' });
