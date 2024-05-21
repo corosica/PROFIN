@@ -3,7 +3,7 @@
         <h2>정기 예금 상세</h2>
         <p>공시 제출일 : {{ depositdata.dcls_strt_day }}  </p>
         <p>은행 : {{ depositdata.kor_co_nm }}</p>
-        <p v-if="depositdata.max_limit >100000000">한도 : {{ depositdata.max_limit/100000000  }}억원</p>
+        <p v-if="depositdata.max_limit >=100000000">한도 : {{ depositdata.max_limit/100000000  }}억원</p>
         <p v-else-if="depositdata.max_limit >10000"> 한도 : {{ depositdata.max_limit/10000 }}만원</p>
         <p v-else> 한도 : 없음</p>
         <p>가입 방법 : {{ depositdata.join_way }}</p>

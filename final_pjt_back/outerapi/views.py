@@ -4,8 +4,8 @@ from rest_framework import status
 from django.conf import settings
 import requests
 from django.shortcuts import get_object_or_404, get_list_or_404
-from .serializers import DepositOptionsSerializer,DepositProductsSerializer
-from .models import DepositOptions,DepositProducts
+from .serializers import DepositOptionsSerializer,DepositProductsSerializer,SavingOptionsSerializer,SavingProductsSerializer
+from .models import DepositOptions,DepositProducts,SavingOptions,SavingProducts
 # Create your views here.
 from datetime import datetime
 
@@ -53,6 +53,32 @@ def save_deposit_list(request):
                 serializer.save(product = DepositProducts.objects.get(fin_prdt_cd = data["fin_prdt_cd"]))
     return Response(status=status.HTTP_200_OK,data={'message':'okay'})
 
+@api_view(['GET']) 
+def save_saving_product(request):
+    api_key = settings.BANK_API_KEY
+    for page in range(1,2):
+        api_url = f"https://finlife.fss.or.kr/finlifeapi/savingProductsSearch.json?auth={api_key}&topFinGrpNo=020000&pageNo={page}"
+        response = requests.get(api_url).json()
+        for data in response['result'].get('baseList'):
+            serializer = SavingProductsSerializer(data=data)
+            if serializer.is_valid():
+                serializer.save()
+        for data in response['result'].get('optionList'):
+            serializer = SavingOptionsSerializer(data=data)
+            if serializer.is_valid():
+                serializer.save(product = SavingProducts.objects.get(fin_prdt_cd = data["fin_prdt_cd"]))
+    return Response(status=status.HTTP_200_OK,data={'message':'okay'})
+
+@api_view(['GET']) 
+def saving_list(request):
+    saving_items = get_list_or_404(SavingProducts)
+    serializer = SavingProductsSerializer(saving_items, many=True)
+    return Response(serializer.data,status=status.HTTP_200_OK)
+
+@api_view(['GET']) 
+def saving_detail(request,deposit_pk):
+    product = get_object_or_404(SavingProducts,pk=deposit_pk)
+    return Response(SavingProductsSerializer(product).data,status=status.HTTP_200_OK)
 
 @api_view(['GET']) 
 def deposit_detail(request,deposit_pk):
