@@ -13,17 +13,6 @@
         </td>
       </tr>
       <tr>
-        <th>프로필 사진</th>
-        <td>
-          <div class="profile-header">
-            <div class="profile-img">
-              <img src="/user.png" alt="profile-image" class="profile-image">
-            </div>
-            <button>파일 선택</button>
-          </div>
-        </td>
-      </tr>
-      <tr>
         <th>이메일</th>
         <td>
           <input type="email" name="email" v-model="email"> 
