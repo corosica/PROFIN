@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 # Create your models here.
 
@@ -11,6 +12,7 @@ class Exchange(models.Model):
 
 class DepositProducts(models.Model):
     fin_prdt_cd = models.TextField(unique=True)
+    buy_user = models.ManyToManyField(settings.AUTH_USER_MODEL,related_name='buy_deposit_products')
     kor_co_nm = models.TextField()
     fin_prdt_nm =  models.TextField()
     etc_note  =  models.TextField()
@@ -32,6 +34,7 @@ class DepositOptions(models.Model):
 
 class SavingProducts(models.Model):
     fin_prdt_cd = models.TextField(unique=True)
+    buy_user = models.ManyToManyField(settings.AUTH_USER_MODEL,related_name='buy_saving_products')
     kor_co_nm = models.TextField()
     fin_prdt_nm =  models.TextField()
     etc_note  =  models.TextField()
