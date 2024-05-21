@@ -114,12 +114,13 @@ const goBack = () => {
 
 <style scoped>
 .profile-container {
+  width: 100%;
   max-width: 800px;
   margin: 50px auto;
   padding: 40px;
   border: 1px solid #dcdcdc;
   border-radius: 8px;
-  background-color: #f9f9f9;
+  background-color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
@@ -138,31 +139,20 @@ h1 {
 
 .profile-table th,
 .profile-table td {
-  border: 1px solid #dcdcdc;
+  border: 1px solid #e0e0e0;
   padding: 15px;
   text-align: left;
+  font-size: 16px;
 }
 
 .profile-table th {
-  background-color: #f0f0f0;
+  background-color: #f9f9f9;
   width: 150px;
 }
 
 .profile-header {
   display: flex;
   align-items: center;
-}
-
-.profile-img {
-  width: 70px;
-  height: 70px;
-  margin-right: 20px;
-}
-
-.profile-image {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
 }
 
 .points {

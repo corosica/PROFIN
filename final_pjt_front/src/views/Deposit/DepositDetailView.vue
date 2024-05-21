@@ -18,29 +18,31 @@
             <p>{{ depositdata.etc_note }}</p>
         </div>
     </div>
+    <button class="back-button" @click="goBack">목록</button>
 </template>
-
-
-
-
-  
 
 <script setup>
 import { ref, onMounted } from 'vue';
 import {useCounterStore} from '@/stores/counter';
 import { useRouter,useRoute } from 'vue-router';
+
 const depositdata = ref([]);
 const counterStore = useCounterStore();
 const router = useRouter();
 const route  = useRoute();
+
 onMounted(async () => {
     try{
         await counterStore.getDepositDetail(route.params.id);
-        depositdata.value = counterStore.DepositDetails
+        depositdata.value = counterStore.DepositDetails;
     } catch (e) {
-        console.log(e)
+        console.log(e);
     }
-})
+});
+
+const goBack = () => {
+    router.go(-1);
+};
 </script>
 
 <style scoped>
@@ -112,5 +114,25 @@ h2 {
     font-size: 16px;
     font-weight: bold;
     color: #1abc9c;
+}
+
+.back-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #dfdfdf;
+    color: #333;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    display: block;
+    width: 100px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.back-button:hover {
+    background-color: #bbb;
 }
 </style>
