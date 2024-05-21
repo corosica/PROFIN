@@ -1,5 +1,5 @@
 <template>
-  <div class="container border">
+  <div>
     <h1 class="text-center">금융 상품 조회</h1>
     <!-- 필터링 섹션 시작 -->
     <div class="filter-container">
