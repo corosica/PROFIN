@@ -10,7 +10,7 @@ class DepositOptionsSerializer(serializers.ModelSerializer):
         read_only_fields = ('product',)
 
 class DepositProductsSerializer(serializers.ModelSerializer):
-    options = DepositOptionsSerializer(many=True,read_only=True)
+    deposit_options = DepositOptionsSerializer(many=True,read_only=True)
     class Meta:
         model = DepositProducts
         fields = '__all__'
@@ -22,7 +22,7 @@ class SavingOptionsSerializer(serializers.ModelSerializer):
         read_only_fields = ('product',)
 
 class SavingProductsSerializer(serializers.ModelSerializer):
-    options = SavingOptionsSerializer(many=True,read_only=True)
+    saving_options = SavingOptionsSerializer(many=True,read_only=True)
     class Meta:
         model = SavingProducts
         fields = '__all__'
