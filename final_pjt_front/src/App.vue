@@ -98,7 +98,7 @@ const logout = () => {
 const store = useCounterStore();
 
 const profile = () => {
-  router.push({ name: 'UserProfile' });
+  router.push({ name: 'Profile' });
 };
 </script>
 

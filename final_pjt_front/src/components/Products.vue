@@ -1,6 +1,6 @@
 <template>
     <div>
-        <p>포토퐅토포토포토포폴리오</p>
+        <p>담은상품</p>
     </div>
 </template>
 
