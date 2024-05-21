@@ -9,7 +9,13 @@
               <option value="content">내용</option>
               <option value="author">글쓴이</option>
             </select>
-            <input type="text" v-model="searchQuery" placeholder="검색어를 입력하세요" class="search-input">
+            <input
+            type="text"
+            v-model="searchQuery"
+            placeholder="검색어를 입력하세요"
+            class="search-input"
+            @keyup.enter="searchPosts"
+          />
             <button @click="searchPosts" class="search-button">검색</button>
           </div>
           <div v-if="loading" class="text-center">
@@ -70,10 +76,11 @@
   const totalPages = ref(1);
   
   const router = useRouter();
+  
   onMounted(async () => {
     try {
       await counterStore.viewArticles('qna');
-      posts.value = counterStore.articleList;
+      posts.value = counterStore.articleList.slice().reverse(); // 게시글을 역순으로 정렬
       filteredPosts.value = posts.value;
       totalPages.value = Math.ceil(filteredPosts.value.length / perPage);
     } catch (error) {
@@ -101,23 +108,23 @@
   });
   
   const searchPosts = () => {
-    if (!searchQuery.value) {
-      filteredPosts.value = posts.value;
-    } else {
-      filteredPosts.value = posts.value.filter(post => {
-        if (searchCriteria.value === 'title') {
-          return post.title.toLowerCase().includes(searchQuery.value.toLowerCase());
-        } else if (searchCriteria.value === 'content') {
-          return post.content.toLowerCase().includes(searchQuery.value.toLowerCase());
-        } else if (searchCriteria.value === 'author') {
-          return post.user.nickname.toLowerCase().includes(searchQuery.value.toLowerCase());
-        }
-      });
-    }
-    currentPage.value = 1; // 검색 결과가 바뀌면 첫 페이지로 이동
-    totalPages.value = Math.ceil(filteredPosts.value.length / perPage);
+  if (!searchQuery.value) {
+    filteredPosts.value = posts.value.slice().reverse(); // 원래 게시글 목록 역순으로 정렬
+  } else {
+    filteredPosts.value = posts.value.filter(post => {
+      if (searchCriteria.value === 'title') {
+        return post.title.toLowerCase().includes(searchQuery.value.toLowerCase());
+      } else if (searchCriteria.value === 'content') {
+        return post.content.toLowerCase().includes(searchQuery.value.toLowerCase());
+      } else if (searchCriteria.value === 'author') {
+        return post.user.nickname.toLowerCase().includes(searchQuery.value.toLowerCase());
+      }
+    });
+  }
+  currentPage.value = 1; // 검색 결과가 바뀌면 첫 페이지로 이동
+  totalPages.value = Math.ceil(filteredPosts.value.length / perPage);
   };
-  
+
   const changePage = (page) => {
     currentPage.value = page;
   };
@@ -133,9 +140,8 @@
       currentPage.value++;
     }
   };
-  
   </script>
-  
+    
   <style scoped>
   .container {
     max-width: 1100px;
