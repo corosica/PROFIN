@@ -110,9 +110,7 @@
     const goBack = () => {
       router.go(-1);
     };
-    const navigate = () => {
-    router.push({ name: 'Portfolio' });
-  };
+
     </script>
     
     <style scoped>
@@ -143,6 +141,7 @@
       flex: 1;
       display: flex;
       justify-content: center;
+      margin-right: 30%;
     }
     
     .profile-container {
