@@ -27,7 +27,7 @@ export const useCounterStore = defineStore('counter', () => {
       }
     }).then(function (response) {
       console.log(response.data)
-      localStorage.setItem('token','Token '+response.data.key)
+      sessionStorage.setItem('token','Token '+response.data.key)
       router.push({name:'Home'}).then(() => {
         // router.push가 완료된 후 새로고침을 수행
           router.go(0);
@@ -96,7 +96,8 @@ export const useCounterStore = defineStore('counter', () => {
       method : 'POST',
       url : 'http://127.0.0.1:8000/api/v1/articles/',
       headers : {
-        Authorization : localStorage.getItem('token'),
+        Authorization : sessionStorage
+        .getItem('token'),
       },
         data : {
         title : title,
@@ -110,7 +111,7 @@ export const useCounterStore = defineStore('counter', () => {
       method: 'DELETE',
       url: `http://127.0.0.1:8000/api/v1/articles/${id}/`,
       headers: {
-        Authorization: localStorage.getItem('token'),
+        Authorization: sessionStorage.getItem('token'),
       },
     })
     .then(function(response) {
@@ -126,7 +127,7 @@ export const useCounterStore = defineStore('counter', () => {
       method: 'PUT',
       url: `http://127.0.0.1:8000/api/v1/articles/${id}/`,
       headers: {
-        Authorization: localStorage.getItem('token'),
+        Authorization: sessionStorage.getItem('token'),
       },
       data: {
         title: title,
@@ -146,7 +147,7 @@ export const useCounterStore = defineStore('counter', () => {
       method: 'POST',
       url: `http://127.0.0.1:8000/api/v1/articles/${id}/comments/`, // URL 형식 확인
       headers: {
-        Authorization: localStorage.getItem('token'),
+        Authorization: sessionStorage.getItem('token'),
       },
       data: {
         "content": comment
@@ -178,7 +179,7 @@ export const useCounterStore = defineStore('counter', () => {
       method: 'DELETE',
       url: `http://127.0.0.1:8000/api/v1/articles/${id}/comments/${commentId}`,
       headers: {
-        Authorization: localStorage.getItem('token'),
+        Authorization: sessionStorage.getItem('token'),
       },
     })
     .then(function(response) {
@@ -214,7 +215,7 @@ export const useCounterStore = defineStore('counter', () => {
         method:'GET',
         url : 'http://127.0.0.1:8000/accounts/user/',
         headers: {
-          Authorization: localStorage.getItem('token'),
+          Authorization: sessionStorage.getItem('token'),
         },
       })
       userInfos.value = response.data; //userInfos => 데이터 받아온거 posts역할
