@@ -2,8 +2,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 from django.shortcuts import get_object_or_404, get_list_or_404
-from .serializers import ArticleListSerializer, ArticleSerializer,CommentSerializer
-from .models import Article,Comment
+from .serializers import ArticleListSerializer, ArticleSerializer,CommentSerializer,QNAArticleListSerializer,QNACommentSerializer,QNAArticleSerializer
+from .models import Article,Comment,QNAarticle,QNAcomment
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated 
 # Create your views here.
@@ -79,6 +79,77 @@ def comment_detail(request,article_pk,comment_pk):
         return Response(status=status.HTTP_204_NO_CONTENT)
     elif request.method == 'PUT' and request.user == comment.user:
         serializer = CommentSerializer(comment, data=request.data,partial = True)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+@api_view(['GET', 'POST'])
+# @permission_classes([IsAuthenticated])
+def qna_list(request):
+    if request.method == 'GET':
+            articles = get_list_or_404(QNAarticle)
+            serializer = QNAArticleListSerializer(articles, many=True)
+            return Response(serializer.data,status=status.HTTP_200_OK)
+    elif request.method == 'POST':
+        if request.user.is_authenticated:
+            serializer = QNAArticleSerializer(data=request.data)
+            if serializer.is_valid(raise_exception=True):
+                # serializer.save()
+                serializer.save(user=request.user)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+
+@api_view(['GET','DELETE','PUT'])
+def qna_detail(request, article_pk):
+    article = get_object_or_404(QNAarticle, pk=article_pk)
+    if request.method == 'GET':
+        serializer = QNAArticleSerializer(article)
+        print(serializer.data)
+        return Response(serializer.data)
+    elif request.method == 'DELETE' and request.user == article.user:
+        request.user.save()
+        article.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    elif request.method == 'PUT':
+        serializer = QNAArticleSerializer(article, data=request.data,partial = True)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+@api_view(['GET','POST'])
+def qna_comment_list(request,article_pk):
+    article = get_object_or_404(QNAarticle, pk=article_pk)
+    comment = QNAcomment.objects.filter(article=article)
+    if request.method == 'GET':
+        serializer = QNACommentSerializer(comment, many=True)
+        return Response(serializer.data)
+    elif request.method == 'POST':
+        serializer = QNACommentSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(article=article,user=request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+@api_view(['GET','DELETE','PUT'])
+def qna_comment_detail(request,article_pk,comment_pk):
+    comment = get_object_or_404(QNAcomment, pk=comment_pk)
+    if request.method == 'GET':
+        serializer = QNACommentSerializer(comment)
+        return Response(serializer.data)
+    elif request.method == 'DELETE' and request.user == comment.user:
+        comment.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    elif request.method == 'PUT' and request.user == comment.user:
+        serializer = QNACommentSerializer(comment, data=request.data,partial = True)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data)

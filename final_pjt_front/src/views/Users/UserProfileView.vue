@@ -14,7 +14,7 @@
             <div class="profile-header">
               <div>
                 <p>{{ nickname }}님 환영합니다</p>
-                <p>보유 포인트: <span class="points">{{ formatPoints(points) }} p</span> <button class="btn-recharge">충전하기</button></p>
+                <p>보유 포인트: <span class="points">{{ formatPoints(points) }}  p</span> <button class="btn-recharge" @click.prevent="AddPoint">충전하기</button></p>
               </div>
             </div>
           </td>
@@ -49,65 +49,74 @@
         <button class="btn btn-outline-dark" @click="goBack">뒤로가기</button>
       </div>
     </div>
-  </div>
-</template>
-
-
-
+  </template>
   
-<script setup>
-import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
-import { useCounterStore } from '@/stores/counter';
-
-const username = ref('');
-const email = ref('');
-const nickname = ref('');
-const gender = ref('');
-const asset = ref('');
-const age = ref(0);
-const job = ref('');
-const goal = ref('');
-const points = ref(0);
-const router = useRouter();
-const counterStore = useCounterStore();
-
-onMounted(async () => {
-  try {
-    await counterStore.getUserInfo();
-    const userData = counterStore.userInfos;
-    if (userData) {
-      username.value = userData.username;
-      email.value = userData.email;
-      nickname.value = userData.nickname;
-      gender.value = userData.gender;
-      asset.value = userData.asset;
-      job.value = userData.job;
-      goal.value = userData.goal;
-      age.value = userData.age;
-      points.value = userData.points;
+  <script setup>
+  import { ref, onMounted } from 'vue';
+  import { useRouter } from 'vue-router';
+  import { useCounterStore } from '@/stores/counter';
+  import axios from 'axios';
+  const username = ref('');
+  const email = ref('');
+  const nickname = ref('');
+  const gender = ref('');
+  const asset = ref('');
+  const age = ref(0);
+  const job = ref('');
+  const goal = ref('');
+  const points = ref(0);
+  const router = useRouter();
+  const counterStore = useCounterStore();
+  
+  onMounted(async () => {
+    try {
+      await counterStore.getUserInfo();
+      const userData = counterStore.userInfos;
+      if (userData) {
+        username.value = userData.username;
+        email.value = userData.email;
+        nickname.value = userData.nickname;
+        gender.value = userData.gender;
+        asset.value = userData.asset;
+        job.value = userData.job;
+        goal.value = userData.goal;
+        age.value = userData.age;
+        points.value = userData.points;
+      }
+    } catch (error) {
+      console.error('Failed to load user data:', error);
     }
-  } catch (error) {
-    console.error('Failed to load user data:', error);
-  }
-});
-
-function formatPoints(value) {
-    return value.toLocaleString();
-  }
-const editProfile = () => {
-  router.push({name:'UserProfileUpdate'})
-};
-
-const goBack = () => {
-  router.go(-1);
-};
-
-const navigate = () => {
+  });
+  
+  const AddPoint = async () => {
+    await axios ({
+      method : 'PATCH',
+      url : 'http://127.0.0.1:8000/accounts/user/',
+      headers: {
+        Authorization: sessionStorage.getItem('token'),
+      },
+      data: {
+      points : points.value + 10000,
+      }
+    }).then((response) => {
+      router.go(0);
+    }).catch((err) => {
+      console.error('Failed to fetch userInfo:', err);
+    })
+  };
+  function formatPoints(value) {
+      return value.toLocaleString();
+    }
+  const editProfile = () => {
+    router.push({name:'UserProfileUpdate'})
+  };
+  
+  const goBack = () => {
+    router.go(-1);
+  };
+  const navigate = () => {
   router.push({ name: 'Portfolio' });
 };
-
-
   </script>
   
   <style scoped>
