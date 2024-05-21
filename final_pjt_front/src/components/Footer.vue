@@ -2,9 +2,9 @@
   <footer class="footer">
     <div class="footer-top">
       <div class="footer-links">
-        <RouterLink :to="{ name: 'Home'}">소개</RouterLink>
-        <RouterLink :to="{ name: 'Question'}">자주 묻는 질문</RouterLink>
-        <RouterLink :to="{ name: 'Answer'}">문의하기</RouterLink>
+        <RouterLink :to="{ name: 'Home'}" @click.native="scrollToTop">소개</RouterLink>
+        <RouterLink :to="{ name: 'Question'}" @click.native="scrollToTop">자주 묻는 질문</RouterLink>
+        <RouterLink :to="{ name: 'Answer'}" @click.native="scrollToTop">문의하기</RouterLink>
       </div>
     </div>
     <div class="footer-bottom">
@@ -14,6 +14,9 @@
 </template>
 
 <script setup>
+const scrollToTop = () => {
+  window.scrollTo(0, 0);
+};
 </script>
 
 <style scoped>

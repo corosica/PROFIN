@@ -7,7 +7,8 @@
           <p class="time">작성시간 : {{ counterStore.updated_time }}</p>
         </div>
         <br>
-        <p>{{ counterStore.content }}</p>
+        <!-- 줄바꿈 처리된 콘텐츠를 v-html로 렌더링 -->
+        <div v-html="formattedContent"></div>
         <br>
         <div class="buttons">
           <div class="back-button">
@@ -98,8 +99,11 @@
     }
   }
   
-  
-  
+  const formattedContent = computed(() => {
+  return counterStore.content.replace(/\n/g, '<br>');
+});
+
+
   onMounted(async () => {
       try {
         await counterStore.getArticleById('qna',route.params.id)  
