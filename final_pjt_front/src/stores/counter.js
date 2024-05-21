@@ -30,6 +30,7 @@ export const useCounterStore = defineStore('counter', () => {
     }).then(function (response) {
       console.log(response.data)
       sessionStorage.setItem('token','Token '+response.data.key)
+      sessionStorage.setItem('username',username)
       router.push({name:'Home'}).then(() => {
         // router.push가 완료된 후 새로고침을 수행
           router.go(0);
@@ -102,8 +103,7 @@ export const useCounterStore = defineStore('counter', () => {
       method : 'POST',
       url : 'http://127.0.0.1:8000/api/v1/articles/',
       headers : {
-        Authorization : sessionStorage
-        .getItem('token'),
+        Authorization : sessionStorage.getItem('token'),
       },
         data : {
         title : title,

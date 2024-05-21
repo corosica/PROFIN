@@ -23,6 +23,7 @@ class User(AbstractUser):
     asset = models.IntegerField(null=True,default=0)
     job = models.CharField(max_length=255,blank=True,default='무직')
     goal = models.CharField(max_length=255,choices=GOAL_CHOICES,default='무계획')
+    points = models.IntegerField(default=500)
 
 class CustomAccountAdapter(DefaultAccountAdapter):
  def save_user(self, request, user, form, commit=True):
@@ -43,6 +44,7 @@ class CustomAccountAdapter(DefaultAccountAdapter):
     job = data.get("job")
     # goal 필드를 추가
     goal = data.get("goal")
+    points = data.get("points")
     user_email(user, email)
     user_username(user, username)
     if first_name:
@@ -63,6 +65,8 @@ class CustomAccountAdapter(DefaultAccountAdapter):
         user_field(user, "goal", goal)
     if age:
         user.age = age
+    if points:
+        user.points = points
     if "password1" in data:
         user.set_password(data["password1"])
     else:

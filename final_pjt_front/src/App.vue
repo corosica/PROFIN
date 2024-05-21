@@ -82,6 +82,7 @@ const logout = () => {
   })
     .then((response) => {
       sessionStorage.removeItem('token');
+      sessionStorage.removeItem('username');
       router.push({ name: 'Login' }).then(() => {
         router.go(0);
       });
@@ -89,6 +90,7 @@ const logout = () => {
     .catch((error) => {
       console.log(error);
       sessionStorage.removeItem('token');
+      sessionStorage.removeItem('username');
       router.go(0);
     });
 };
