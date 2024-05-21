@@ -242,10 +242,6 @@ watch([selectedBanks, selectedTerm], () => {
   text-align: center;
 }
 
-.highlighted {
-  background-color: red;
-}
-
 /* 필터 섹션 스타일 */
 .filter-container {
   display: flex;

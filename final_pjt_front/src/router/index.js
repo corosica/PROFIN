@@ -18,16 +18,18 @@ import AnswerView from '@/views/Convenience/AnswerView.vue'
 import AnswerDetailView from '@/views/Convenience/AnswerDetailView.vue'
 import AnswerCreateView from '@/views/Convenience/AnswerCreateView.vue'
 
-
-
-
 import UserProfileUpdateView from '@/views/Users/UserProfileUpdateView.vue'
 import UserProfileView from '@/views/Users/UserProfileView.vue'
 import LoginView from '@/views/Users/LoginView.vue';
 import SignupView from '@/views/Users/SignupView.vue';
+
 import Portfolio from '@/components/Portfolio.vue';
 import Products from '@/components/Products.vue';
 import Profile from '@/components/Profile.vue';
+import Normal from '@/components/Normal.vue';
+import Premium from '@/components/Premium.vue';
+import Modal from '@/components/Modal.vue';
+
 
 import DepositList from '@/components/DepositList.vue'
 import SavingList from '@/components/SavingList.vue'
@@ -129,7 +131,19 @@ const router = createRouter({
           {
             path: '/portfolio',
             name: 'Portfolio',
-            component: Portfolio
+            component: Portfolio,
+            children: [
+              {
+                path: '/normal',
+                name: 'Normal',
+                component: Normal
+              },
+              {
+                path: '/premium',
+                name: 'Premium',
+                component: Premium
+              },
+            ]
           },
           {
             path: '/Profile',
@@ -141,7 +155,7 @@ const router = createRouter({
             path: '/products',
             name : 'Products',
             component : Products
-          }
+          },
       ]
     },
     {
@@ -169,6 +183,11 @@ const router = createRouter({
       path: '/answer_create',
       name: 'AnswerCreate',
       component: AnswerCreateView,
+    },
+    {
+      path: '/modal',
+      name: 'Modal',
+      component: Modal,
     },
     
     // 기타 라우트 설정을 여기에 추가할 수 있습니다.
