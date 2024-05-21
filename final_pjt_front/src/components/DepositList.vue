@@ -1,34 +1,38 @@
 <template>
   <div>
-    <h1 class="text-center">금융 상품 조회</h1>
+    <h1 class="text-center">예금 상품 조회</h1>
     <!-- 필터링 섹션 시작 -->
+  <div>
     <div class="filter-container">
+      <div class="filter-section ">
+        <div class="dropdown">
+          <label for="banks">은행:</label>
+          <button class="dropdown-toggle" type="button" id="selectedBanks" data-bs-toggle="dropdown" aria-expanded="false">
+            선택
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="selectedBanks">
+            <li>
+              <input type="checkbox" id="selectAllBanks" v-model="selectAllBanks" @change="selectAllBanksChanged">
+              <label for="selectAllBanks">전체 선택</label>
+            </li>
+            <li v-for="(bank, index) in banks" :key="index">
+              <input type="checkbox" :id="bank" :value="bank" v-model="selectedBanks">
+              <label :for="bank">{{ bank }}</label>
+            </li>
+          </ul>
+        </div>
+      </div>
       <div class="filter-section">
-  <label for="banks">은행 명:</label>
-  <div class="dropdown">
-    <button class="dropdown-toggle" type="button" id="selectedBanks" data-bs-toggle="dropdown" aria-expanded="false">
-      선택
-    </button>
-    <ul class="dropdown-menu" aria-labelledby="selectedBanks">
-      <li>
-        <input type="checkbox" id="selectAllBanks" v-model="selectAllBanks" @change="selectAllBanksChanged">
-        <label for="selectAllBanks">전체 선택</label>
-      </li>
-      <li v-for="(bank, index) in banks" :key="index">
-        <input type="checkbox" :id="bank" :value="bank" v-model="selectedBanks">
-        <label :for="bank">{{ bank }}</label>
-      </li>
-    </ul>
-  </div>
-</div>
-      <div class="filter-section">
-        <label for="term">예치 기간:</label>
-        <select id="term" v-model="selectedTerm" @change="applyFilters">
-          <option value="">전체</option>
-          <option v-for="(term, index) in terms" :key="index" :value="term">{{ term }}개월</option>
-        </select>
+        <div>
+          <label for="term">예치 기간: </label>
+          <select id="term" v-model="selectedTerm" @change="applyFilters">
+            <option value="">전체</option>
+            <option v-for="(term, index) in terms" :key="index" :value="term">{{ term }}개월</option>
+          </select>
+        </div>
       </div>
     </div>
+  </div>
     <!-- 필터링 섹션 끝 -->
     <p>예금 상품</p>
     <table class="table">
@@ -39,7 +43,7 @@
               <span v-if="!sortDescending.date">▲</span>
               <span v-else>▼</span>
           </th>
-          <th scope="col">은행 명</th>
+          <th scope="col">은행</th>
           <th scope="col">상품명</th>
           <template v-for="(month, index) in months" :key="`column_${month}`">
             <template v-if="shouldShowColumn(month)">
