@@ -10,7 +10,7 @@
         <div class="nav-links-wrapper">
           <ul class="nav-links">
             <li class="nav-item dropdown-container">
-              <button class="nav-link-box">PROFIN</button>
+              <button class="nav-link-box"><strong>PROFIN</strong></button>
               <ul class="dropdown">
                 <li><RouterLink class="dropdown-link" :to="{ name: 'Home' }">인삿말</RouterLink></li>
               </ul>

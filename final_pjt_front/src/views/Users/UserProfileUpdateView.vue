@@ -113,22 +113,29 @@ const goBack = () => {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap');
+
+* {
+  font-family: 'Noto Sans KR', sans-serif; /* 전역 폰트 적용 */
+}
+
 .profile-container {
   width: 100%;
   max-width: 800px;
-  margin: 50px auto;
+  margin: 20px auto;
   padding: 40px;
   border: 1px solid #dcdcdc;
-  border-radius: 8px;
+  border-radius: 10px;
   background-color: #ffffff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   text-align: center;
+  margin-bottom: 20px;
 }
 
 h1 {
   color: #333;
-  margin-bottom: 40px;
-  font-size: 2em;
+  margin-bottom: 30px;
+  font-size: 2rem;
 }
 
 .profile-table {

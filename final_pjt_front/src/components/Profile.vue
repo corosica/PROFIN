@@ -114,6 +114,7 @@
     </script>
     
     <style scoped>
+    
     .sidebar {
       padding: 20px;
       position: fixed;
@@ -150,7 +151,7 @@
       margin: 20px auto;
       padding: 40px;
       border: 1px solid #dcdcdc;
-      border-radius: 8px;
+      border-radius: 10px;
       background-color: #ffffff;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       text-align: center;
