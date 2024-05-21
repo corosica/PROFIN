@@ -21,7 +21,7 @@ import SignupView from '@/views/Users/SignupView.vue';
 
 
 const requireAuth = () => (to, from, next) => {
-  if (localStorage.getItem('token') !== null) {
+  if (sessionStorage.getItem('token') !== null) {
     return next();
   }
   alert('로그인을 해주세요'); // 나중에 before enter로 처리

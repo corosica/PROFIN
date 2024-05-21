@@ -59,7 +59,7 @@ const router = useRouter();
 const islogin = ref(false);
 
 const isLoggedIn = () => {
-  islogin.value = localStorage.getItem('token') !== null;
+  islogin.value = sessionStorage.getItem('token') !== null;
 };
 
 isLoggedIn();
@@ -69,18 +69,21 @@ const logout = () => {
     method: 'POST',
     url: 'http://127.0.0.1:8000/accounts/logout/',
     headers: {
-      Authorization: localStorage.getItem('token'),
+      Authorization: sessionStorage.getItem('token'),
     },
     data: {},
   })
     .then((response) => {
-      localStorage.removeItem('token');
+      sessionStorage.removeItem('token');
       router.push({ name: 'Login' }).then(() => {
         router.go(0);
       });
     })
     .catch((error) => {
       console.log(error);
+      sessionStorage.removeItem('token');
+      router.go(0);
+
     });
 };
 
