@@ -136,3 +136,65 @@ def search_deposits(request):
     deposit_products = get_list_or_404(BuyDepositProduct,user=request.user)
     saving_products = get_list_or_404(BuySavingProduct,user=request.user)
     return Response({'예금':DepositProductListSerializer(deposit_products,many=True).data,'적금':SavingProductListSerializer(saving_products,many=True).data},status=status.HTTP_200_OK)
+
+@api_view(['GET']) 
+def normal_recommend(request):
+    # 사용자의 나이를 얻어옵니다. 여기서는 request.user.profile.age를 가정합니다.
+    user_age = request.user.age
+
+    # saving_items와 deposit_items를 가져옵니다.
+    saving_items = get_list_or_404(BuySavingProduct)
+    deposit_items = get_list_or_404(BuyDepositProduct)
+
+    # 딕셔너리를 사용하여 가중치를 계산합니다.
+    weighted_items = {}
+
+    def add_weight(item, user_age):
+        if abs(item.user.age - user_age) <= 1: 
+            weight = 2.0 
+        elif abs(item.user.age - user_age) <= 5:
+            weight = 1.0
+        else:
+            weight = 0.1
+        if item.product.fin_prdt_nm in weighted_items:
+            weighted_items[item.product.fin_prdt_nm]['weight'] += weight
+        else:
+            weighted_items[item.product.fin_prdt_nm] = {
+                'item': item,
+                'weight': weight
+            }
+
+    # saving_items와 deposit_items의 가중치를 계산하여 딕셔너리에 추가합니다.
+    for item in saving_items:
+        add_weight(item, user_age)
+
+    for item in deposit_items:
+        add_weight(item, user_age)
+
+    # 가중치에 따라 항목을 정렬합니다.
+    sorted_items = sorted(weighted_items.values(), key=lambda x: x['weight'], reverse=True)
+
+    # 상위 5개 항목을 선택합니다.
+    top_5_items = sorted_items[:5]
+
+    # 반환할 데이터를 구성합니다.
+    result = [
+        {
+            "id": item['item'].product.id,
+            "name": item['item'].product.fin_prdt_nm,
+            "type": "적금" if isinstance(item['item'], BuySavingProduct) else "예금",
+            "weight": item['weight']
+        }
+    for item in top_5_items]
+
+    return Response(data=result, status=status.HTTP_200_OK)
+@api_view(['GET'])
+def premium_recommend(request):
+    print(request.user.age)
+    saving_items = get_list_or_404(BuySavingProduct)
+    print(request.user.age)
+    '''
+    request.user.goal : 안전형 or 수익형 or 무계획(안전형과 수익형의 평균, 인원수의 가중치를 더 많이 받음)
+    request.user.age : 현재 나이, 비슷한 나이대 인원
+    '''
+    return Response('h', status=status.HTTP_200_OK)

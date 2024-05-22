@@ -381,6 +381,24 @@ export const useCounterStore = defineStore('counter', () => {
       }
 
     }
+    const normalRecommendList = ref([])
+    const normalRecommend = async function () {
+      try {
+        const response = await axios({
+          method:'GET',
+          url : 'http://127.0.0.1:8000/api/v1/outerapi/recommend/normal/',
+          headers: {
+            Authorization: sessionStorage.getItem('token'),
+          },
+        })
+        normalRecommendList.value = response.data;
+        console.log(normalRecommendList.value)
+      }
+      catch (err) {
+        console.error('Failed to fetch articles:', err);
+        throw err
+      }
+    }
   return {
     login,
     createArticles,
@@ -416,5 +434,7 @@ export const useCounterStore = defineStore('counter', () => {
     buyProduct,
     buyProductList,
     getProductsList,
+    normalRecommendList,
+    normalRecommend,
   }
 })
