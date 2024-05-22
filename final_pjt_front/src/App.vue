@@ -38,14 +38,17 @@
             </li>
           </ul>
         </div>
-        <div v-if="!islogin">
-          <RouterLink :to="{ name: 'Login' }"><button class="btn-profile">로그인</button></RouterLink> I
-          <RouterLink :to="{ name: 'Signup' }"><button class="btn-logout">회원가입</button></RouterLink>
+        <div class="auth-buttons">
+          <div v-if="!islogin" class="auth-buttons-group">
+            <RouterLink :to="{ name: 'Login' }"><button class="btn-profile">로그인</button></RouterLink>
+            <RouterLink :to="{ name: 'Signup' }"><button class="btn-logout">회원가입</button></RouterLink>
+          </div>
+          <div v-else class="auth-buttons-group">
+            <button type="button" class="btn-profile" @click="profile">회원 정보</button>
+            <button type="button" class="btn-logout" @click="logout">로그아웃</button>
+          </div>
         </div>
-        <div v-else>
-          <button type="button" class="btn-profile" @click="profile">회원 정보</button> I
-          <button type="button" class="btn-logout" @click="logout">로그아웃</button>
-        </div>
+
       </nav>
     </header>
     <main class="main-content">
@@ -107,6 +110,12 @@ const profile = () => {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap');
+
+* {
+  font-family: 'Noto Sans KR', sans-serif; /* 전역 폰트 적용 */
+}
+
 .app-container {
   display: flex;
   flex-direction: column;
@@ -117,7 +126,7 @@ const profile = () => {
   background-color: #fffdfd;
   border: 1px solid #dcdcdc;
   border-radius: 20px;
-  padding: 20px;
+  padding: 15px;
   margin-bottom: 20px;
 }
 
@@ -125,6 +134,7 @@ const profile = () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .nav-links-wrapper {
@@ -134,27 +144,28 @@ const profile = () => {
 }
 
 .nav-links {
-  list-style: none; /* 기본 리스트 스타일 제거 */
+  list-style: none;
   display: flex;
   justify-content: space-around;
   width: 100%;
   max-width: 1300px;
-  padding: 10px;
   background-color: #ffffff;
   border: 1px solid #ffffff;
   border-radius: 8px;
-  margin-right: 100px;
 }
 
 .nav-link-box {
-  padding: 8px 30px;
+  padding: 10px 20px;
   background-color: #1fcba9;
   border-radius: 20px;
+  margin: 20px;
   text-decoration: none;
   color: #ffffff;
-  font-weight: bold;
+  font-size: 20px;
   border: 2px solid #1fcba9;
-  cursor: pointer; /* 버튼 스타일 일관성 */
+  margin-left: 5%;
+  width: 100%;
+  cursor: pointer;
 }
 
 .nav-link-box:hover {
@@ -167,12 +178,13 @@ const profile = () => {
 .logo-container {
   display: flex;
   align-items: center;
+  margin-left: 8%;
   transition: 0.3s;
 }
 
 .logo {
   max-height: 100px;
-  margin-left: 200px;
+  width: auto;
 }
 
 /* 드롭다운 메뉴 스타일 */
@@ -188,22 +200,21 @@ const profile = () => {
 .dropdown {
   display: none;
   position: absolute;
-  background-color: #ffffff; /* 드롭다운 배경색 통일 */
+  background-color: #ffffff;
   width: 100%;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
   border-radius: 8px;
   padding: 0;
   text-align: center;
-  list-style: none; /* 기본 리스트 스타일 제거 */
 }
 
 .dropdown li {
-  list-style: none; /* 리스트 스타일 제거 */
+  list-style: none;
 }
 
 .dropdown li a {
-  color: #1abc9c; /* 드롭다운 링크 색상 통일 */
+  color: #1abc9c;
   padding: 12px 16px;
   text-decoration: none;
   display: block;
@@ -211,21 +222,37 @@ const profile = () => {
 }
 
 .dropdown li a:hover {
-  background-color: #1fcba9; /* 드롭다운 호버 색상 통일 */
-  color: #ffffff; /* 호버 시 글자 색상 통일 */
+  background-color: #1fcba9;
+  color: #ffffff;
   border-radius: 8px;
 }
 
 /* 버튼 스타일 */
-.btn-profile {
+.auth-buttons {
+  display: flex;
+  align-items: center;
+  margin-right: 5%;
+}
+
+.auth-buttons-group {
+  display: flex;
+  align-items: center;
+}
+
+.btn-profile,
+.btn-logout {
   padding: 8px 12px;
-  background-color: #ffffff;
   border-radius: 8px;
-  border: 2px solid #6c6b6b;
-  color: #6c6b6b;
-  font-weight: bold;
+  font-weight: 500;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
+  margin-left: 10px; /* 버튼 간의 간격을 동일하게 설정 */
+}
+
+.btn-profile {
+  background-color: #ffffff;
+  border: 2px solid #6c6b6b;
+  color: #6c6b6b;
 }
 
 .btn-profile:hover {
@@ -235,14 +262,9 @@ const profile = () => {
 }
 
 .btn-logout {
-  padding: 8px 12px;
   background-color: transparent;
-  border-radius: 8px;
   border: 2px solid #1abc9c;
   color: #1abc9c;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
 }
 
 .btn-logout:hover {
@@ -252,5 +274,49 @@ const profile = () => {
 
 .main-content {
   flex-grow: 1;
+}
+
+/* 반응형 웹 디자인 */
+@media (max-width: 768px) {
+  .nav-links {
+    flex-direction: column;
+    align-items: center;
+    margin-right: 0;
+  }
+
+  .nav-link-box {
+    margin-bottom: 10px;
+  }
+
+  .logo-container {
+    margin-left: 0;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .navbar {
+    justify-content: center;
+  }
+
+  .auth-buttons {
+    margin-right: 0;
+    justify-content: center;
+  }
+
+  .btn-profile,
+  .btn-logout {
+    margin-left: 5px; /* 모바일 환경에서는 간격을 조금 더 좁게 설정 */
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-link-box {
+    padding: 8px 20px;
+  }
+
+  .btn-profile,
+  .btn-logout {
+    padding: 6px 10px;
+  }
 }
 </style>
