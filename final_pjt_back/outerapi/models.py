@@ -53,9 +53,12 @@ class SavingOptions(models.Model):
 class BuyDepositProduct(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     product = models.ForeignKey(DepositProducts, on_delete=models.CASCADE)
-    options = models.ForeignKey(DepositOptions, on_delete=models.CASCADE, null=True)
+    intr_rate = models.FloatField(null=True)
+    intr_rate2 = models.FloatField(null=True)
 
 class BuySavingProduct(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     product = models.ForeignKey(SavingProducts, on_delete=models.CASCADE)
-    options = models.ForeignKey(SavingOptions, on_delete=models.CASCADE, null=True)
+    intr_rate = models.FloatField(null=True)
+    intr_rate2 = models.FloatField(null=True)
+

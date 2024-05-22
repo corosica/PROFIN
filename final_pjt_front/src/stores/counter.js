@@ -31,6 +31,7 @@ export const useCounterStore = defineStore('counter', () => {
       console.log(response.data)
       sessionStorage.setItem('token','Token '+response.data.key)
       sessionStorage.setItem('username',username)
+      getUserInfo()
       router.push({name:'Home'}).then(() => {
         // router.push가 완료된 후 새로고침을 수행
           router.go(0);
@@ -225,6 +226,7 @@ export const useCounterStore = defineStore('counter', () => {
         },
       })
       userInfos.value = response.data; //userInfos => 데이터 받아온거 posts역할
+      sessionStorage.setItem('user_id',userInfos.value.pk)
     } catch(err) {
       console.error('Failed to fetch userInfo:', err);
 
@@ -342,6 +344,24 @@ export const useCounterStore = defineStore('counter', () => {
         throw err
       }
     }
+
+    const buyProduct = async function (method,product_pk,option_pk) {
+      try {
+        const response = await axios({
+          method:'POST',
+          url : `http://127.0.0.1:8000/api/v1/outerapi/${method}/${product_pk}/${option_pk}/`,
+          data : {},
+          headers: {
+            Authorization: sessionStorage.getItem('token'),
+          },
+        })
+        console.log(response.data)
+      }
+      catch (err) {
+        console.error('Failed to fetch articles:', err);
+        throw err
+      }
+    }
   return {
     login,
     createArticles,
@@ -374,5 +394,6 @@ export const useCounterStore = defineStore('counter', () => {
     getSaving,
     getSavingDetail,
     changeUserInfo,
+    buyProduct,
   }
 })

@@ -2,7 +2,8 @@
     <div class="container">
         <h2><strong>정기 적금 상세</strong></h2>
         <div class="info-header">
-            <button class="join-button">가입하기</button>
+            <button class="join-button" @click="join" v-if="check">탈퇴하기</button>
+            <button class="join-button" @click="join" v-else>가입하기</button>
         </div>
         <div class="info">
             <p>공시 제출일: {{ depositdata.dcls_strt_day }}</p>
@@ -17,8 +18,8 @@
             <p>{{ depositdata.spcl_cnd }}</p>
             <p>{{ depositdata.etc_note }}</p>
         </div>
+        <button class="back-button" @click="goBack">목록</button>
     </div>
-    <button class="back-button" @click="goBack">목록</button>
 </template>
 
 
@@ -34,15 +35,25 @@ const counterStore = useCounterStore();
 const router = useRouter();
 const route  = useRoute();
 const how = ref('')
+const buyUser = ref([]);
+const check = ref(false);
 onMounted(async () => {
     try{
         await counterStore.getSavingDetail(route.params.id);
         depositdata.value = counterStore.SavingDetails
         how.value = depositdata.value.saving_options[0].rsrv_type_nm
+        buyUser.value = depositdata.value.buy_user;
+        check.value = (buyUser.value).includes(parseInt(sessionStorage.user_id));
     } catch (e) {
         console.log(e)
     }
 })
+
+
+const join = () => {
+    counterStore.buyProduct('saving',depositdata.value.id,depositdata.value.saving_options[0].id)
+    router.go(0);
+}
 
 const goBack = () => {
     router.go(-1);
