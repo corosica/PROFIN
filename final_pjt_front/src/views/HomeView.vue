@@ -21,32 +21,32 @@
           <img src="/상품추천.png" class="d-block w-100" alt="추천 이미지">
           <div class="carousel-caption left-top">
             <h1 class="bold-text">나를 위한</h1>
-            <h1 class="bold-text">금융상품 추천</h1>
+            <h1 class="bold-text">금융 상품 추천</h1>
             <div class="sub-text">
               <h5>서로 다른 성향과 목적</h5>
               <h5>나에게 맞는 상품이 궁금하다면?</h5>
             </div>
           </div>
         </div>
-        <div class="carousel-item" @click="navigate('Portfolio')" title="상품 추천 페이지로 이동합니다">
+        <div class="carousel-item" @click="navigate('Deposit')" title="예적금 조회 페이지로 이동합니다">
           <img src="/돼지.png" class="d-block w-100" alt="핑크 돼지">
+          <div class="carousel-caption left-top">
+            <h1 class="bold-text">예금 적금</h1>
+            <h1 class="bold-text">입맛대로 담기</h1>
+            <div class="sub-text">
+              <h5>다양한 상품들</h5>
+              <h5>한 눈에 비교해보세요</h5>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-item" @click="navigate('Portfolio')" title="PROFIN 소개 페이지로 이동합니다">
+          <img src="/돼지.png" class="d-block w-100" alt="사진3">
           <div class="carousel-caption left-top">
             <h1 class="bold-text">만나서</h1>
             <h1 class="bold-text">반갑습니다</h1>
             <div class="sub-text">
-              <h5>오늘보다</h5>
-              <h5>더 나은 내일을 위해</h5>
-            </div>
-          </div>
-        </div>
-        <div class="carousel-item" @click="navigate('Portfolio')" title="상품 추천 페이지로 이동합니다">
-          <img src="/돼지.png" class="d-block w-100" alt="사진3">
-          <div class="carousel-caption left-top">
-            <h1 class="bold-text">나를 위한</h1>
-            <h1 class="bold-text">금융 상품 추천</h1>
-            <div class="sub-text">
-              <h5>또봬요</h5>
-              <p>Description for slide 3.</p>
+              <h5>PROFIN에 대해</h5>
+              <p>더 자세히 알고싶나요?</p>
             </div>
           </div>
         </div>
@@ -55,20 +55,20 @@
     <div class="info-section">
       <div class="icons">
         <div class="icon">
-          <img src="/PROFIN.png" alt="전체계좌조회">
-          <p>예적금 찾기</p>
+          <img src="/PROFIN.png" @click="navigate('Exchange')" alt="환율 계산기" title="환율 계산기">
+          <p>환율 계산기</p>
         </div>
-        <div class="icon">
-          <img src="/PROFIN.png" alt="즉시이체">
-          <p>즉시이체</p>
+        <div class="icon" @click="navigate('Kakaomap')" alt="은행찾기" title="은행찾기">
+          <img src="/PROFIN.png" alt="은행찾기">
+          <p>은행찾기</p>
         </div>
         <div class="icon">
           <img src="/PROFIN.png" @click="navigate('Community')" alt="커뮤니티" title="커뮤니티">
           <p>커뮤니티</p>
         </div>
-        <div class="icon" @click="navigate('Kakaomap')" alt="은행찾기" title="은행찾기">
-          <img src="/PROFIN.png" alt="은행찾기">
-          <p>은행찾기</p>
+        <div class="icon">
+          <img src="/PROFIN.png" @click="navigate('Answer')" alt="문의하기" title="문의하기">
+          <p>문의하기</p>
         </div>
       </div>
     </div>
