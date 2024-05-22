@@ -56,19 +56,19 @@
       <div class="icons">
         <div class="icon">
           <img src="/PROFIN.png" alt="전체계좌조회">
-          <p>전체계좌조회</p>
+          <p>예적금 찾기</p>
         </div>
         <div class="icon">
           <img src="/PROFIN.png" alt="즉시이체">
           <p>즉시이체</p>
         </div>
         <div class="icon">
-          <img src="/PROFIN.png" alt="상품공시실">
-          <p>상품공시실</p>
+          <img src="/PROFIN.png" @click="navigate('Community')" alt="커뮤니티" title="커뮤니티">
+          <p>커뮤니티</p>
         </div>
-        <div class="icon">
-          <img src="/PROFIN.png" alt="영업점안내">
-          <p>영업점안내</p>
+        <div class="icon" @click="navigate('Kakaomap')" alt="은행찾기" title="은행찾기">
+          <img src="/PROFIN.png" alt="은행찾기">
+          <p>은행찾기</p>
         </div>
       </div>
     </div>
@@ -95,6 +95,7 @@ const navigate = (routeName) => {
   position: relative;
   cursor: pointer; /* 커서 모양 변경 */
 }
+
 .carousel-caption {
   color: #fff;
   border-radius: 10px;
@@ -169,6 +170,7 @@ const navigate = (routeName) => {
 .icon {
   margin: 0 10px;
   text-align: center;
+  cursor: pointer; /* 커서 모양 변경 */
 }
 
 .icon img {
