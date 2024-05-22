@@ -68,6 +68,7 @@
       try {
         await counterStore.getUserInfo();
         const userData = counterStore.userInfos;
+        console.log(userData);
         if (userData) {
           username.value = userData.username;
           email.value = userData.email;

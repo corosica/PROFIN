@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import DepositOptions,DepositProducts,SavingProducts,SavingOptions
+from .models import DepositOptions,DepositProducts,SavingProducts,SavingOptions,BuyDepositProduct,BuySavingProduct
 
 
 
@@ -25,4 +25,14 @@ class SavingProductsSerializer(serializers.ModelSerializer):
     saving_options = SavingOptionsSerializer(many=True,read_only=True)
     class Meta:
         model = SavingProducts
+        fields = '__all__'
+
+class DepositProductListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BuyDepositProduct
+        fields = '__all__'
+
+class SavingProductListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BuySavingProduct
         fields = '__all__'

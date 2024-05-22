@@ -12,6 +12,7 @@ urlpatterns = [
     path('saving/saving/', views.save_saving_product), # 적금 리스트 API 
     path('saving/<int:deposit_pk>/', views.saving_detail), # 적금 상세 API
     path('saving/<int:saving_pk>/<int:option_pk>/', views.buy_saving), # 적금 상품 구매 해제 API
+    path('search_deposit/', views.search_deposits), # 적금 상품 구매 해제 API
     path('kakaomaps/', views.find_bank), # 은행 찾기 kakaomap
 
 ]

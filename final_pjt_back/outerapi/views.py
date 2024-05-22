@@ -4,7 +4,7 @@ from rest_framework import status
 from django.conf import settings
 import requests
 from django.shortcuts import get_object_or_404, get_list_or_404
-from .serializers import DepositOptionsSerializer,DepositProductsSerializer,SavingOptionsSerializer,SavingProductsSerializer
+from .serializers import DepositOptionsSerializer,DepositProductsSerializer,SavingOptionsSerializer,SavingProductsSerializer,DepositProductListSerializer,SavingProductListSerializer
 from .models import DepositOptions,DepositProducts,SavingOptions,SavingProducts,BuyDepositProduct,BuySavingProduct
 # Create your views here.
 from datetime import datetime
@@ -130,3 +130,9 @@ def buy_saving(request,saving_pk,option_pk):
     else:
         BuySavingProduct.objects.create(user=request.user, product=product, intr_rate=option.intr_rate, intr_rate2=option.intr_rate2)
         return Response(status=status.HTTP_200_OK)
+
+@api_view(['GET']) 
+def search_deposits(request):
+    deposit_products = get_list_or_404(BuyDepositProduct,user=request.user)
+    saving_products = get_list_or_404(BuySavingProduct,user=request.user)
+    return Response({'예금':DepositProductListSerializer(deposit_products,many=True).data,'적금':SavingProductListSerializer(saving_products,many=True).data},status=status.HTTP_200_OK)

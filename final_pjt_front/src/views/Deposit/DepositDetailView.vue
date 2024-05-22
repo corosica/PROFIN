@@ -6,6 +6,7 @@
             <button class="join-button" @click="join" v-else>가입하기</button>
         </div>
         <div class="info">
+            <h4>상품 명: {{ depositdata.fin_prdt_nm }}</h4>
             <p>공시 제출일: {{ depositdata.dcls_strt_day }}</p>
             <p>은행: {{ depositdata.kor_co_nm }}</p>
             <p v-if="depositdata.max_limit >= 100000000">한도: {{ depositdata.max_limit / 100000000 }}억원</p>
@@ -45,7 +46,7 @@ onMounted(async () => {
 });
 
 const goBack = () => {
-    router.go(-1);
+    router.push({name: 'DepositList'});
 };
 
 const join = () => {
