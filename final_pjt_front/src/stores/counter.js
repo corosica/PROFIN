@@ -396,6 +396,10 @@ export const useCounterStore = defineStore('counter', () => {
       }
       catch (err) {
         console.error('Failed to fetch articles:', err);
+        if (err.message === "Request failed with status code 402"){
+          alert('포인트가 부족합니다.')
+          router.push({name:'Profile'})
+        }
         throw err
       }
     }
@@ -414,6 +418,10 @@ export const useCounterStore = defineStore('counter', () => {
       }
       catch (err) {
         console.error('Failed to fetch articles:', err);
+        if (err.message === "Request failed with status code 402"){
+          alert('포인트가 부족합니다.')
+          router.push({name:'Profile'})
+        }
         throw err
       }
     }

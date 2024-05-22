@@ -1,24 +1,29 @@
 <template>
-    <div class="main-container">
+    <div class="main-container" style="background-color: aquamarine;">
       <div class="header">
         <h1>프리미엄 추천</h1>
       </div>
+      <p style="font-size: smaller; color: red;">제공된 추천 정보는 세션 만료시까지 유지됩니다.</p>
       <button @click.prevent="showModal" class="recommend-btn">추천 받기</button>
-      <ul class="recommend-list">
-        <li v-for="recommend in recommendedList" :key="recommend.id" class="recommend-item">
+      <ul class="recommend-list row">
+        <li v-for="recommend in recommendedList" :key="recommend.id" class="recommend-item col-6">
           <div class="recommend-info">
-            <span class="recommend-name">이름: {{ recommend.name }}</span>
+            <span class="recommend-name">상품명: {{ recommend.product_name }}</span>
+            <span class="recommend-type">은행: {{ recommend.bank }}</span>
             <span class="recommend-type">종류: {{ recommend.type }}</span>
+            <span class="recommend-type">기본 금리: {{ recommend.intr_rate }}%</span>
+            <span class="recommend-type">최대 우대 금리: {{ recommend.intr_rate2 }}%</span>
+            <span class="recommend-type">저축 기간: {{ recommend.save_trm }}개월</span>
           </div>
           <button 
-            @click.prevent="router.push({ name: 'DepositDetail', params: { id: recommend.id } })"
+            @click.prevent="router.push({ name: 'DepositDetail', params: { id: recommend.product_code } })"
             v-if="recommend.type === '예금'"
             class="detail-btn"
           >
             상품 보러가기
           </button>
           <button 
-            @click.prevent="router.push({ name: 'SavingDetail', params: { id: recommend.id } })"
+            @click.prevent="router.push({ name: 'SavingDetail', params: { id: recommend.product_code } })"
             v-else
             class="detail-btn"
           >
@@ -32,7 +37,7 @@
   
   <script setup>
   import { useCounterStore } from '@/stores/counter';
-  import { ref } from 'vue';
+  import { ref ,onMounted} from 'vue';
   import { useRouter } from 'vue-router';
   import Modal from '@/components/Modal.vue';
   
@@ -40,16 +45,22 @@
   const counterStore = useCounterStore();
   const recommendedList = ref([]);
   const isModalVisible = ref(false);
-  const modalMessage = ref('<strong>1000 포인트</strong>가 차감됩니다<br>계속하시겠습니까?');
+  const modalMessage = ref('<strong>3000 포인트</strong>가 차감됩니다<br>계속하시겠습니까?');
   
   const showModal = () => {
     isModalVisible.value = true;
   };
+  onMounted(() => {
+    recommendedList.value = JSON.parse(sessionStorage.getItem('premiumRecommendList'));
+    console.log(recommendedList.value);
+  })
   
   const handleConfirm = async () => {
     isModalVisible.value = false;
-    await counterStore.normalRecommend();
-    recommendedList.value = counterStore.normalRecommendList;
+    sessionStorage.removeItem('premiumRecommendList');
+    await counterStore.premiumRecommend();
+    recommendedList.value = counterStore.premiumRecommendList;
+    sessionStorage.setItem('premiumRecommendList', JSON.stringify(counterStore.premiumRecommendList));
     console.log(recommendedList.value);
   };
   
@@ -67,8 +78,8 @@
   
   .main-container {
     position: relative;
-    right: 10.5%; /* 화면 왼쪽에서 30% 위치 조정 */
-    max-width: 800px;
+    right: 10%; /* 화면 왼쪽에서 30% 위치 조정 */
+    max-width: 80%;
     margin: 0 auto;
     padding: 20px;
     background-color: #fff;
