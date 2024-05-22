@@ -1,7 +1,7 @@
 <template>
   <div class="main-container">
     <div class="button-container">
-      <button @click="showModal('Normal', '<span>&lt;Normal버전&gt;</span> <strong>100 포인트</strong>가 차감됩니다<br>계속하시겠습니까?')" class="btn">Normal</button>
+      <button @click="showModal('Normal', 'Normal 버전<br><br> <strong>100 포인트</strong>가 차감됩니다<br>계속하시겠습니까?')" class="btn">Normal</button>
       <button @click="showModal('Premium', '<strong>1000 포인트</strong>가 차감됩니다 <br>계속하시겠습니까?')" class="btn">Premium</button>
     </div>
     <div class="container border">
