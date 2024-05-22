@@ -2,7 +2,6 @@
   <div>
     <h1 class="text-center">예금 상품 조회</h1>
     <!-- 필터링 섹션 시작 -->
-  <div>
     <div class="filter-container">
       <div class="filter-section ">
         <div class="dropdown">
@@ -25,14 +24,13 @@
       <div class="filter-section">
         <div>
           <label for="term">예치 기간: </label>
-          <select id="term" v-model="selectedTerm" @change="applyFilters">
+          <select id="term" v-model="selectedTerm">
             <option value="">전체</option>
             <option v-for="(term, index) in terms" :key="index" :value="term">{{ term }}개월</option>
           </select>
         </div>
       </div>
     </div>
-  </div>
     <!-- 필터링 섹션 끝 -->
     <p>예금 상품</p>
     <table class="table">
@@ -82,13 +80,14 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed,watch } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import { useCounterStore } from '@/stores/counter';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 
 const deposits = ref([]);
 const counterStore = useCounterStore();
 const router = useRouter();
+const route = useRoute();
 const months = [1, 3, 6, 12, 24, 36];
 const preferred = [false, true]; // false: 금리, true: 우대금리
 const sortDescending = {
@@ -121,6 +120,10 @@ let lastSortPrefer = null;
 
 onMounted(async () => {
   try {
+    // URL 쿼리 파라미터에서 필터 상태 읽어오기
+    const bankQueryParam = route.query.banks ? route.query.banks.split(',') : [];
+    const termQueryParam = route.query.term || '';
+
     await counterStore.getDeposit();
     if (counterStore.DepositInfos && counterStore.DepositInfos.length > 0) {
       deposits.value = counterStore.DepositInfos.map(deposit => ({
@@ -128,6 +131,10 @@ onMounted(async () => {
         options: deposit.deposit_options ? Object.fromEntries(deposit.deposit_options.map(option => [option.save_trm, option])) : {}
       }));
       banks.value = [...new Set(deposits.value.map(deposit => deposit.kor_co_nm))];
+      
+      // 필터 상태 설정
+      selectedBanks.value = bankQueryParam;
+      selectedTerm.value = termQueryParam;
     } else {
       deposits.value = [];
     }
@@ -137,7 +144,15 @@ onMounted(async () => {
 });
 
 const goDetail = (id) => {
-  router.push({ name: 'DepositDetail', params: { id: id } });
+  // 현재 필터 상태를 URL 쿼리 파라미터에 저장하고 상세 페이지로 이동
+  router.push({ 
+    name: 'DepositDetail', 
+    params: { id: id },
+    query: {
+      banks: selectedBanks.value.join(','),
+      term: selectedTerm.value
+    }
+  });
 };
 
 const hasOption = (deposit, month) => {
