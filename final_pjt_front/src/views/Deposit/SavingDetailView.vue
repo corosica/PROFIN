@@ -66,8 +66,15 @@
   });
   
   const goBack = () => {
-    router.push({ name: 'SavingList' });
-  };
+  // URL 쿼리 파라미터를 사용하여 필터 상태 유지
+  router.push({ 
+    name: 'DepositList', 
+    query: {
+      banks: route.query.banks,
+      term: route.query.term
+    }
+  });
+};
   
   const join = () => {
     if (selectedOption.value) {
