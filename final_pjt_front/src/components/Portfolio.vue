@@ -1,43 +1,46 @@
 <template>
   <div class="main-container">
     <div class="button-container">
-      <button @click="showModal('Normal', 'Normal 버전<br><br> <strong>100 포인트</strong>가 차감됩니다<br>계속하시겠습니까?')" class="btn">Normal</button>
-      <button @click="showModal('Premium', '<strong>1000 포인트</strong>가 차감됩니다 <br>계속하시겠습니까?')" class="btn">Premium</button>
+      <button @click="navigate('Normal')" class="btn">Normal</button>
+      <button @click="navigate('Premium')" class="btn">Premium</button>
     </div>
-    <div class="container border">
-      <RouterView />
-    </div>
+    <RouterView />
     <Modal :visible="isModalVisible" :message="modalMessage" @confirm="handleConfirm" @cancel="handleCancel" />
   </div>
 </template>
 
-<script setup>
+<script>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import Modal from '@/components/Modal.vue';
+import Modal from './Modal.vue'; // Modal이 로컬 컴포넌트라고 가정
 
-const isModalVisible = ref(false);
-const modalMessage = ref('');
-const targetRoute = ref(null);
-const router = useRouter();
+export default {
+  components: { Modal },
+  setup() {
+    const router = useRouter();
+    const isModalVisible = ref(false);
+    const modalMessage = ref('');
 
-const showModal = (routeName, message) => {
-  targetRoute.value = { name: routeName };
-  modalMessage.value = message;
-  isModalVisible.value = true;
-};
+    const navigate = (routeName) => {
+      router.push({ name: routeName });
+    };
 
-const handleConfirm = () => {
-  isModalVisible.value = false;
-  if (targetRoute.value) {
-    router.push(targetRoute.value);
-    targetRoute.value = null;
-  }
-};
+    const handleConfirm = () => {
+      isModalVisible.value = false;
+    };
 
-const handleCancel = () => {
-  isModalVisible.value = false;
-  targetRoute.value = null;
+    const handleCancel = () => {
+      isModalVisible.value = false;
+    };
+
+    return {
+      navigate,
+      isModalVisible,
+      modalMessage,
+      handleConfirm,
+      handleCancel,
+    };
+  },
 };
 </script>
 
@@ -52,8 +55,10 @@ const handleCancel = () => {
 
 .button-container {
   display: flex;
-  gap: 10px;
+  gap: 30px; /* 버튼 간의 간격을 넓힘 */
   margin-bottom: 20px;
+  position: relative;
+  right: 10%;
 }
 
 .btn {
@@ -77,8 +82,7 @@ const handleCancel = () => {
   width: 100%;
   max-width: 1500px;
   padding: 20px;
-  border: 1px solid #ddd;
   border-radius: 10px;
-  background-color: #f9f9f9;
+  background-color: #ffffff;
 }
 </style>

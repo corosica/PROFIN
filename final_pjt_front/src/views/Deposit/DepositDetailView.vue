@@ -2,8 +2,14 @@
     <div class="container">
         <h2><strong>정기 예금 상세</strong></h2>
         <div class="info-header">
-            <button class="join-button" @click="join" v-if="check">탈퇴하기</button>
-            <button class="join-button" @click="join" v-else>가입하기</button>
+            <div  v-if="check">
+
+                <button class="join-button" @click="join">탈퇴하기</button>
+            </div>
+            <div v-else>
+                <p>여기응애</p>
+                <button class="join-button" @click="join">가입하기</button>
+            </div>
         </div>
         <div class="info">
             <h4>{{ depositdata.fin_prdt_nm }}</h4>
