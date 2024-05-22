@@ -29,18 +29,18 @@
           </div>
         </div>
         <div class="carousel-item" @click="navigate('Portfolio')" title="상품 추천 페이지로 이동합니다">
-          <img src="/som2.jpg" class="d-block w-100" alt="사진2">
+          <img src="/돼지.png" class="d-block w-100" alt="핑크 돼지">
           <div class="carousel-caption left-top">
             <h1 class="bold-text">만나서</h1>
             <h1 class="bold-text">반갑습니다</h1>
             <div class="sub-text">
-              <h5>Slide 2</h5>
-              <p>Description for slide 2.</p>
+              <h5>오늘보다</h5>
+              <h5>더 나은 내일을 위해</h5>
             </div>
           </div>
         </div>
         <div class="carousel-item" @click="navigate('Portfolio')" title="상품 추천 페이지로 이동합니다">
-          <img src="/som3.jpg" class="d-block w-100" alt="사진3">
+          <img src="/돼지.png" class="d-block w-100" alt="사진3">
           <div class="carousel-caption left-top">
             <h1 class="bold-text">나를 위한</h1>
             <h1 class="bold-text">금융 상품 추천</h1>
