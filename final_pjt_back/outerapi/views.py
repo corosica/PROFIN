@@ -5,7 +5,7 @@ from django.conf import settings
 import requests
 from django.shortcuts import get_object_or_404, get_list_or_404
 from .serializers import DepositOptionsSerializer,DepositProductsSerializer,SavingOptionsSerializer,SavingProductsSerializer
-from .models import DepositOptions,DepositProducts,SavingOptions,SavingProducts
+from .models import DepositOptions,DepositProducts,SavingOptions,SavingProducts,BuyDepositProduct,BuySavingProduct
 # Create your views here.
 from datetime import datetime
 
@@ -109,6 +109,7 @@ def find_bank(request):
 
     return Response(response,status=status.HTTP_200_OK)
 
+@api_view(['POST']) 
 def buy_deposit(request,deposit_pk,option_pk):
     product = get_object_or_404(DepositProducts,pk=deposit_pk)
     option = get_object_or_404(DepositOptions,pk=option_pk)
@@ -116,9 +117,10 @@ def buy_deposit(request,deposit_pk,option_pk):
         product.buy_user.remove(request.user)
         return Response(status=status.HTTP_200_OK)
     else:
-        product.buy_user.add(request.user,option = option)
+        BuyDepositProduct.objects.create(user=request.user, product=product, intr_rate=option.intr_rate, intr_rate2=option.intr_rate2)
         return Response(status=status.HTTP_200_OK)
 
+@api_view(['POST']) 
 def buy_saving(request,saving_pk,option_pk):
     product = get_object_or_404(SavingProducts,pk=saving_pk)
     option = get_object_or_404(SavingOptions,pk=option_pk)
@@ -126,5 +128,5 @@ def buy_saving(request,saving_pk,option_pk):
         product.buy_user.remove(request.user)
         return Response(status=status.HTTP_200_OK)
     else:
-        product.buy_user.add(request.user,option = option)
+        BuySavingProduct.objects.create(user=request.user, product=product, intr_rate=option.intr_rate, intr_rate2=option.intr_rate2)
         return Response(status=status.HTTP_200_OK)
