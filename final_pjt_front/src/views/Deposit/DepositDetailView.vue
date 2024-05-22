@@ -64,6 +64,7 @@ onMounted(async () => {
     console.log(e);
   }
 });
+console.log( route.query.banks,route.query.term)
 
 const goBack = () => {
   // URL 쿼리 파라미터를 사용하여 필터 상태 유지
