@@ -35,7 +35,7 @@
               <div v-if="item.id === saving_item.product" :key="item.id" class="card">
                 <span class="product-title">
                   {{ item.kor_co_nm }} -
-                  <a @click.prevent="router.push({ name: 'SavingDetail', params: { id: item.id } })" href="" class="product-link">
+                  <a @click.prevent="router.push({ name: 'SavingDetail', params: { id: item.id }})" href="" class="product-link">
                     {{ item.fin_prdt_nm }}
                   </a>
                 </span>
@@ -77,11 +77,11 @@
     try {
       await counterStore.getProductsList();
       await counterStore.getSaving();
+      saving_data.value = counterStore.SavingInfos;
+      saving_buy_data.value = counterStore.buyProductList['적금'];
       await counterStore.getDeposit();
       deposit_data.value = counterStore.DepositInfos;
-      saving_data.value = counterStore.SavingInfos;
       deposit_buy_data.value = counterStore.buyProductList['예금'];
-      saving_buy_data.value = counterStore.buyProductList['적금'];
   
       // 차트 데이터 준비
       const labels = [...deposit_buy_data.value, ...saving_buy_data.value].map(item => {

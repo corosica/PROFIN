@@ -83,8 +83,9 @@
 <script setup>
 import { ref, onMounted, computed,watch } from 'vue';
 import { useCounterStore } from '@/stores/counter';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 
+const route = useRoute()
 const deposits = ref([]);
 const counterStore = useCounterStore();
 const router = useRouter();
@@ -120,6 +121,9 @@ let lastSortPrefer = null;
 
 onMounted(async () => {
   try {
+    const bankQueryParam = route.query.banks ? route.query.banks.split(',') : [];
+    const termQueryParam = route.query.term || '';
+
     await counterStore.getSaving();
     if (counterStore.SavingInfos && counterStore.SavingInfos.length > 0) {
       deposits.value = counterStore.SavingInfos.map(deposit => ({
@@ -127,6 +131,8 @@ onMounted(async () => {
         options: deposit.saving_options ? Object.fromEntries(deposit.saving_options.map(option => [option.save_trm, option])) : {}
       }));
       banks.value = [...new Set(deposits.value.map(deposit => deposit.kor_co_nm))];
+      selectedBanks.value = bankQueryParam
+      selectedTerm.value = termQueryParam
     } else {
       deposits.value = [];
     }
@@ -136,7 +142,10 @@ onMounted(async () => {
 });
 
 const goDetail = (id) => {
-  router.push({ name: 'SavingDetail', params: { id: id } });
+  router.push({ name: 'SavingDetail', params: { id: id } ,query: {
+      banks: selectedBanks.value.join(','),
+      term: selectedTerm.value
+    }});
 };
 
 const hasOption = (deposit, month) => {

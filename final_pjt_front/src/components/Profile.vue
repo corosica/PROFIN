@@ -40,8 +40,37 @@
           </tr>
         </table>
         <div class="button-group">
+          <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">비밀번호 변경</button>
           <button class="btn btn-primary" @click="editProfile">회원정보 수정</button>
           <button class="btn btn-outline-dark" @click="goBack">뒤로가기</button>
+        </div>
+      </div>
+
+
+
+
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">비밀번호 변경</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="password">변경할 비밀번호: </label>
+                <input type="password" id="password" v-model="password" required placeholder="필수">
+              </div>
+              <div class="form-group">
+                <label for="confirmPassword">비밀번호 확인: </label>
+                <input type="password" id="confirmPassword" v-model="confirmPassword" required placeholder="필수">
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+              <button @click.prevent="change_password" type="button" class="btn btn-primary" data-bs-dismiss="modal">변경</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -63,6 +92,8 @@
     const points = ref(0);
     const router = useRouter();
     const counterStore = useCounterStore();
+    const password = ref('')
+    const confirmPassword = ref('')
     
     onMounted(async () => {
       try {
@@ -112,6 +143,30 @@
       router.go(-1);
     };
 
+    const change_password = async () => {
+      if (password.value !== confirmPassword.value) {
+        alert('비밀번호가 일치하지 않습니다.')
+      }
+      else {
+        await axios ({
+        method : 'POST',
+        url : 'http://127.0.0.1:8000/accounts/password/change/',
+        headers: {
+          Authorization: sessionStorage.getItem('token'),
+        },
+        data: {
+        new_password1 : password.value,
+        new_password2 : confirmPassword.value
+        }
+      }).then((response) => {
+        router.go(0);
+        alert('비밀번호 변경에 성공하였습니다.')
+      }).catch((err) => {
+        console.error('Failed to fetch userInfo:', err);
+        alert('비밀번호 변경에 실패했습니다.')
+      })
+      }
+    }
     </script>
     
     <style scoped>
