@@ -108,3 +108,23 @@ def find_bank(request):
     response['meta']['y'] = y
 
     return Response(response,status=status.HTTP_200_OK)
+
+def buy_deposit(request,deposit_pk,option_pk):
+    product = get_object_or_404(DepositProducts,pk=deposit_pk)
+    option = get_object_or_404(DepositOptions,pk=option_pk)
+    if request.user in product.buy_user.all():
+        product.buy_user.remove(request.user)
+        return Response(status=status.HTTP_200_OK)
+    else:
+        product.buy_user.add(request.user,option = option)
+        return Response(status=status.HTTP_200_OK)
+
+def buy_saving(request,saving_pk,option_pk):
+    product = get_object_or_404(SavingProducts,pk=saving_pk)
+    option = get_object_or_404(SavingOptions,pk=option_pk)
+    if request.user in product.buy_user.all():
+        product.buy_user.remove(request.user)
+        return Response(status=status.HTTP_200_OK)
+    else:
+        product.buy_user.add(request.user,option = option)
+        return Response(status=status.HTTP_200_OK)
