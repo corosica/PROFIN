@@ -6,7 +6,8 @@
             <button class="join-button" @click="join" v-else>가입하기</button>
         </div>
         <div class="info">
-            <h4>상품 명: {{ depositdata.fin_prdt_nm }}</h4>
+            <h4>{{ depositdata.fin_prdt_nm }}</h4>
+            <hr>
             <p>공시 제출일: {{ depositdata.dcls_strt_day }}</p>
             <p>은행: {{ depositdata.kor_co_nm }}</p>
             <p v-if="depositdata.max_limit >= 100000000">한도: {{ depositdata.max_limit / 100000000 }}억원</p>
@@ -57,6 +58,12 @@ const join = () => {
 
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap');
+
+* {
+  font-family: 'Noto Sans KR', sans-serif; /* 전역 폰트 적용 */
+}
+
 .container {
     max-width: 600px;
     margin: 30px auto;

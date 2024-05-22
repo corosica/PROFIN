@@ -200,6 +200,12 @@ function clearMarkers() {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap');
+
+* {
+  font-family: 'Noto Sans KR', sans-serif; /* 전역 폰트 적용 */
+}
+
 .map-container {
   font-family: 'Arial', sans-serif;
   max-width: 800px;

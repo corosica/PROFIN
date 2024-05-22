@@ -150,6 +150,7 @@ const nextPage = () => {
 
 
 <style scoped>
+
 .container {
   max-width: 1100px;
 }
