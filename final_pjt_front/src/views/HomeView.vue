@@ -72,11 +72,15 @@
         </div>
       </div>
     </div>
+
+    <AttendanceCheck />
+
   </div>
 </template>
 
 <script setup>
 import { useRouter } from 'vue-router';
+import AttendanceCheck from '@/components/AttendanceCheck.vue';
 const router = useRouter();
 
 const navigate = (routeName) => {

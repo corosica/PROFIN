@@ -54,7 +54,6 @@
     <main class="main-content">
       <RouterView />
     </main>
-    <AttendanceCheck />
     <Footers />
   </div>
 </template>
@@ -64,7 +63,6 @@ import { useCounterStore } from '@/stores/counter';
 import { useRouter, RouterLink, RouterView } from 'vue-router';
 import axios from 'axios';
 import { ref, onMounted } from 'vue';
-import AttendanceCheck from '@/components/AttendanceCheck.vue';
 import Footers from '@/components/Footer.vue'; // Footer 컴포넌트를 가져옵니다.
 
 const router = useRouter();
