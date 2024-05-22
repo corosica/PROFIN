@@ -139,8 +139,13 @@ def search_deposits(request):
 
 @api_view(['GET']) 
 def normal_recommend(request):
+    if request.user.points < 100:
+        return Response(status=status.HTTP_402_PAYMENT_REQUIRED)
+    
     # 사용자의 나이를 얻어옵니다. 여기서는 request.user.profile.age를 가정합니다.
     user_age = request.user.age
+    request.user.points = request.user.points - 100
+    request.user.save()
 
     # saving_items와 deposit_items를 가져옵니다.
     saving_items = get_list_or_404(BuySavingProduct)
@@ -191,10 +196,12 @@ def normal_recommend(request):
 @api_view(['GET'])
 def premium_recommend(request):
     print(request.user.age)
-    saving_items = get_list_or_404(DepositProducts)
-    print(request.user.age)
-    print(saving_items[0].buy_user.count())
-
+    print(request.user.points)
+    if request.user.points < 3000:
+        return Response(status=status.HTTP_402_PAYMENT_REQUIRED)
+    
+    request.user.points = request.user.points - 3000
+    request.user.save()
     #유저의 나이를 받는다
     user_age = request.user.age
     # 순회를 돌기 위한 deposit_option과 saving_option을 가져욘다
@@ -290,7 +297,6 @@ def premium_recommend(request):
         weight = current_item[0]*(1+people_level*(current_item[1]/max_people))
         result.append({'weight':weight,'type':current_item[2],'bank':current_item[3],'product_name':current_item[4],'product_code':current_item[5],'option_code':current_item[6],'intr_rate':current_item[7],'intr_rate2':current_item[8],'save_trm':current_item[9]})
     sorted_items = sorted(result, key=lambda x: x['weight'], reverse=True)
-    print(sorted_items[:10])
 
 
         

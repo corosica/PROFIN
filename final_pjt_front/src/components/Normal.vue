@@ -1,13 +1,14 @@
 <template>
-    <div class="main-container">
+    <div class="main-container" style="background-color: #ffffff">
       <div class="header">
         <h1>기본 추천</h1>
       </div>
+      <p style="font-size: smaller; color: red;">제공된 추천 정보는 세션 만료시까지 유지됩니다.</p>
       <button @click.prevent="showModal" class="recommend-btn">추천 받기</button>
       <ul class="recommend-list">
         <li v-for="recommend in recommendedList" :key="recommend.id" class="recommend-item">
           <div class="recommend-info">
-            <span class="recommend-name">이름: {{ recommend.name }}</span>
+            <span class="recommend-name">상품명: {{ recommend.name }}</span>
             <span class="recommend-type">종류: {{ recommend.type }}</span>
           </div>
           <button 
@@ -32,7 +33,7 @@
   
   <script setup>
   import { useCounterStore } from '@/stores/counter';
-  import { ref } from 'vue';
+  import { ref, onMounted } from 'vue';
   import { useRouter } from 'vue-router';
   import Modal from '@/components/Modal.vue';
   
@@ -45,11 +46,16 @@
   const showModal = () => {
     isModalVisible.value = true;
   };
-  
+  onMounted(() => {
+    recommendedList.value = JSON.parse(sessionStorage.getItem('normalRecommendList'));
+    console.log(recommendedList.value);
+  })
   const handleConfirm = async () => {
     isModalVisible.value = false;
+    sessionStorage.removeItem('normalRecommendList');
     await counterStore.normalRecommend();
     recommendedList.value = counterStore.normalRecommendList;
+    sessionStorage.setItem('normalRecommendList', JSON.stringify(counterStore.normalRecommendList));
     console.log(recommendedList.value);
   };
   
