@@ -2,8 +2,10 @@
   <div class="d-flex row">
     <div class="sidebar col-2">
       <p @click="navigate('Profile')">내 정보</p>
+      <p @click="navigate('Attendance')">출석 체크</p>
       <p @click="navigate('Products')">가입한 상품</p>
       <p @click="navigate('Portfolio')">포트폴리오</p>
+
     </div>
     <div class="container col">
       <RouterView />

@@ -80,12 +80,6 @@
         </div>
       </div>
     </div>
-
-    <div>
-      <AttendanceCheck  @dateClick="handleDateClick"/>
-      <button @click="checkAttendance">출석체크</button>
-    </div>
-
   </div>
 </template>
 
@@ -202,11 +196,13 @@ const handleDateClick = (date) => {
   justify-content: center;
   gap: 20px; /* 아이콘 간격 조정 */
   flex-wrap: wrap;
+  margin-bottom: 50px;
 }
 
 .icon {
   text-align: center;
   cursor: pointer; /* 커서 모양 변경 */
+  margin: 30px 10px;
 }
 
 .icon-container {

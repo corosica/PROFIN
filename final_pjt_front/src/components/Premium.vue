@@ -6,7 +6,7 @@
     <p class="info-text">제공된 추천 정보는 세션 만료시까지 유지됩니다.</p>
     <button @click.prevent="showModal" class="recommend-btn">추천 받기</button>
     <ul class="recommend-list row">
-      <li v-for="recommend in recommendedList" :key="recommend.id" class="recommend-item col-6">
+      <li v-for="recommend in recommendedList" :key="recommend.id" class="recommend-item col-5">
         <div class="recommend-info">
           <span class="recommend-name">상품명: {{ recommend.product_name }}</span>
           <span class="recommend-type">은행: {{ recommend.bank }}</span>
