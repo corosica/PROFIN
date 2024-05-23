@@ -52,7 +52,7 @@
   }
   
   .attendance-button {
-    margin:0 200px 60px 0px;
+    margin:0 230px 60px 0px;
     padding: 10px 20px;
     background-color: #1abc9c;
     color: #fff;

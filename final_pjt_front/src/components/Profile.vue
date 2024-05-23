@@ -274,7 +274,6 @@ h1 {
 .btn {
   padding: 10px 20px;
   border-radius: 5px;
-  font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
 }
