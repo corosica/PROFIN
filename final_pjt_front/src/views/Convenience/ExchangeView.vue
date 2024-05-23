@@ -30,6 +30,7 @@
           <input type="number" v-model.number="input2" @input="calculateExchangeRate('input2')" />
         </div>
       </div>
+      <p class="note">* 엔화, 인도네시아 루피아는 100 단위, 나머지는 모두 1 단위</p>
     </div>
   </div>
 </template>
@@ -195,5 +196,11 @@ const swapCurrencies = () => {
 .currency-block input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.note {
+  font-size: 0.9rem;
+  color: #555;
+  margin-top: 40px;
 }
 </style>
