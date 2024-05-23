@@ -44,7 +44,7 @@ PROFIN 이란?
         - https://apis.map.kakao.com/
         - 카카오맵 API
 ### ERD(DB 관계도)
-    ![ERD2](https://github.com/corosica/PROFIN/assets/66262636/a51ef9aa-8d90-4587-b923-16f96b353655)
+    ![ERD2](ERD2.png>)
 
 
 ### 계획(일자)
