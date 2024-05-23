@@ -24,7 +24,7 @@ class QNAarticle(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 class QNAcomment(models.Model):
-    article = models.ForeignKey(Article, on_delete=models.CASCADE,related_name='comments')
+    article = models.ForeignKey(QNAarticle, on_delete=models.CASCADE,related_name='comments')
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

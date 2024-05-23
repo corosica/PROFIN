@@ -67,7 +67,7 @@ const deletePost = async () => {
     alert('게시글 삭제에 실패했습니다.');
   }
 };
-
+console.log(route.params.id);
 
 const addComment = async () => {
   try {

@@ -2,7 +2,7 @@
   <div class="container mt-4">
     <div class="card">
       <div class="card-body">
-        <h1 class="card-title text-center mb-4">게시판</h1>
+        <h1 class="card-title text-center mb-4">커뮤니티</h1>
         <div class="board-header">
           <select v-model="searchCriteria" class="category">
             <option value="title">제목</option>
