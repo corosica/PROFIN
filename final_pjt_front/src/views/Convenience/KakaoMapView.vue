@@ -1,6 +1,6 @@
 <template>
   <div class="map-container">
-    <h2>카카오 맵 보기</h2>
+    <h2>은행 찾기</h2>
     <form @submit.prevent="findmap" class="map-form">
       <div class="selectors">
         <select id="city" v-model="selectedCity">
@@ -257,7 +257,7 @@ select {
 
 input[type="text"], input[type="submit"] {
   padding: 8px;
-  color: #ccc;
+  color: #000000;
   border: none;
   flex: 1;
 }
