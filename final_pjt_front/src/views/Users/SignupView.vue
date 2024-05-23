@@ -7,26 +7,26 @@
         <label for="username">아이디: </label>
         <div class="d-flex row">
 
-          <input type="text" id="username" v-model="username" required placeholder="필수" style="width: 80%; margin:auto">
+          <input type="text" id="username" v-model="username" required placeholder="필수" style="width: 80%; margin:auto" maxlength="30">
           <button @click.prevent="check_user" class="check-button col-2">중복체크</button>
         </div>
         <p v-if="checked">아이디 사용이 가능합니다</p>
       </div>
       <div class="form-group">
         <label for="password">비밀번호: </label>
-        <input type="password" id="password" v-model="password" required placeholder="필수">
+        <input type="password" id="password" v-model="password" required placeholder="필수" maxlength="30">
       </div>
       <div class="form-group">
         <label for="confirmPassword">비밀번호 확인: </label>
-        <input type="password" id="confirmPassword" v-model="confirmPassword" required placeholder="필수">
+        <input type="password" id="confirmPassword" v-model="confirmPassword" required placeholder="필수" maxlength="30">
       </div>
       <div class="form-group">
         <label for="nickname">닉네임: </label>
-        <input type="text" id="nickname" v-model="nickname">
+        <input type="text" id="nickname" v-model="nickname" maxlength="30" placeholder="30자 이내의 닉네임">
       </div>
       <div class="form-group">
         <label for="email">이메일: </label>
-        <input type="email" id="email" v-model="email" required placeholder="필수">
+        <input type="email" id="email" v-model="email" required placeholder="필수" maxlength="120">
       </div>
       <div class="form-group">
         <label for="age">나이: </label>
@@ -51,7 +51,7 @@
         </div>
       <div class="form-group">
         <label for="asset">자산: </label>
-        <input type="number" id="asset" v-model="asset" placeholder="만원 단위입니다.">
+        <input type="number" id="asset" v-model="asset" placeholder="만원 단위입니다." maxlength="12">
       </div>      
       <div class="form-group">
           <label for="goal">목표: </label>
@@ -64,7 +64,7 @@
         </div>
       <div class="form-group">
         <label for="job">직업: </label>
-        <input type="text" id="job" v-model="job">
+        <input type="text" id="job" v-model="job" maxlength="100">
       </div>
       
       <br>
