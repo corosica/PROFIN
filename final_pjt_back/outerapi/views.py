@@ -1,6 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
+from rest_framework.views import APIView
 from django.conf import settings
 import requests
 from django.shortcuts import get_object_or_404, get_list_or_404
@@ -8,6 +9,29 @@ from .serializers import DepositOptionsSerializer,DepositProductsSerializer,Savi
 from .models import DepositOptions,DepositProducts,SavingOptions,SavingProducts,BuyDepositProduct,BuySavingProduct
 # Create your views here.
 from datetime import datetime
+
+from django.utils import timezone
+from .models import Attendance
+from .serializers import AttendanceSerializer
+from rest_framework.permissions import IsAuthenticated
+
+
+class AttendanceView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        user = request.user
+        today = timezone.now().date()
+
+        # Check if the user has already checked in today
+        if Attendance.objects.filter(user=user, date=today).exists():
+            return Response({"message": "이미 오늘은 출석체크를 하셨습니다."}, status=status.HTTP_400_BAD_REQUEST)
+
+        attendance = Attendance(user=user, date=today)
+        attendance.save()
+        user.points = user.points + 50
+        user.save()
+        return Response({"message": f"출석체크 되었습니다. \n현재 포인트{user.points}"}, status=status.HTTP_201_CREATED)
 
 
 @api_view(['GET']) #환전 API

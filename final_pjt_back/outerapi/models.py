@@ -62,3 +62,12 @@ class BuySavingProduct(models.Model):
     intr_rate = models.FloatField(null=True)
     intr_rate2 = models.FloatField(null=True)
 
+class Attendance(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    date = models.DateField()
+
+    class Meta:
+        unique_together = ('user', 'date')
+
+    def __str__(self):
+        return f'{self.user} - {self.date}'

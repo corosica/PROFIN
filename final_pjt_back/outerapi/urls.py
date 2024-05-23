@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .views import AttendanceView
 
 
 urlpatterns = [
@@ -16,5 +17,5 @@ urlpatterns = [
     path('kakaomaps/', views.find_bank), # 은행 찾기 kakaomap
     path('recommend/normal/', views.normal_recommend), # 일반 추천
     path('recommend/premium/', views.premium_recommend), # 프리미엄 추천 
-
+    path('attendance/', AttendanceView.as_view(), name='attendance'),
 ]

@@ -1,6 +1,10 @@
 from rest_framework import serializers
-from .models import DepositOptions,DepositProducts,SavingProducts,SavingOptions,BuyDepositProduct,BuySavingProduct
+from .models import DepositOptions,DepositProducts,SavingProducts,SavingOptions,BuyDepositProduct,BuySavingProduct,Attendance
 
+class AttendanceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Attendance
+        fields = ['id', 'user', 'date']
 
 
 class DepositOptionsSerializer(serializers.ModelSerializer):
