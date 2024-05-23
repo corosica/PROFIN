@@ -39,14 +39,14 @@
             </div>
           </div>
         </div>
-        <div class="carousel-item" @click="navigate('Portfolio')" title="PROFIN 소개 페이지로 이동합니다">
-          <img src="/돼지.png" class="d-block w-100" alt="사진3">
+        <div class="carousel-item" @click="navigate('Community')" title="커뮤니티로 이동합니다">
+          <img src="/광장1.png" class="d-block w-100" alt="광장">
           <div class="carousel-caption left-top">
             <h1 class="bold-text">만나서</h1>
             <h1 class="bold-text">반갑습니다</h1>
             <div class="sub-text">
-              <h5>PROFIN에 대해</h5>
-              <p>더 자세히 알고싶나요?</p>
+              <h5>다른 사람들의</h5>
+              <h5>생각도 궁금하신가요?</h5>
             </div>
           </div>
         </div>
@@ -127,7 +127,7 @@ const navigate = (routeName) => {
   font-weight: 400; /* 부제목 폰트 설정 */
   font-size: 18px;
   padding-top: 10px;
-  margin: 10px 0;
+  margin: 10px 4px;
 }
 
 .carousel-item img {
