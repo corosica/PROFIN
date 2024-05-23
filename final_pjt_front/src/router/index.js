@@ -29,6 +29,8 @@ import Profile from '@/components/Profile.vue';
 import Normal from '@/components/Normal.vue';
 import Premium from '@/components/Premium.vue';
 import Modal from '@/components/Modal.vue';
+import AttendanceCheck from '@/components/AttendanceCheck.vue';
+import Attendance from '@/components/Attendance.vue';
 
 
 import DepositList from '@/components/DepositList.vue'
@@ -156,6 +158,16 @@ const router = createRouter({
             name : 'Products',
             component : Products
           },
+          {
+            path: '/attendanceCheck',
+            name: 'AttendanceCheck',
+            component: AttendanceCheck,
+          },
+          {
+            path: '/attendance',
+            name: 'Attendance',
+            component: Attendance,
+          },
       ]
     },
     {
@@ -189,6 +201,7 @@ const router = createRouter({
       name: 'Modal',
       component: Modal,
     },
+
     
     // 기타 라우트 설정을 여기에 추가할 수 있습니다.
   ]

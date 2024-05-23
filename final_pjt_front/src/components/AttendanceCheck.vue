@@ -10,7 +10,17 @@
         <span v-for="day in weekdays" :key="day">{{ day }}</span>
       </div>
       <div class="days">
-        <span v-for="date in dates" :key="date.key" @click="selectDate(date.date)" :class="{ today: isToday(date.date), selected: isSelected(date.date), 'other-month': date.isOtherMonth, empty: date.isEmpty }">
+        <span 
+          v-for="date in dates" 
+          :key="date.key" 
+          @click="selectDate(date.date)" 
+          :class="{ 
+            today: isToday(date.date), 
+            selected: isSelected(date.date), 
+            'other-month': date.isOtherMonth, 
+            empty: date.isEmpty,
+            weekend: isWeekend(date.date)
+          }">
           {{ date.date && date.date.getDate() ? date.date.getDate() : '' }}
         </span>
       </div>
@@ -20,6 +30,7 @@
 
 <script>
 import { ref, computed } from 'vue';
+
 export default {
   props: {
     onDateClick: {
@@ -40,7 +51,7 @@ export default {
 
     const dates = computed(() => {
       const start = new Date(currentYear.value, currentMonth.value, 1);
-      const end = new Date(currentYear.value, currentMonth.value+1, 0);
+      const end = new Date(currentYear.value, currentMonth.value + 1, 0);
 
       const datesArray = [];
 
@@ -79,6 +90,11 @@ export default {
       return date.getDate() === selectedDate.value.getDate() && date.getMonth() === selectedDate.value.getMonth() && date.getFullYear() === selectedDate.value.getFullYear();
     };
 
+    const isWeekend = (date) => {
+      if (!date) return false;
+      return date.getDay() === 0 || date.getDay() === 6; // 0 is Sunday, 6 is Saturday
+    };
+
     const selectDate = (date) => {
       if (!date) return;
       selectedDate.value = date;
@@ -113,34 +129,46 @@ export default {
       isSelected,
       selectDate,
       prevMonth,
-      nextMonth
+      nextMonth,
+      isWeekend
     };
   }
 };
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap');
+
+* {
+  font-family: 'Noto Sans KR', sans-serif; /* 전역 폰트 적용 */
+}
+
 .calendar-container {
   display: flex;
-  justify-content: center;
-  margin-top: 20px;
+  justify-content: flex-start; /* 왼쪽 정렬 */
+  padding-right: 15%;
+  box-sizing: border-box;
 }
 
 .calendar {
   width: 100%;
-  max-width: 400px;
+  max-width: 700px;
   border: 1px solid #ddd;
-  border-radius: 5px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  margin: 10px 0 50px 0;
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
-  background-color: #f5f5f5;
-  border-bottom: 1px solid #ddd;
+  padding: 20px;
+  background-color: #ffffff;
+  color: #696969;
+  font-weight: bold;
+  font-size: 1.5rem;
 }
 
 .nav-button {
@@ -148,14 +176,10 @@ export default {
   user-select: none;
 }
 
-.month {
-  font-weight: bold;
-}
-
 .weekdays {
   display: flex;
-  background-color: #f9f9f9;
-  padding: 10px;
+  background-color: #f0f0f0;
+  padding: 10px 0;
   border-bottom: 1px solid #ddd;
 }
 
@@ -170,32 +194,48 @@ export default {
   display: flex;
   flex-wrap: wrap;
   padding: 10px;
-
+  gap: 2px; /* 간격을 위해 gap 사용 */
 }
 
 .days span {
-  flex: 1 0 14.28%; /* 100% / 7 days */
+  flex: 1 0 calc(14.28% - 4px); /* 100% / 7 days - gap */
   text-align: center;
-  padding: 10px;
-  margin: 0px;
+  padding: 30px 0;
+  margin: 0;
   cursor: pointer;
   user-select: none;
-
+  font-size: 1.2rem;
+  border-radius: 50%; /* 원 모양을 위해 추가 */
+  aspect-ratio: 1 / 1; /* 원 모양을 위해 추가 */
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .days span.today {
-  background-color: #ffd700;
+  background-color: #1abc9c;
+  color: #fff;
   border-radius: 50%;
+  font-weight: bold;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+.days span.today::after {
+  color: #fff;
+  font-size: 0.8rem;
+  position: absolute;
+  top: 5px;
+  right: 5px;
 }
 
 .days span.selected {
   background-color: #007bff;
   color: #fff;
   border-radius: 50%;
+  font-weight: bold;
 }
 
 .days span.other-month {
-  color: #aaa;
+  color: #ccc;
 }
 
 .days span.empty {

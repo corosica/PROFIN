@@ -11,9 +11,6 @@
       <div v-html="formattedContent"></div>
       <br>
       <div class="buttons">
-        <div class="update-button" v-if="counterStore.username.username === crt_user">
-          <button @click="updatePost">수정하기</button>
-        </div>
         <div class="delete-button" v-if="counterStore.username.username === crt_user">
           <button @click="deletePost">삭제하기</button> 
         </div>
@@ -71,9 +68,6 @@ const deletePost = async () => {
   }
 };
 
-const updatePost = function () {
-  router.push({ name: 'PostUpdate', params: { id: route.params.id } });
-};
 
 const addComment = async () => {
   try {

@@ -12,13 +12,13 @@
             <li class="nav-item dropdown-container">
               <button class="nav-link-box"><strong>PROFIN</strong></button>
               <ul class="dropdown">
-                <li><RouterLink class="dropdown-link" :to="{ name: 'Home' }">인삿말</RouterLink></li>
+                <li><RouterLink class="dropdown-link" :to="{ name: 'Home' }">메인화면</RouterLink></li>
               </ul>
             </li>
             <li class="nav-item dropdown-container">
               <button class="nav-link-box">금융 상품</button>
               <ul class="dropdown">
-                <li><RouterLink class="dropdown-link" :to="{ name: 'Deposit' }">예적금 상품</RouterLink></li>
+                <li><RouterLink class="dropdown-link" :to="{ name: 'DepositList' }">예적금 상품</RouterLink></li>
               </ul>
             </li>
             <li class="nav-item dropdown-container">
@@ -53,7 +53,6 @@
     <main class="main-content">
       <RouterView />
     </main>
-    <AttendanceCheck />
     <Footers />
   </div>
 </template>
@@ -63,7 +62,6 @@ import { useCounterStore } from '@/stores/counter';
 import { useRouter, RouterLink, RouterView } from 'vue-router';
 import axios from 'axios';
 import { ref, onMounted } from 'vue';
-import AttendanceCheck from '@/components/AttendanceCheck.vue';
 import Footers from '@/components/Footer.vue'; // Footer 컴포넌트를 가져옵니다.
 
 const router = useRouter();
