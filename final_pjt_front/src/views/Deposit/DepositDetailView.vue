@@ -34,11 +34,15 @@
       <p>{{ depositdata.spcl_cnd }}</p>
       <p>{{ depositdata.etc_note }}</p>
     </div>
-    <button class="back-button" @click="goBack">목록</button>
+    <div class="button-group">
+      <button class="back-button" @click="goBack">목록</button> 
+      <button class="product-button" @click="goProducts">가입한 상품</button>
+    </div>
   </div>
 </template>
 
 <script setup>
+import axios from 'axios';
 import { ref, onMounted } from 'vue';
 import { useCounterStore } from '@/stores/counter';
 import { useRouter, useRoute } from 'vue-router';
@@ -64,12 +68,12 @@ onMounted(async () => {
     console.log(e);
   }
 });
-console.log( route.query.banks,route.query.term)
+console.log(route.query.banks, route.query.term);
 
 const goBack = () => {
   // URL 쿼리 파라미터를 사용하여 필터 상태 유지
-  router.push({ 
-    name: 'DepositList', 
+  router.push({
+    name: 'DepositList',
     query: {
       banks: route.query.banks,
       term: route.query.term
@@ -85,6 +89,10 @@ const join = () => {
     alert('금리 옵션을 선택해주세요.');
   }
 };
+
+const goProducts = () => {
+  router.push({ name: 'Products' });
+};
 </script>
 
 <style scoped>
@@ -95,7 +103,7 @@ const join = () => {
 }
 
 .container {
-  max-width: 600px;
+  max-width: 650px;
   margin: 30px auto;
   padding: 20px;
   background-color: #f7f7f7;
@@ -176,23 +184,38 @@ h2 {
   color: #1abc9c;
 }
 
-.back-button {
+.button-group {
   margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.back-button, .product-button {
   padding: 10px 20px;
-  background-color: #dfdfdf;
-  color: #333;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
   font-weight: bold;
-  display: block;
-  width: 100px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: 10px;
+}
+
+.back-button {
+  background-color: #dfdfdf;
+  color: #333;
 }
 
 .back-button:hover {
   background-color: #bbb;
+}
+
+.product-button {
+  background-color: #007bff;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.product-button:hover {
+  background-color: #0056b3;
 }
 </style>

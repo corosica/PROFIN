@@ -55,20 +55,28 @@
     <div class="info-section">
       <div class="icons">
         <div class="icon">
-          <img src="/PROFIN.png" @click="navigate('Exchange')" alt="환율 계산기" title="환율 계산기">
-          <p>환율 계산기</p>
-        </div>
-        <div class="icon" @click="navigate('Kakaomap')" alt="은행찾기" title="은행찾기">
-          <img src="/PROFIN.png" alt="은행찾기">
-          <p>은행찾기</p>
+          <div class="icon-container" @click="navigate('Exchange')" title="환율 계산기">
+            <img src="/환전.png" alt="환율 계산기">
+            <p>환율계산</p>
+          </div>
         </div>
         <div class="icon">
-          <img src="/PROFIN.png" @click="navigate('Community')" alt="커뮤니티" title="커뮤니티">
-          <p>커뮤니티</p>
+          <div class="icon-container" @click="navigate('Kakaomap')" title="은행찾기">
+            <img src="/bank.png" alt="은행찾기">
+            <p>은행찾기</p>
+          </div>
         </div>
         <div class="icon">
-          <img src="/PROFIN.png" @click="navigate('Answer')" alt="문의하기" title="문의하기">
-          <p>문의하기</p>
+          <div class="icon-container" @click="navigate('Community')" title="커뮤니티">
+            <img src="/chat.png" alt="커뮤니티">
+            <p>커뮤니티</p>
+          </div>
+        </div>
+        <div class="icon">
+          <div class="icon-container" @click="navigate('Answer')" title="문의하기">
+            <img src="/qna.png" alt="문의하기">
+            <p>문의하기</p>
+          </div>
         </div>
       </div>
     </div>
@@ -155,35 +163,44 @@ const navigate = (routeName) => {
   margin-top: 20px;
 }
 
-.info-section h2 {
-  font-size: 1.5rem;
-  margin-bottom: 10px;
-}
-
-.info-section p {
-  font-size: 1rem;
-  color: #666;
-}
-
 .icons {
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+  gap: 20px; /* 아이콘 간격 조정 */
+  flex-wrap: wrap;
 }
 
 .icon {
-  margin: 0 10px;
   text-align: center;
   cursor: pointer; /* 커서 모양 변경 */
 }
 
+.icon-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 120px; /* 카드 너비 */
+  height: 120px; /* 카드 높이 */
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.icon-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
 .icon img {
-  width: 50px;
+  width: 50px; /* 아이콘 크기 조정 */
   height: 50px;
+  margin-bottom: 10px; /* 아이콘과 텍스트 사이의 간격 */
 }
 
 .icon p {
-  margin-top: 5px;
-  font-size: 0.9rem;
+  margin: 0;
+  font-size: 1rem; /* 텍스트 크기 조정 */
 }
 </style>
