@@ -73,19 +73,53 @@
       </div>
     </div>
 
-    <AttendanceCheck />
+    <div>
+      <AttendanceCheck  @dateClick="handleDateClick"/>
+      <button @click="checkAttendance">출석체크</button>
+    </div>
 
   </div>
 </template>
 
 <script setup>
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import AttendanceCheck from '@/components/AttendanceCheck.vue';
+import axios from 'axios';
 const router = useRouter();
+const message = ref('');
+const today = new Date().toISOString().split('T')[0]
 
 const navigate = (routeName) => {
   router.push({ name: routeName });
 };
+
+
+const checkAttendance = async () => {
+  try {
+        const response = await axios({
+              method:'POST',
+              url : 'http://127.0.0.1:8000/api/v1/outerapi/attendance/',
+              headers: {
+                Authorization: sessionStorage.getItem('token'),
+              },
+            })
+        message.value = response.data.message
+      } catch (error) {
+        if (error.response) {
+          message.value = error.response.data.message
+        } else {
+          message.value = 'An error occurred.'
+        }
+      } finally{
+        alert(message.value)
+      }
+}
+const handleDateClick = (date) => {
+      if (date === today) {
+        checkAttendance()
+      }
+    }
 </script>
 
 <style scoped>

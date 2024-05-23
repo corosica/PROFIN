@@ -1,167 +1,209 @@
 <template>
-    <div class="calendar-container">
-      <div class="calendar">
-        <div class="calendar-header">
-          <button @click="prevMonth">&lt;</button>
-          <span>{{ currentYear }}년 {{ currentMonth + 1 }}월</span>
-          <button @click="nextMonth">&gt;</button>
-        </div>
-        <div class="calendar-body">
-          <div class="day" v-for="(day, index) in days" :key="index">
-            <div
-              :class="['date', { checked: isChecked(day) }]"
-              @click="toggleAttendance(day)"
-            >
-              {{ day.date }}
-            </div>
-          </div>
-        </div>
+  <div class="calendar-container">
+    <div class="calendar">
+      <div class="header">
+        <span @click="prevMonth" class="nav-button">‹</span>
+        <span class="month">{{ currentMonthName }}</span>
+        <span @click="nextMonth" class="nav-button">›</span>
       </div>
-      <div v-if="dialog" class="dialog">
-        <div class="dialog-content">
-          <p>{{ dialogMessage }}</p>
-          <button @click="dialog = false">확인</button>
-        </div>
+      <div class="weekdays">
+        <span v-for="day in weekdays" :key="day">{{ day }}</span>
+      </div>
+      <div class="days">
+        <span v-for="date in dates" :key="date.key" @click="selectDate(date.date)" :class="{ today: isToday(date.date), selected: isSelected(date.date), 'other-month': date.isOtherMonth, empty: date.isEmpty }">
+          {{ date.date && date.date.getDate() ? date.date.getDate() : '' }}
+        </span>
       </div>
     </div>
-  </template>
-  
-  <script>
-  export default {
-    data() {
-      return {
-        currentYear: new Date().getFullYear(),
-        currentMonth: new Date().getMonth(),
-        days: [],
-        attendance: [],
-        dialog: false,
-        dialogMessage: '',
-      };
-    },
-    mounted() {
-      this.generateCalendar();
-    },
-    methods: {
-      generateCalendar() {
-        const daysInMonth = new Date(this.currentYear, this.currentMonth + 1, 0).getDate();
-        this.days = [];
-        for (let i = 1; i <= daysInMonth; i++) {
-          this.days.push({ date: i, month: this.currentMonth, year: this.currentYear });
+  </div>
+</template>
+
+<script>
+import { ref, computed } from 'vue';
+export default {
+  props: {
+    onDateClick: {
+      type: Function,
+      required: true
+    }
+  },
+  setup(props) {
+    const today = new Date();
+    const selectedDate = ref(new Date(today.getFullYear(), today.getMonth(), today.getDate()));
+    const currentYear = ref(today.getFullYear());
+    const currentMonth = ref(today.getMonth());
+    const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+    const currentMonthName = computed(() => {
+      return new Date(currentYear.value, currentMonth.value).toLocaleString('default', { month: 'long', year: 'numeric' });
+    });
+
+    const dates = computed(() => {
+      const start = new Date(currentYear.value, currentMonth.value, 1);
+      const end = new Date(currentYear.value, currentMonth.value+1, 0);
+
+      const datesArray = [];
+
+      // Add dates from the previous month
+      for (let i = start.getDay(); i > 0; i--) {
+        const prevDate = new Date(start);
+        prevDate.setDate(start.getDate() - i);
+        datesArray.push({ date: prevDate, isOtherMonth: true, key: `prev-${prevDate.getDate()}` });
+      }
+
+      // Add dates from the current month
+      for (let i = 1; i <= end.getDate(); i++) {
+        datesArray.push({ date: new Date(currentYear.value, currentMonth.value, i), isOtherMonth: false, key: `current-${i}` });
+      }
+
+      // Add empty dates to fill the last week if needed
+      const lastDayOfWeek = end.getDay();
+      if (lastDayOfWeek !== 6) { // 6 corresponds to Saturday
+        for (let i = 1; i <= 6 - lastDayOfWeek; i++) {
+          const nextDate = new Date(end);
+          nextDate.setDate(end.getDate() + i);
+          datesArray.push({ date: nextDate, isOtherMonth: true, key: `next-${nextDate.getDate()}` });
         }
-      },
-      prevMonth() {
-        if (this.currentMonth === 0) {
-          this.currentYear--;
-          this.currentMonth = 11;
-        } else {
-          this.currentMonth--;
-        }
-        this.generateCalendar();
-      },
-      nextMonth() {
-        if (this.currentMonth === 11) {
-          this.currentYear++;
-          this.currentMonth = 0;
-        } else {
-          this.currentMonth++;
-        }
-        this.generateCalendar();
-      },
-      isChecked(day) {
-        return this.attendance.some(
-          (d) => d.date === day.date && d.month === day.month && d.year === day.year
-        );
-      },
-      toggleAttendance(day) {
-        const today = new Date();
-        const isToday =
-          day.date === today.getDate() &&
-          day.month === today.getMonth() &&
-          day.year === today.getFullYear();
-  
-        if (this.isChecked(day)) {
-          if (isToday) {
-            this.dialogMessage = '오늘은 이미 출석 완료하였습니다.';
-          } else {
-            this.dialogMessage = `${day.year}년 ${day.month + 1}월 ${day.date}일에 이미 출석하였습니다.`;
-          }
-          this.dialog = true;
-        } else {
-          this.attendance.push(day);
-        }
-      },
-    },
-  };
-  </script>
-  
-  <style scoped>
-  .calendar-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
+      }
+
+      return datesArray;
+    });
+
+    const isToday = (date) => {
+      if (!date) return false;
+      return date.getDate() === today.getDate() && date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear();
+    };
+
+    const isSelected = (date) => {
+      if (!date) return false;
+      return date.getDate() === selectedDate.value.getDate() && date.getMonth() === selectedDate.value.getMonth() && date.getFullYear() === selectedDate.value.getFullYear();
+    };
+
+    const selectDate = (date) => {
+      if (!date) return;
+      selectedDate.value = date;
+      props.onDateClick(date);
+    };
+
+    const prevMonth = () => {
+      if (currentMonth.value === 0) {
+        currentMonth.value = 11;
+        currentYear.value--;
+      } else {
+        currentMonth.value--;
+      }
+    };
+
+    const nextMonth = () => {
+      if (currentMonth.value === 11) {
+        currentMonth.value = 0;
+        currentYear.value++;
+      } else {
+        currentMonth.value++;
+      }
+    };
+
+    return {
+      currentYear,
+      currentMonth,
+      currentMonthName,
+      weekdays,
+      dates,
+      isToday,
+      isSelected,
+      selectDate,
+      prevMonth,
+      nextMonth
+    };
   }
-  
-  .calendar {
-    border: 1px solid #ddd;
-    padding: 20px;
-    border-radius: 10px;
-    width: 300px;
-    text-align: center;
-  }
-  
-  .calendar-header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
-  
-  .calendar-body {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 5px;
-  }
-  
-  .day {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .date {
-    width: 40px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    cursor: pointer;
-    user-select: none;
-  }
-  
-  .date.checked {
-    background-color: #42b983;
-    color: white;
-  }
-  
-  .dialog {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: rgba(0, 0, 0, 0.5);
-  }
-  
-  .dialog-content {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-  }
-  </style>
-  
+};
+</script>
+
+<style scoped>
+.calendar-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.calendar {
+  width: 100%;
+  max-width: 400px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #ddd;
+}
+
+.nav-button {
+  cursor: pointer;
+  user-select: none;
+}
+
+.month {
+  font-weight: bold;
+}
+
+.weekdays {
+  display: flex;
+  background-color: #f9f9f9;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.weekdays span {
+  flex: 1;
+  text-align: center;
+  font-weight: bold;
+  color: #777;
+}
+
+.days {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
+
+}
+
+.days span {
+  flex: 1 0 14.28%; /* 100% / 7 days */
+  text-align: center;
+  padding: 10px;
+  margin: 0px;
+  cursor: pointer;
+  user-select: none;
+
+}
+
+.days span.today {
+  background-color: #ffd700;
+  border-radius: 50%;
+}
+
+.days span.selected {
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 50%;
+}
+
+.days span.other-month {
+  color: #aaa;
+}
+
+.days span.empty {
+  background-color: transparent;
+  cursor: default;
+}
+
+.days span:hover {
+  background-color: #f0f0f0;
+}
+</style>
