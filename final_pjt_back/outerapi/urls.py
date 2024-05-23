@@ -18,4 +18,6 @@ urlpatterns = [
     path('recommend/normal/', views.normal_recommend), # 일반 추천
     path('recommend/premium/', views.premium_recommend), # 프리미엄 추천 
     path('attendance/', AttendanceView.as_view(), name='attendance'),
+    path('check_user/<str:username>/', views.check_user), # 유저 체크 
+
 ]

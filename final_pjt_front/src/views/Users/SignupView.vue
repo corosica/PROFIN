@@ -5,7 +5,12 @@
     <form @submit.prevent="signup" class="signup-form">
       <div class="form-group">
         <label for="username">아이디: </label>
-        <input type="text" id="username" v-model="username" required placeholder="필수">
+        <div class="d-flex row">
+
+          <input type="text" id="username" v-model="username" required placeholder="필수" style="width: 80%; margin:auto">
+          <button @click.prevent="check_user" class="check-button col-2">중복체크</button>
+        </div>
+        <p v-if="checked">아이디 사용이 가능합니다</p>
       </div>
       <div class="form-group">
         <label for="password">비밀번호: </label>
@@ -73,6 +78,7 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useCounterStore } from '@/stores/counter';
 
+const checked = ref(false);
 const username = ref('');
 const email = ref('');
 const password = ref('');
@@ -84,9 +90,13 @@ const asset = ref('');
 const goal = ref('');
 const job = ref('');
 const router = useRouter();
+const ans = ref('');
 const counterStore = useCounterStore();
 const signup = () => {
-  if (!(username.value && password.value && confirmPassword.value && email.value && age.value)) {
+  if (checked.value === false) {
+    alert('아이디 중복체크를 해주세요.');
+  }
+  else if (!(username.value && password.value && confirmPassword.value && email.value && age.value)) {
     alert('필수 입력사항을 확인하세요.');
   }
   else if (password.value !== confirmPassword.value) {
@@ -95,7 +105,22 @@ const signup = () => {
   }
   else {
     counterStore.signup(username.value, password.value, confirmPassword.value, email.value, nickname.value, age.value, gender.value, asset.value, goal.value, job.value);
-    router.push('/login');
+  }
+};
+
+const check_user = async () => {
+  await counterStore.check_user(username.value);
+  ans.value = (counterStore.isUser);
+  console.log(ans.value);
+  if (ans.value == 'No'){
+    checked.value = true;
+    alert('아이디 사용이 가능합니다.');
+
+  }
+  else {
+    checked.value = false;
+
+    alert('이미 사용중인 아이디입니다.');
   }
 };
 </script>
@@ -149,6 +174,15 @@ const signup = () => {
   border: none;
   background-color: #1abc9c;
   color: #ffffff;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.check-button {
+  padding: 10px 15px;
+  border: none;
+  color: black;
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s;

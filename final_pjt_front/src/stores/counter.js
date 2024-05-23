@@ -58,12 +58,16 @@ export const useCounterStore = defineStore('counter', () => {
         asset : asset,
         goal : goal,
         job : job,
-      }
+      },
     }).then(function (response) {
       login(username,password1)
       console.log(response.data)
+      console.log('안녕')
+
     }).catch(function (err) {
+
       console.log(err)
+      console.log('안녕')
     })
   }
   const viewArticles = async function (item) {
@@ -425,6 +429,21 @@ export const useCounterStore = defineStore('counter', () => {
         throw err
       }
     }
+    const isUser = ref('')
+    const check_user = async function (username) {
+      try {
+        const response = await axios({
+          method:'GET',
+          url : `http://127.0.0.1:8000/api/v1/outerapi/check_user/${username}/`,
+        })
+        console.log(response.data.ans)
+        isUser.value = response.data.ans        
+      }
+      catch (err) {
+        console.error('Failed to fetch articles:', err);
+        throw err
+      }
+    }
   return {
     login,
     createArticles,
@@ -464,5 +483,7 @@ export const useCounterStore = defineStore('counter', () => {
     normalRecommend,
     premiumRecommendList,
     premiumRecommend,
+    check_user,
+    isUser,
   }
 })

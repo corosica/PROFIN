@@ -14,7 +14,7 @@ from django.utils import timezone
 from .models import Attendance
 from .serializers import AttendanceSerializer
 from rest_framework.permissions import IsAuthenticated
-
+from django.contrib.auth import get_user_model  # 추가: 사용자 모델 가져오기
 
 class AttendanceView(APIView):
     permission_classes = [IsAuthenticated]
@@ -373,3 +373,12 @@ def premium_recommend(request):
     
     '''
     return Response(sorted_items[:10], status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def check_user(request,username):
+    print(username)
+    user = get_user_model().objects.filter(username=username)
+    if len(user) == 1:
+        return Response(data = {'ans' :'Yes'},status=status.HTTP_200_OK)
+    else:
+        return Response(data = {'ans' :'No'},status=status.HTTP_200_OK)
