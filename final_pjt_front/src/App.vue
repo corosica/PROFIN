@@ -12,13 +12,13 @@
             <li class="nav-item dropdown-container">
               <button class="nav-link-box"><strong>PROFIN</strong></button>
               <ul class="dropdown">
-                <li><RouterLink class="dropdown-link" :to="{ name: 'Home' }">메인화면</RouterLink></li>
+                <li><RouterLink class="dropdown-link" :to="{ name: 'Home' }">인삿말</RouterLink></li>
               </ul>
             </li>
             <li class="nav-item dropdown-container">
               <button class="nav-link-box">금융 상품</button>
               <ul class="dropdown">
-                <li><RouterLink class="dropdown-link" :to="{ name: 'DepositList' }">예적금 상품</RouterLink></li>
+                <li><RouterLink class="dropdown-link" :to="{ name: 'Deposit' }">예적금 상품</RouterLink></li>
               </ul>
             </li>
             <li class="nav-item dropdown-container">
@@ -48,12 +48,12 @@
             <button type="button" class="btn-logout" @click="logout">로그아웃</button>
           </div>
         </div>
-
       </nav>
     </header>
     <main class="main-content">
       <RouterView />
     </main>
+    <AttendanceCheck />
     <Footers />
   </div>
 </template>
@@ -63,6 +63,7 @@ import { useCounterStore } from '@/stores/counter';
 import { useRouter, RouterLink, RouterView } from 'vue-router';
 import axios from 'axios';
 import { ref, onMounted } from 'vue';
+import AttendanceCheck from '@/components/AttendanceCheck.vue';
 import Footers from '@/components/Footer.vue'; // Footer 컴포넌트를 가져옵니다.
 
 const router = useRouter();
@@ -155,7 +156,7 @@ const profile = () => {
 .nav-link-box {
   padding: 10px 20px;
   background-color: #1fcba9;
-  border-radius: 20px;
+  border-radius: 30px;
   margin: 20px;
   text-decoration: none;
   color: #ffffff;
@@ -188,7 +189,6 @@ const profile = () => {
 /* 드롭다운 메뉴 스타일 */
 .dropdown-container {
   position: relative;
-  display: inline-block;
 }
 
 .dropdown-container:hover .dropdown {
@@ -198,8 +198,10 @@ const profile = () => {
 .dropdown {
   display: none;
   position: absolute;
+  top: 79%; /* 네비게이션 바로 아래에 위치하도록 */
+  left: 10%;
+  right: 0;
   background-color: #ffffff;
-  width: 100%;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
   border-radius: 8px;
