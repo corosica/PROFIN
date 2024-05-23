@@ -17,7 +17,7 @@
         </button>
       </div>
       <div class="carousel-inner">
-        <div class="carousel-item active" @click="navigate('Portfolio')" title="상품 추천 페이지로 이동합니다">
+        <div class="carousel-item active" @click="navigate('Normal')" title="상품 추천 페이지로 이동합니다">
           <img src="/상품추천.png" class="d-block w-100" alt="추천 이미지">
           <div class="carousel-caption left-top">
             <h1 class="bold-text">나를 위한</h1>
@@ -67,9 +67,9 @@
           </div>
         </div>
         <div class="icon">
-          <div class="icon-container" @click="navigate('Community')" title="커뮤니티">
-            <img src="/chat.png" alt="커뮤니티">
-            <p>커뮤니티</p>
+          <div class="icon-container" @click="navigate('Attendance')" title="출석체크">
+            <img src="/calendar.png" alt="출석체크">
+            <p>출석체크</p>
           </div>
         </div>
         <div class="icon">
