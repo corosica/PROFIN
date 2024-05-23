@@ -44,7 +44,7 @@ PROFIN 이란?
         - https://apis.map.kakao.com/
         - 카카오맵 API
 ### ERD(DB 관계도)
-    ![ERD2](ERD2.png>)
+![ERD2](<ERD2.png>)
 
 
 ### 계획(일자)
