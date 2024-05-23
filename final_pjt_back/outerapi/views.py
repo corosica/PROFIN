@@ -157,8 +157,8 @@ def buy_saving(request,saving_pk,option_pk):
 
 @api_view(['GET']) 
 def search_deposits(request):
-    deposit_products = get_list_or_404(BuyDepositProduct,user=request.user)
-    saving_products = get_list_or_404(BuySavingProduct,user=request.user)
+    deposit_products = BuyDepositProduct.objects.filter(user=request.user)
+    saving_products = BuySavingProduct.objects.filter(user=request.user)
     return Response({'예금':DepositProductListSerializer(deposit_products,many=True).data,'적금':SavingProductListSerializer(saving_products,many=True).data},status=status.HTTP_200_OK)
 
 @api_view(['GET']) 
